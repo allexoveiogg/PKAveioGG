@@ -230,6 +230,7 @@
 <div class="footer">
   Comandos · Guia do servidor
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -309,6 +310,13 @@ ITEMS.forEach(item => {
   card.appendChild(body);
   grid.appendChild(card);
 });
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
 </script>
 
 </body>

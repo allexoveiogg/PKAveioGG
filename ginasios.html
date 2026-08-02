@@ -483,7 +483,15 @@
   Guia dos Ginásios · Pokémons shiny marcados com <strong>✦</strong> ·
   Mais informações no <a href="https://www.youtube.com/watch?v=khbKeyFrczI" target="_blank">vídeo explicativo</a>
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
 
 </body>
 </html>

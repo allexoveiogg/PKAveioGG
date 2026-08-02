@@ -387,6 +387,7 @@
 <div class="footer">
   Tier List · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -503,6 +504,13 @@ listSearch.addEventListener('input', renderList);
 tierFilter.addEventListener('change', renderList);
 
 renderList();
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
 </script>
 
 </body>

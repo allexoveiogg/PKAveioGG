@@ -477,6 +477,7 @@
 <div class="footer">
   Guia Hoenn · Rotações de hunts
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -933,6 +934,13 @@ subTabs.forEach(btn => {
     document.getElementById(btn.dataset.tab).style.display = '';
   });
 });
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
 </script>
 
 </body>
