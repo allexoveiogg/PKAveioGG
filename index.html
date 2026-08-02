@@ -2,30 +2,309 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=ginasios.html">
-<title>Guia Pokémon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Início - Guia Pokémon</title>
 <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #0f1420;
     color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    text-align: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  a {
-    color: #ffcb05;
-    font-size: 1.3rem;
-    font-weight: 700;
+
+  .nav a {
+    color: #9fb0d6;
     text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
   }
-  a:hover { text-decoration: underline; }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 70px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 40px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title.first { margin-top: 0; }
+
+  .twitch-card {
+    background: linear-gradient(160deg, #3a1d5c 0%, #1a2133 100%);
+    border: 2px solid #9146ff;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(145, 70, 255, 0.25);
+    margin-bottom: 10px;
+  }
+
+  .twitch-card .live-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff3b30;
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+    animation: pulse 1.5s infinite;
+    margin-right: 8px;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+    70% { box-shadow: 0 0 0 12px rgba(255, 59, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+  }
+
+  .twitch-card h3 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .twitch-card p { color: #d0c3f0; margin-bottom: 20px; }
+
+  .twitch-card a {
+    display: inline-block;
+    padding: 14px 30px;
+    background: #9146ff;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .twitch-card a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(145, 70, 255, 0.5);
+  }
+
+  .about-text {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    padding: 22px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    color: #c3cde2;
+    font-size: 1.02rem;
+  }
+
+  .about-text strong { color: #ffcb05; }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 18px;
+  }
+
+  .home-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    padding: 22px 24px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .home-card:hover {
+    transform: translateY(-4px);
+    border-color: #ffcb05;
+    box-shadow: 0 12px 30px rgba(255, 203, 5, 0.15);
+  }
+
+  .home-card h3 {
+    color: #ffcb05;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .home-card p { color: #9fb0d6; font-size: 0.95rem; }
+
+  .home-card .go {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #7fb3ff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .home-card:hover .go { color: #ffcb05; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .home-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-  <p>Redirecionando... <a href="ginasios.html">Clique aqui se não redirecionar automaticamente</a></p>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="active">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Guia Pokémon</h1>
+  <p>Seu guia completo do servidor</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="twitch-card">
+    <h3><span class="live-dot"></span>Live na Twitch</h3>
+    <p>Acompanhe a live do VeioGG ao vivo na Twitch!</p>
+    <a href="https://www.twitch.tv/veiogg" target="_blank">Assistir na Twitch</a>
+  </div>
+
+  <h2 class="section-title first">Sobre o Site</h2>
+  <div class="about-text">
+    <p>Aqui você encontra tudo que precisa para jogar o servidor: guia das <strong>tasks dos ginásios</strong>, a <strong>tier list completa</strong> de todos os Pokémons, o <strong>máximo de brokes</strong> por tier, guias de batalha contra a <strong>Equipe Rocket</strong> e a <strong>Polícia</strong>, além dos <strong>comandos</strong> e atalhos do servidor.</p>
+  </div>
+
+  <h2 class="section-title">O que tem no site</h2>
+  <div class="home-grid">
+
+    <a class="home-card" href="ginasios.html">
+      <h3>Ginásios</h3>
+      <p>Tasks das 8 cidades, dungeons, custos, recompensas e os Pokémons dos líderes.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+    <a class="home-card" href="tierlist.html">
+      <h3>Tier List</h3>
+      <p>Pesquise o nome de qualquer Pokémon e descubra seu tier na hora.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+    <a class="home-card" href="brokes.html">
+      <h3>Max Brokes</h3>
+      <p>Máximo de brokes por tier para capturar Shinys.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+    <a class="home-card" href="rocket.html">
+      <h3>Equipe Rocket</h3>
+      <p>Guia de batalhas contra os membros da equipe e o Giovanni.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+    <a class="home-card" href="police.html">
+      <h3>Polícia</h3>
+      <p>Guia de batalhas contra os oficiais da polícia.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+    <a class="home-card" href="comandos.html">
+      <h3>Comandos</h3>
+      <p>Atalhos e comandos do servidor: mapa, fly, house, brokes e mais.</p>
+      <span class="go">Acessar →</span>
+    </a>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  Guia Pokémon · feita por By Hati - VeioGG
+</div>
+
 </body>
 </html>
