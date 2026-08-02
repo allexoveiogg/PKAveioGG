@@ -216,6 +216,54 @@
 
   .note-line strong { color: #ffcb05; }
 
+  .sub-nav {
+    background: #0d1220;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 52px;
+    z-index: 90;
+  }
+
+  .sub-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+  }
+
+  .sub-tab {
+    background: none;
+    border: none;
+    color: #9fb0d6;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .sub-tab:hover { color: #ffcb05; }
+  .sub-tab.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .type-chip {
+    display: inline-block;
+    margin: 2px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #2c3a5e;
+    color: #cfe0ff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .police-card { border-color: #3a5a9f; }
+  .police-card .leader-name { background: #2a4a9f; color: #fff; }
+
     .footer {
       text-align: center;
       padding: 30px 20px;
@@ -256,7 +304,6 @@
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html" class="active">Equipe Rocket</a>
-    <a href="police.html">Polícia</a>
     <a href="comandos.html">Comandos</a>
     <a href="hoenn.html">Guia Hoenn</a>
   </div>
@@ -264,11 +311,20 @@
 
 <div class="header">
   <h1>Equipe Rocket</h1>
-  <p>Guia de batalhas contra os membros e o Giovanni</p>
+  <p>Guia de batalhas contra os membros, o Giovanni e a Polícia</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
+<div class="sub-nav">
+  <div class="sub-nav-inner">
+    <button class="sub-tab active" data-tab="tab-rocket">Equipe Rocket</button>
+    <button class="sub-tab" data-tab="tab-police">Polícia</button>
+  </div>
+</div>
+
 <div class="container">
+
+<div id="tab-rocket" class="tab-panel">
 
   <div class="info-box">
     <ul>
@@ -286,6 +342,23 @@
 
   <h2 class="section-title">Giovanni</h2>
   <div class="leader-grid" id="grid-giovanni"></div>
+
+  </div>
+
+  <div id="tab-police" class="tab-panel" style="display:none;">
+
+    <div class="info-box">
+      <ul>
+        <li>Os Pokémons da <strong>esquerda</strong> são os do NPC. Os da <strong>direita</strong> são os tipos recomendados.</li>
+        <li>Precisa ter ganhado a batalha com o <strong>Giovanni</strong> pra iniciar.</li>
+        <li>Localização: <a href="https://imgur.com/a/Fbmmqeh" target="_blank">imgur.com/a/Fbmmqeh</a></li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">Oficiais</h2>
+    <div class="leader-grid" id="officer-grid"></div>
+
+  </div>
 
 </div>
 
@@ -374,6 +447,89 @@ function mount(gridId, group) {
 mount('grid-membros', 'membros');
 mount('grid-avancados', 'avancados');
 mount('grid-giovanni', 'giovanni');
+
+const OFFICERS = [
+  { name: 'Officer Blaze', npc: [['sh Charizard', 'Rock'], ['sh Magmar', 'Water/Ground'], ['sh Flareon', 'Water/Ground'], ['sh Typhlosion', 'Water/Ground'], ['sh Ninetales', 'Water/Ground'], ['sh Arcanine', 'Water/Ground']] },
+  { name: 'Officer Marina', npc: [['sh Feraligator', 'Grass/Electric'], ['sh Lapras', 'Grass/Electric'], ['sh Gyarados', 'Grass/Electric'], ['sh Vaporeon', 'Grass/Electric'], ['sh Starmie', 'Grass/Electric'], ['sh Blastoise', 'Grass/Electric']] },
+  { name: 'Sergeant Volt', npc: [['sh Magneton', 'Fire/Fight'], ['sh Ampharos', 'Ground'], ['sh Lanturn', 'Grass'], ['sh Electabuzz', 'Ground'], ['sh Raichu', 'Ground'], ['sh Jolteon', 'Ground']] },
+  { name: 'Captain Verdant', npc: [['sh Meganium', 'Fire/Fly/Ice'], ['sh Vileplume', 'Fire/Fly/Ice'], ['sh Venusaur', 'Fire/Fly/Ice'], ['sh Exeggutor', 'Bug/Fire/Fly'], ['sh Victreebel', 'Fire/Fly/Ice'], ['sh Jumpluff', 'Ice/Fire/Rock']] },
+  { name: 'Inspector Frost', npc: [['sh Piloswine', 'Fire/Fight'], ['sh Cloyster', 'Electric/Fight'], ['sh Jynx', 'Fire/Steel'], ['sh Lapras', 'Electric/Fight'], ['sh Dewgong', 'Electric/Fight'], ['sh Sneasel', 'Fight']] },
+  { name: 'Commander Mind', npc: [['sh Starmie', 'Grass/Electric'], ['sh Alakazam', 'Bug/Ghost/Dark'], ['sh Espeon', 'Bug/Ghost/Dark'], ['sh Exeggutor', 'Bug/Fire/Fly'], ['sh Mr. Mime', 'Ghost/Steel'], ['sh Xatu', 'Electric/Ghost']] },
+  { name: 'Warden Shade', npc: [['Houndoom', 'Fight/Water/Grd/Rock'], ['sh Sneasel', 'Fight'], ['Tyranitar', 'Fight'], ['sh Houndoom', 'Fight/Water/Grd/Rock'], ['sh Tyranitar', 'Fight'], ['sh Umbreon', 'Fight/Bug/Fairy']] },
+  { name: 'Lieutenant Alloy', npc: [['sh Scizor', 'Fire'], ['sh Magneton', 'Fire/Fight'], ['sh Skarmory', 'Fire/Electric'], ['sh Steelix', 'Fire/Fight/Water'], ['sh Forretress', 'Fire'], ['Scizor', 'Fire']] },
+  { name: 'Marshal Boulder', npc: [['sh Omastar', 'Grass'], ['sh Golem', 'Water/Grass'], ['sh Tyranitar', 'Fight'], ['sh Sudowoodo', 'Fight/Water'], ['sh Kabutops', 'Grass'], ['sh Rhydon', 'Grass/Fight/Water']] },
+  { name: 'Detective Terra', npc: [['sh Nidoqueen', 'Water/Grd/Ice'], ['sh Nidoking', 'Water/Grd/Ice'], ['sh Marowak', 'Water/Grass/Ice'], ['sh Sandslash', 'Water/Grass/Ice'], ['sh Donphan', 'Water/Grass/Ice'], ['sh Dugtrio', 'Water/Grass/Ice']] },
+  { name: 'Chief Toxin', npc: [['sh Weezing', 'Ground/Psychic'], ['sh Muk', 'Ground/Psychic'], ['sh Nidoking', 'Water/Grd/Ice'], ['sh Crobat', 'Electric/Psy/Rock/Ice'], ['sh Toxicroak', 'Psychic/Fly/Grd'], ['sh Vileplume', 'Fire/Fight/Psy/Ice']] },
+  { name: 'Ranger Strike', npc: [['sh Primeape', 'Fly/Psy'], ['sh Machamp', 'Fly/Psy'], ['sh Heracross', 'Fly/Psy/Fire'], ['sh Hitmonchan', 'Fly/Psy'], ['sh Poliwrath', 'Fly/Psy/Electric'], ['sh Hitmonlee', 'Fly/Psy']] },
+  { name: 'Captain Chitin', npc: [['sh Forretress', 'Fire'], ['sh Ariados', 'Fire/Fly/Psy/Rock'], ['sh Scyther', 'Rock'], ['sh Scizor', 'Fire'], ['sh Pinsir', 'Fire/Fly/Rock'], ['sh Heracross', 'Fly/Psy/Fire']] }
+];
+
+function buildPoliceCard(officer) {
+  const card = document.createElement('div');
+  card.className = 'leader-card police-card';
+
+  const name = document.createElement('div');
+  name.className = 'leader-name';
+  name.textContent = officer.name;
+  card.appendChild(name);
+
+  const table = document.createElement('table');
+  table.className = 'leader-table';
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  ['NPC', '', 'Tipos Recomendados'].forEach(txt => {
+    const th = document.createElement('th');
+    th.textContent = txt;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  officer.npc.forEach(([npc, types]) => {
+    const tr = document.createElement('tr');
+
+    const tdNpc = document.createElement('td');
+    const spanNpc = document.createElement('span');
+    spanNpc.className = 'pkm' + (isShiny(npc) ? ' shiny' : '');
+    spanNpc.textContent = displayName(npc);
+    tdNpc.appendChild(spanNpc);
+
+    const tdVs = document.createElement('td');
+    tdVs.className = 'vs-col';
+    tdVs.textContent = 'vs';
+
+    const tdTypes = document.createElement('td');
+    types.split('/').forEach(type => {
+      const chip = document.createElement('span');
+      chip.className = 'type-chip';
+      chip.textContent = type;
+      tdTypes.appendChild(chip);
+    });
+
+    tr.appendChild(tdNpc);
+    tr.appendChild(tdVs);
+    tr.appendChild(tdTypes);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  card.appendChild(table);
+
+  return card;
+}
+
+const officerGrid = document.getElementById('officer-grid');
+OFFICERS.forEach(o => officerGrid.appendChild(buildPoliceCard(o)));
+
+const subTabs = document.querySelectorAll('.sub-tab');
+subTabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    subTabs.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+    document.getElementById(btn.dataset.tab).style.display = '';
+  });
+});
 </script>
 
 </body>
