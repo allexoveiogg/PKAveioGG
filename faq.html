@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perguntas Frequentes - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .info-box {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 18px;
+  }
+
+  .info-box ul { list-style: none; }
+
+  .info-box li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .info-box li:last-child { border-bottom: none; }
+
+  .info-box li::before {
+    content: '►';
+    position: absolute;
+    left: 2px;
+    color: #ffcb05;
+    font-size: 0.85rem;
+    top: 8px;
+  }
+
+  .info-box strong { color: #ffcb05; }
+
+  .search-wrap {
+    margin-bottom: 18px;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    color: #e6ecf5;
+    background: #141a2a;
+    border: 2px solid #2c3a5e;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box:focus { border-color: #ffcb05; }
+
+  .search-box::placeholder { color: #5c6a8c; }
+
+  .result-count {
+    font-size: 0.85rem;
+    color: #5c6a8c;
+    margin: 8px 2px 14px;
+  }
+
+  .result-count strong { color: #ffcb05; }
+
+  .faq-item {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    color: #ffcb05;
+    font-size: 0.98rem;
+    position: relative;
+    padding-right: 42px;
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: #5c6a8c;
+  }
+
+  .faq-item[open] summary { border-bottom: 1px solid #2c3a5e; }
+  .faq-item[open] summary::after { content: '\2013'; }
+
+  .faq-item .faq-body {
+    padding: 14px 18px;
+    color: #c3cde2;
+    font-size: 0.95rem;
+  }
+
+  .faq-item .faq-body a { color: #7fb3ff; }
+  .faq-item .faq-body a:hover { text-decoration: none; }
+
+  .faq-item.hidden { display: none; }
+
+  .empty-msg {
+    text-align: center;
+    padding: 40px 20px;
+    color: #5c6a8c;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  .footer .copyright {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  .footer a { color: #7fb3ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="faq.html" class="active">FAQ</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Perguntas Frequentes</h1>
+  <p>Dúvidas do servidor com respostas rápidas</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <ul>
+      <li>Pesquise por <strong>qualquer palavra-chave</strong> na caixa abaixo para filtrar as dúvidas.</li>
+      <li>Clique em uma pergunta para <strong>expandir</strong> a resposta.</li>
+      <li>Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>.</li>
+    </ul>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" id="search" class="search-box" placeholder="Pesquisar... (ex: held, shiny, fly, house)" autocomplete="off">
+    <div class="result-count" id="result-count"></div>
+  </div>
+
+  <div id="faq-list"></div>
+
+</div>
+
+<div class="footer">
+  Perguntas Frequentes · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+</div>
+
+<script>
+const FAQ = [
+  { k: 'star', a: 'Star Ascension: https://wiki.pokealliance.com/sistemas/star-machine     /     Calculadora de custos pra estrelar: https://tinyurl.com/planilha-pka-star' },
+  { k: 'boost', a: 'Boost Pok\u00e9mon: https://wiki.pokealliance.com/guias/boost_stone' },
+  { k: 'up', a: 'Guia de up at\u00e9 o lvl 150: https://discord.com/channels/1159230367803392022/1308522087517782047     /     Primeiros passos: https://wiki.pokealliance.com/guias/primeiros-passos' },
+  { k: 'fly', a: 'Order no seu p\u00e9 pra montar no fly. Subir e descer configura as hotkeys no Ctrl K -> Movements -> Fly Up e Fly Down. Se quiser tirar os bot\u00f5es que aparecem na tela, \u00e9 em Config -> Game -> Show Fly Up/Down buttons' },
+  { k: 'ilhas laranja', a: 'Ilhas laranja (lvl150+): Fala com o Captain Frederic, na praia sul de Cianwood, e depois pega a chave escondida atr\u00e1s do coqueiro (https://imgur.com/a/uu36dVY), e entrega a chave para o capit\u00e3o. Depois s\u00f3 voar pra ilha que precisa ir' },
+  { k: 'mapa', a: 'Pra liberar o mapa completo: https://tinyurl.com/discord-pka-mapa' },
+  { k: 'ditto', a: 'Pra fazer o shiny Ditto: https://wiki.pokealliance.com/quests/quests-principais#dr-oliveira-e-shiny-ditto' },
+  { k: 'combo autocombo', a: 'Autocombo: Bot\u00e3o direito nas skills -> Open Auto Combo. Arrasta a skills pra baixo na ordem que quiser. Fecha a interface, bot\u00e3o direito no terceiro bot\u00e3o da action bar (o monstrinho) e seta a hotkey. https://imgur.com/6xFdECI' },
+  { k: 'pesca', a: 'Pra pescar, tem que procurar os fishing spots (uns peixes na \u00e1gua) direita ou sul de Saffron. Quando achar, aperta Ctrl Z e clica nele. Pescar s\u00f3 upa a skill de pesca, n\u00e3o da xp pro personagem, e nem vem muito shiny' },
+  { k: 'fundir', a: 'Fundir helds: https://wiki.pokealliance.com/sistemas/helds#fusao-de-helds' },
+  { k: 'trocar', a: 'Trocar helds: https://youtu.be/Bvq8_LrDuXo?t=50' },
+  { k: 'cupom', a: 'Cupons: Biskella, Anunaki, Bandicot, Lemes, Safnaw, Loxas, Lele, Emprego' },
+  { k: 'aura addon skill', a: 'Trocar Aura/Addon/Training: Com o poke pra dentro, Ctrl Click na ball e seleciona "Customize Pokeball"' },
+  { k: 'prey', a: 'Sistema de prey: https://wiki.pokealliance.com/sistemas/prey' },
+  { k: 'offensive defensive', a: 'Pra setar offensive/defensive: Ctrl K -> Pokemon -> As \u00faltimas op\u00e7\u00f5es. https://imgur.com/a/0hqCnBb' },
+  { k: 'shard dg', a: 'Arcane shards: https://wiki.pokealliance.com/sistemas/arcane-shards-dungeons     /     Como chegar em cada uma: https://tinyurl.com/planilha-pka-dgs' },
+  { k: 'treino treinar punching', a: 'Sistema de treinamento: https://wiki.pokealliance.com/sistemas/treinamento' },
+  { k: 'vender', a: 'Pra vender um item no market \u00e9 s\u00f3 arrastar ele pra interface. N\u00e3o pode ser item unique.' },
+  { k: 'july', a: 'Compra com a NPC July, na entrada do TC >' },
+  { k: 'medalha', a: 'Sistema de medalhas: https://wiki.pokealliance.com/sistemas/medal-system' },
+  { k: 'carteira', a: 'Pra ver o dinheiro \u00e9 no Perfil (Ctrl T) -> Carteira' },
+  { k: 'expedition', a: 'Expeditions: https://www.youtube.com/watch?v=hPkmXE61Y18' },
+  { k: 'hunt', a: 'Localiza\u00e7\u00f5es das hunts:   https://tinyurl.com/planilha-pka-hunts  <-- Nesse link tem as hunts, e tamb\u00e9m da pra ver pela Pok\u00e9dex dentro do jogo, clicando na lupa do lado da foto dele na dex' },
+  { k: 'maxima media', a: 'M\u00e1xima de brokes por tier:  https://tinyurl.com/planilha-pka-brokes          /          M\u00e9dias dos pokemons:  https://tinyurl.com/planilha-pka-medias' },
+  { k: 'passe', a: 'Game Pass \u00e9 o terceiro bot\u00e3o em baixo da barra de xp. Mais detalhes: https://discord.com/channels/1159230367803392022/1159230368940032093/1456085101816446976' },
+  { k: 'linked', a: 'Linked Tasks: https://tinyurl.com/planilha-pka-linked-tasks   //   Mais detalhes: https://wiki.pokealliance.com/sistemas/linked-tasks' },
+  { k: 'revive', a: 'Pra conseguir uns revives, tem uma box gr\u00e1tis na Store (No menu superior) -> Character -> Starter Box. As conquistas (Ctrl T) e Linked Tasks (Ctrl L) tbm d\u00e3o' },
+  { k: 'mega', a: 'Megas: https://wiki.pokealliance.com/sistemas/hazard-mega-dens     /     https://discord.com/channels/1159230367803392022/1159230368940032093/1457559488008687732' },
+  { k: 'togepi', a: 'Pra evoluir Togepi/Eevee/Golbat, mate pokemons com ele pra subir a felicidade e ele estar pronto. Mas n\u00e3o compensa evoluir o togepi, ele perde a skill de cura' },
+  { k: 'vip', a: 'Benef\u00edcios de ser VIP: Autoloot, Teleport, Loot Stash, Guild Boss, Comprar House, Brotherhood, Rockets, Officers, Clones' },
+  { k: 'legendary', a: 'Shiny tier lend\u00e1rio s\u00f3 spawna na Mewtwo Island. Precisa lvl 350+ pra acessar e ca\u00e7a usando rota\u00e7\u00e3o de pokes. Nas wildscapes deles, nascem T1s do tipo respectivo: https://discord.com/channels/1159230367803392022/1235107027026448385/1492317824306384998' },
+  { k: 'caveira', a: 'Hunts com caveira s\u00e3o as Wildscapes. Precisa lvl 150 pra ganhar xp. L\u00e1 tem drop rate maior e vem mais shiny' },
+  { k: 'bh', a: 'BH: https://discord.com/channels/1159230367803392022/1308285144943034398/1460010127838150699' },
+  { k: 'kecleon', a: 'Pra vender stones \u00e9 com o NPC Kecleon, na entrada do TC ->' },
+  { k: 'balls', a: 'AB=5x, PB=4x, Elemental=5x, UB=4x. AB e PB n\u00e3o consideram o sistema de m\u00e9rito (sempre contam como se fosse a primeira ball jogada). Mas AB e PB somam pro total de brokes (pra quando for usar UB/Elemental). Elem > UB > AB > PB' },
+  { k: 'hoenn', a: 'Ir pra Hoenn (Lvl350): Fala com os profs em Pallet e New Bark, depois pra esse NPC sul de Goldenrod (https://imgur.com/a/AOqN6L0) e clica no trailer pra ir pra Hoenn. O \u00faltimo prof fica na hunt de Poochyena (https://imgur.com/a/AV1brbq)' },
+  { k: 'pokelog', a: 'Pokelog: https://wiki.pokealliance.com/sistemas/pokelog' },
+  { k: 'hazard', a: 'Tasks do hazard: https://tinyurl.com/planilha-pka-hazard     /     Mais infos: https://discord.com/channels/1159230367803392022/1159230368940032093/1445053824707330221' },
+  { k: 'stash', a: 'Fecha o stash e arrasta o item pra cima da caixa azul no TC, como se fosse dropar em cima. Se forem muitos itens pra guardar, coloca numa bagzinha e arrasta ela' },
+  { k: 'orb', a: 'Todos os orbs s\u00e3o usados nos Poketalents. Da pra ver eles no Ctrl T -> Talentos. Mais detalhes: https://wiki.pokealliance.com/sistemas/talentos' },
+  { k: 'dex', a: 'Dex \u00e9 o primeiro bot\u00e3o da action bar. Botao direito nele pra setar uma hotkey. Ou seta direto a hotkey no Ctrl K -> Action Bar -> Action Bar Pokedex' },
+  { k: 'discord', a: 'https://discord.gg/pokealliance' },
+  { k: 'tierlist', a: 'https://tinyurl.com/planilha-pka-tierlist' },
+  { k: 'talents', a: 'Talentos de dano s\u00e3o os do tipo do move que ser\u00e1 usado. Talentos de defesa s\u00e3o os do tipo do Pokemon que ser\u00e1 usado. Se o pokemon tiver dois tipos, precisa fazer os talents de defesa dos dois pra ter 100% da efic\u00e1cia' },
+  { k: 'tp', a: '.h cidade (sem o ponto). Precisa de VIP e ter falado com a Joy no CP da cidade. O cooldown base \u00e9 30min, e diminui conforme o held de tp quer tiver no pokemon (t1=25min, t2=22min, t3=20min, t4=15min, t5=10min, t6=5min, t7=1min)' },
+  { k: 'rosemary', a: 'Remover helds \u00e9 com a NPC Rosemary, na entrada do TC >. https://wiki.pokealliance.com/sistemas/helds#como-retirar-um-held' },
+  { k: 'heather', a: 'Vender pokes \u00e9 com a NPC Heather, no TC l\u00e1 pra baixo' },
+  { k: 'rockets', a: 'Rockets: https://tinyurl.com/planilha-pka-rockets     /     Mais detalhes: https://wiki.pokealliance.com/sistemas/rockets-semanais' },
+  { k: 'ginasios gyms', a: 'Gyms: https://tinyurl.com/planilha-pka-gyms     /     Mais detalhes: https://wiki.pokealliance.com/sistemas/gyms-kanto-hoenn#etapas-de-cada-gym' },
+  { k: 'normal', a: 'Pokemon n\u00e3o-shiny n\u00e3o tem como calcular a m\u00e9dia pq n\u00e3o aparecem no discord. A m\u00e1xima de n\u00e3o-shiny at\u00e9 T2 fica em torno de 5k, e de T1 120k+' },
+  { k: 'memory', a: 'Memory: Ctrl Click na ball e seleciona "Ditto Memory". Da\u00ed clica nos slots pra ir comprando. Custa 30, 40, 50, 60 e 70DD pra desbloquear os slots, respectivamente' },
+  { k: 'johto', a: 'Vai voando pela \u00e1gua ao sul de New Bark (Ctrl Tab pra ver o mapa), ou pode pegar o barco em Vermilion at\u00e9 Olivine por 50k' },
+  { k: 'held', a: 'Com o poke pra dentro, usa o held na ball. Tem que come\u00e7ar pelo tier 1 do held e ir subindo na ordem (t2, t3...)' },
+  { k: 'share', a: 'Compartilhar xp: Padr\u00e3o=15lvls / Ilhas laranja=30lvls / Hoenn=80lvls. Mais detalhes: https://discord.com/channels/1159230367803392022/1308285144943034398/1460739112435712022' },
+  { k: 'espeon umbreon', a: 'Espeon = entre 06:00 e 17:59 no rel\u00f3gio do minimap. Umbreon = entre 18:00 e 05:59. O ciclo de 12h no jogo dura 2h no tempo real' },
+  { k: 'bless', a: 'Pra comprar bless \u00e9 com a enfermeira Joy no CP abandonado direita de Fuchsia. https://imgur.com/a/ZRjJxLj' },
+  { k: 'porygon', a: 'Quest do Porygon: https://wiki.pokealliance.com/quests/porygon-dr-vektor     /     https://tinyurl.com/planilha-pka-porygon' },
+  { k: 'loot', a: 'Os itens v\u00e3o pro Loot Stash. \u00c9 uma bagzinha dourada no menu superior' },
+  { k: 'order', a: 'Order \u00e9 o segundo bot\u00e3o na action bar (a m\u00e3ozinha). Bot\u00e3o direito nela pra setar a hotkey' },
+  { k: 'brokes', a: 'Pra ver as brokes \u00e9 no Ctrl T -> Pokemon Brokes, ou usando o comando !pokeball "shiny nomedopoke"' },
+  { k: 'house', a: 'Pra comprar house precisa lvl 200, VIP e ter o dinheiro na carteira. Comando !buyhouse na frente da porta. Se tiver casas vazias pra comprar, vai aparecer o \u00edcone no Ctrl Tab, e depois que comprar usa !houseinfo pra ver mais infos' },
+  { k: 'twitch', a: 'Twitch: https://wiki.pokealliance.com/sistemas/twitch-shop' },
+  { k: 'amulet', a: 'Lucky Amulet (Lvl 250+): https://discord.com/channels/1159230367803392022/1367202787208859759/1367206876458254407     /     https://wiki.pokealliance.com/quests/lucky_amulet' },
+  { k: 'corte', a: 'Cortes de xp acontecem nos lvls: 100 130 150 200 320 400' },
+  { k: 'hydreigon', a: 'Hydreigon: https://discord.com/channels/1159230367803392022/1308285144943034398/1460007176562016448' },
+  { k: 'foil', a: 'Energy foils s\u00e3o teleports pras hunts de hoen (lvl 350+). Precisa ter ido nos waypoints (fotos dos pokes no Ctrl Tab) pra liberar o tp antes de usar' },
+  { k: 'elixir', a: 'Pra n\u00e3o tomar miss tem o Guardian Elixir. Compra no NPC Mark, ou na Twitch Store no menu superior' },
+  { k: 'radar', a: 'Como funcionam os radares da Brotherhood: https://www.youtube.com/shorts/IssTYDDWpBo' },
+  { k: 'berry', a: 'Berries na loja do Global Buff: https://discord.com/channels/1159230367803392022/1159230368940032093/1503091998884626725' },
+  { k: 'global buffs', a: 'Global buffs: https://wiki.pokealliance.com/sistemas/global-buff' },
+  { k: 'pokestop', a: 'Configurar Pokestop: Ctrl K -> Player Actions -> Pokestop' },
+  { k: 'rota\u00e7\u00f5es', a: 'Rota\u00e7\u00f5es pra Hoenn: https://docs.google.com/document/d/1mVsLDJnSddFdjA3r_Gm66L9E5VVb1nAm (Cr\u00e9ditos: Shaolin Pig Slayer - MOON)' },
+  { k: 'speed', a: 'Tier 7 at\u00e9 Tier 4: 500 de velocidade //  Tier 3: 600 de velocidade // Tier 2: 700 de velocidade //  Tier 1: 800 de velocidade // SR, UR e Legendary: 1000 de velocidade' },
+  { k: 'taunt', a: 'Ctrl K -> Player Actions -> Start Outfit Taunt' },
+  { k: 'heracross', a: 'NPC Heracross: 1986, 2014, 6' },
+  { k: 'recompensa latios', a: 'Love Potion = Sh Charm   //   Heart of Destiny = XP   //   Heartbound Necklace = Catch Shiny   //   Heart Ball = Catch Normal   //   Valentine Loot Bag = Drop' },
+  { k: 'clones', a: 'Clones: https://www.youtube.com/watch?v=iq6GYW-QnpA' },
+  { k: 'util', a: 'Drop de shiny n\u00e3o da pra vender em NPC. Se for de primeira evolu\u00e7\u00e3o pode ser usado nos talentos (Ctrl T). Se n\u00e3o for, n\u00e3o tem uso. Se o drop for de evolu\u00e7\u00e3o, serve pra evoluir a pr\u00e9-evolu\u00e7\u00e3o respectiva' },
+  { k: 'autorevive', a: 'Arrasta o revive pra action bar e seleciona Auto Revive. Depois clica com o bot\u00e3o direito na barra pra setar a hotkey' },
+  { k: 'bid', a: 'Lances/bids de house: https://discord.com/channels/1159230367803392022/1159230368940032093/1515868878373130332' },
+  { k: 'wonka', a: 'Wonka Golden Ticket \u00e9 do evento de p\u00e1scoa. Deve voltar no ano que vem' },
+  { k: 'voucher', a: 'Alliance Voucher s\u00f3 \u00e9 dado como compensa\u00e7\u00e3o quando tem alguma instabilidade no servidor' },
+  { k: 'zap', a: 'Comunidade oficial do PKA no Whatsapp: https://chat.whatsapp.com/DkjmJXgB6vgLwXGyr2dRYb  (Trade e Chat)' },
+  { k: 'walk', a: 'Configurar walk/fly autom\u00e1tico: Ctrl K -> Player Actions -> Walk' },
+  { k: 'ancient', a: '\u00danico jeito de conseguir Ancient Stone \u00e9 como recompensa na quest do Flint: https://discord.com/channels/1159230367803392022/1308283917266059304' },
+  { k: 'seta', a: 'Setas de drops: Ctrl click no personagem -> Set Outfit -> Loot Effects' },
+  { k: 'zoom', a: 'Diminuir o zoom: Configs -> Graphics -> HudScale Percent. Se j\u00e1 tiver em 100%, s\u00f3 aumentando a resolu\u00e7\u00e3o do monitor (O jogo ta otimizado pra 1920x1080). Jogar no modo cl\u00e1ssico tbm diminui (Ctrl Ponto)' },
+  { k: 'autoball', a: 'Pra s\u00f3 pressionar a hotkey e ir passando o mouse nos corpos pra jogar ball, seleciona "Smart Use" na a\u00e7\u00e3o da ball, e "On Key Press" na hotkey da ball' },
+  { k: 'moving', a: 'Pra mudar a cidade inicial tem que usar o Moving Ticket. \u00c9 um verde que vc ganhou quando criou a conta. Se j\u00e1 usou, da pra comprar outro na Store -> Characater' },
+  { k: 'police', a: 'Police: https://tinyurl.com/planilha-pka-police     /     Mais detalhes: https://wiki.pokealliance.com/sistemas/polices-semanais' },
+  { k: 'corpse bride', a: 'Corpse Bride Ticket era do evento do dia dos namorados. J\u00e1 terminou, agora n\u00e3o da mais pra usar' },
+  { k: 'moomoo moo', a: 'Moomoo Milk Quest(Lvl 300+): https://discord.com/channels/1159230367803392022/1525116514116567080' },
+  { k: 'tyrogue', a: 'Serve pra evoluir o tyrogue. Na dex dele da pra ver qual item usa pra cada evolu\u00e7\u00e3o' },
+  { k: 'roupa', a: 'Roupa de Ski (Levar 3 Ice Stone): https://imgur.com/a/zyBfjzG // Sandboard (Levar 3 Enigma Stone): https://imgur.com/bUSyhB4 // Roupa de Mergulho (Levar 3 Water Stone): https://imgur.com/xWkxgwg' },
+  { k: 'fraqueza', a: 'Olha na dex quais as fraquezas do pokemon. Usa o maior tier que vc conseguir pegar que bata efetivo: https://tinyurl.com/planilha-pka-tierlist' },
+  { k: 'recovery', a: 'Recovery Key: https://discord.com/channels/1159230367803392022/1235107027026448385/1525600910506725576' },
+  { k: 'money', a: 've na aba Sell do market os drops que a galera ta pagando mais, e farma elas pra vender' },
+  { k: 'npc task', a: 'NPC Tasks: https://tinyurl.com/planilha-pka-tasks' },
+  { k: 'isca', a: 'Pra comprar isca \u00e9 com o NPC Fisherman, norte/esquerda do market de Saffron: https://imgur.com/a/NVhr3YD' },
+  { k: 'drop', a: 'Pra saber qual poke dropa um item espec\u00edfico:      https://tinyurl.com/planilha-pka-drops      Ou segura Shift na tela dos talentos/boost  Ou Ctrl click -> Consultar Drops' },
+  { k: 'ping', a: 'N\u00e3o tem como ver o ping dentro do jogo. O mais pr\u00f3ximo \u00e9 mandar um "ping pokealliance.com" no cmd' },
+  { k: 'cargas premium', a: '100k cargas premium upam 1 pokemon do lvl 0 at\u00e9 lvl 23 + 30%' },
+  { k: '150', a: 'Depois do lvl 150 vc upa em qualquer wildscape (hunt com caveira) que vc tenha pokes pra ca\u00e7ar: https://tinyurl.com/planilha-pka-hunts' },
+  { k: 'tubos', a: 'Tubos (Hunt lvl 350+):  https://imgur.com/a/wFcUcVR' },
+  { k: 'python', a: 'Fiz um scriptzinho em python onde eu aperto um atalho, digito uma palavra chave da pergunta, e ele ja traz a mensagem pro meu Ctrl C' },
+  { k: 'qwilfish', a: 'NPC pra trocar o item do Qwilfish pelo shiny: https://imgur.com/a/fmnPze7' },
+  { k: 'reinicia reabre', a: 'Reabre o client, e for\u00e7a atualiza\u00e7\u00e3o pelo launcher, clicando na entrenagem em cima/direita -> Verificar atualiza\u00e7\u00f5es' },
+  { k: 'package', a: 'Usa um Package Kit no item pra tirar ele da house. Compra por 1k na NPC July na entrada do TC ->' },
+  { k: 'quest', a: 'Quests principais: https://wiki.pokealliance.com/quests/quests-principais' }
+];
+
+const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+function buildItem(item) {
+  const details = document.createElement('details');
+  details.className = 'faq-item';
+
+  const summary = document.createElement('summary');
+  summary.textContent = item.k || 'Dica';
+  details.appendChild(summary);
+
+  const body = document.createElement('div');
+  body.className = 'faq-body';
+  body.textContent = item.a;
+  details.appendChild(body);
+
+  return details;
+}
+
+const list = document.getElementById('faq-list');
+const searchInput = document.getElementById('search');
+const countEl = document.getElementById('result-count');
+
+FAQ.forEach(item => list.appendChild(buildItem(item)));
+
+function render() {
+  const q = norm(searchInput.value.trim());
+  let shown = 0;
+  list.querySelectorAll('.faq-item').forEach(el => {
+    const match = !q || norm(el.textContent).includes(q);
+    el.classList.toggle('hidden', !match);
+    if (match) shown++;
+  });
+  countEl.innerHTML = q
+    ? shown + ' resultado(s) para "<strong>' + searchInput.value.trim() + '</strong>"'
+    : '<strong>' + FAQ.length + '</strong> perguntas no total';
+}
+
+searchInput.addEventListener('input', render);
+render();
+</script>
+
+</body>
+</html>
