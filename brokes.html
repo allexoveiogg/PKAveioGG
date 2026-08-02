@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Brokes Pokémon</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 0 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .broke-table-wrap {
+    overflow-x: auto;
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .broke-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 460px;
+  }
+
+  .broke-table th, .broke-table td {
+    padding: 13px 16px;
+    text-align: center;
+    border-bottom: 1px solid #2c3a5e;
+  }
+
+  .broke-table thead th {
+    background: #ffcb05;
+    color: #1a2133;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    font-weight: 800;
+  }
+
+  .broke-table tbody tr:nth-child(even) { background: #161d2f; }
+  .broke-table tbody tr:hover { background: #1e2940; }
+
+  .broke-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .tier-t1 { background: linear-gradient(135deg, #ffcb05, #ff8c00); color: #1a2133; }
+  .tier-t2 { background: linear-gradient(135deg, #3ddc84, #1fa75f); }
+  .tier-t3 { background: linear-gradient(135deg, #35c2c2, #1d8f8f); }
+  .tier-t4 { background: linear-gradient(135deg, #4f8fff, #2a5fd0); }
+  .tier-t5 { background: linear-gradient(135deg, #a06bff, #6d35c9); }
+  .tier-t6 { background: linear-gradient(135deg, #ff9d6b, #e06a2a); }
+  .tier-t7 { background: linear-gradient(135deg, #e05555, #a02020); }
+  .tier-super { background: linear-gradient(135deg, #ff5edb, #b02bd6); }
+  .tier-ultra { background: linear-gradient(135deg, #00e0ff, #0070ff); }
+  .tier-legendary { background: linear-gradient(135deg, #ffd700, #ff4500); }
+  .tier-mythic { background: linear-gradient(135deg, #ff4081, #7c4dff); }
+
+  .broke-table .val { font-weight: 800; font-size: 1.1rem; color: #ffcb05; }
+
+  .bar-cell { text-align: left; }
+  .bar-track {
+    background: #0f1420;
+    border-radius: 999px;
+    height: 14px;
+    overflow: hidden;
+    min-width: 180px;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+  }
+
+  .notes-box {
+    background: #141a2a;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .notes-box h4 {
+    color: #ffcb05;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1rem;
+  }
+
+  .notes-box ul { list-style: none; }
+
+  .notes-box li {
+    padding: 7px 0 7px 24px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+    font-size: 0.95rem;
+  }
+
+  .notes-box li:last-child { border-bottom: none; }
+
+  .notes-box li::before {
+    content: '•';
+    position: absolute;
+    left: 4px;
+    color: #ffcb05;
+    font-weight: 800;
+  }
+
+  .notes-box strong { color: #ffcb05; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  .footer a { color: #7fb3ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html" class="active">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Max Brokes</h1>
+  <p>Máximo de brokes por tier para captura de Shinys</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">Máximo de Brokes por Tier</h2>
+
+  <div class="broke-table-wrap">
+    <table class="broke-table">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Max Brokes</th>
+          <th class="bar-cell">Referência</th>
+        </tr>
+      </thead>
+      <tbody id="broke-tbody">
+      </tbody>
+    </table>
+  </div>
+
+  <div class="notes-box">
+    <h4>Observações</h4>
+    <ul>
+      <li>Premier/Alliance balls contam sempre como a <strong>primeira bola</strong> jogada.</li>
+      <li>Premier/Alliance balls contam para a contagem de <strong>brokes totais</strong>.</li>
+      <li>O max é um valor <strong>não oficial</strong> descoberto pela comunidade, e pode mudar a qualquer momento.</li>
+      <li>As brokes são pra <strong>shinys</strong>. Pokémon normal não tem max.</li>
+      <li>Chegar na máxima <strong>não garante o catch</strong>. A chance só fica muito mais alta.</li>
+      <li>Rates: <strong>PB = 4x</strong> · <strong>UB = 4x</strong> · <strong>AB = 5x</strong> · <strong>Elemental = 5x</strong></li>
+      <li>O sistema de mérito considera o <strong>total de brokes</strong>. Os rates não têm nada a ver com ele.</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  Max Brokes · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+</div>
+
+<script>
+const BROKE_ORDER = [
+  { tier: 'Mythic', value: '?', pct: 0, cls: 'tier-mythic' },
+  { tier: 'Legendary', value: '22.535', pct: 100, cls: 'tier-legendary' },
+  { tier: 'Ultra Rare', value: '9.400', pct: 42, cls: 'tier-ultra' },
+  { tier: 'Super Rare', value: '3.500', pct: 16, cls: 'tier-super' },
+  { tier: 'T1', value: '1.280', pct: 6, cls: 'tier-t1' },
+  { tier: 'T2', value: '~900', pct: 4, cls: 'tier-t2' },
+  { tier: 'T3', value: '~700', pct: 3, cls: 'tier-t3' },
+  { tier: 'T4', value: '~600', pct: 2, cls: 'tier-t4' },
+  { tier: 'T5', value: '~400', pct: 2, cls: 'tier-t5' },
+  { tier: 'T6', value: '~200', pct: 1, cls: 'tier-t6' },
+  { tier: 'T7', value: '—', pct: 0, cls: 'tier-t7' }
+];
+
+const tbody = document.getElementById('broke-tbody');
+
+BROKE_ORDER.forEach(b => {
+  const tr = document.createElement('tr');
+
+  const tdTier = document.createElement('td');
+  const badge = document.createElement('span');
+  badge.className = 'broke-badge ' + b.cls;
+  badge.textContent = b.tier;
+  tdTier.appendChild(badge);
+
+  const tdVal = document.createElement('td');
+  const val = document.createElement('span');
+  val.className = 'val';
+  val.textContent = b.value;
+  tdVal.appendChild(val);
+
+  const tdBar = document.createElement('td');
+  tdBar.className = 'bar-cell';
+  const track = document.createElement('div');
+  track.className = 'bar-track';
+  const fill = document.createElement('div');
+  fill.className = 'bar-fill ' + b.cls;
+  fill.style.width = b.pct + '%';
+  track.appendChild(fill);
+  tdBar.appendChild(track);
+
+  tr.appendChild(tdTier);
+  tr.appendChild(tdVal);
+  tr.appendChild(tdBar);
+  tbody.appendChild(tr);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ginásios Pokémon - Guia de Tasks</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 70px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.6rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    color: #ffcb05;
+    margin: 40px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .info-box {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 22px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .info-box ul { list-style: none; }
+
+  .info-box li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .info-box li:last-child { border-bottom: none; }
+
+  .info-box li::before {
+    content: '⭐';
+    position: absolute;
+    left: 0;
+    top: 8px;
+  }
+
+  .info-box strong { color: #ffcb05; }
+  .info-box a { color: #7fb3ff; text-decoration: none; }
+  .info-box a:hover { text-decoration: underline; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(255, 203, 5, 0.15);
+  }
+
+  .card-header {
+    background: #ffcb05;
+    color: #1a2133;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-header .num {
+    background: #2a4a9f;
+    color: #fff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .card-body { padding: 18px; }
+
+  .task {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #141a2a;
+    border: 1px solid #2c3a5e;
+  }
+
+  .task:last-child { margin-bottom: 0; }
+
+  .task h4 {
+    color: #7fb3ff;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .task p { font-size: 1.05rem; font-weight: 600; }
+
+  .card-body .dungeon {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #1e2940;
+    border: 1px solid #ffcb05;
+    text-align: center;
+  }
+
+  .card-body .dungeon a {
+    color: #ffcb05;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .card-body .dungeon a:hover { text-decoration: underline; }
+
+  .table-wrap {
+    overflow-x: auto;
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+
+  th, td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid #2c3a5e;
+  }
+
+  thead th {
+    background: #ffcb05;
+    color: #1a2133;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    font-weight: 800;
+    position: sticky;
+    top: 0;
+  }
+
+  tbody tr:nth-child(even) { background: #161d2f; }
+  tbody tr:hover { background: #1e2940; }
+
+  td .pkm {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #2a4a9f;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pkm.shiny { background: linear-gradient(90deg, #ffcb05, #ff9d00); color: #1a2133; }
+  .pkm.shiny::before { content: '✦ '; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  .footer a { color: #7fb3ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.8rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html" class="active">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Ginásios Pokémon</h1>
+  <p>Guia completo de tasks das 8 cidades · Pokémon Shiny</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">Informações Extras</h2>
+  <div class="info-box">
+    <ul>
+      <li>Precisa ser <strong>lvl 250+</strong></li>
+      <li>Pra começar a task, fale com o NPC <strong>Alfred</strong> na entrada de cada ginásio</li>
+      <li>Pra completar a task, fale com o NPC <strong>Alfred</strong> novamente</li>
+      <li>As dungeons possuem um limite de <strong>10 minutos</strong>, e não é possível usar <strong>revive</strong></li>
+      <li>Se morrer na dungeon, conta como uma <strong>morte normal</strong> (perde xp/bless)</li>
+      <li>Caso falhe na dungeon, é cobrado <strong>250k</strong> para tentar novamente</li>
+      <li>Caso falhe no <strong>líder</strong> do ginásio, é cobrado <strong>3 simple orbs</strong> do tipo respectivo</li>
+      <li>Caso falhe pros <strong>outros membros</strong> do ginásio, é cobrado <strong>1 simple orb</strong></li>
+      <li>Recompensa: <strong>4 Potent Boost Stones (Lvl 21-25)</strong> do tipo respectivo</li>
+      <li>Mais informações: <a href="https://www.youtube.com/watch?v=khbKeyFrczI" target="_blank">Vídeo explicativo no YouTube</a></li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Tasks por Cidade</h2>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-header"><span>Viridian</span><span class="num">2</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Nidoqueen</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Nidoking</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/CNjdEEP" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Pewter</span><span class="num">3</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Marowak</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Steelix</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/TdDDQvL" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Cerulean</span><span class="num">4</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Blastoise</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Feraligatr</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/9zLq4Sq" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Vermilion</span><span class="num">5</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Raichu</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Lanturn</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/X1JlKl5" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Celadon</span><span class="num">6</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Venusaur</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Meganium</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/M7Jk4Ip" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Fuchsia</span><span class="num">7</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Tentacruel</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Muk</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/has6KOr" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Saffron</span><span class="num">8</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Espeon</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Xatu</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/ZJrqy4w" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>Cinnabar</span><span class="num">9</span></div>
+      <div class="card-body">
+        <div class="task"><h4>Task 1</h4><p>10 Shiny Charizard</p></div>
+        <div class="task"><h4>Task 2</h4><p>10 Shiny Typhlosion</p></div>
+        <div class="dungeon"><a href="https://imgur.com/a/hLzaofv" target="_blank">Ver Dungeon</a></div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">Pokémons dos Líderes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Viridian</th>
+          <th>Pewter</th>
+          <th>Cerulean</th>
+          <th>Vermilion</th>
+          <th>Celadon</th>
+          <th>Fuchsia</th>
+          <th>Saffron</th>
+          <th>Cinnabar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pkm shiny">Kangaskhan</span></td>
+          <td><span class="pkm shiny">Marowak</span></td>
+          <td><span class="pkm shiny">Blastoise</span></td>
+          <td><span class="pkm shiny">Magneton</span></td>
+          <td><span class="pkm shiny">Exeggutor</span></td>
+          <td><span class="pkm shiny">Nidoking</span></td>
+          <td><span class="pkm shiny">Alakazam</span></td>
+          <td><span class="pkm shiny">Magmar</span></td>
+        </tr>
+        <tr>
+          <td><span class="pkm shiny">Nidoking</span></td>
+          <td><span class="pkm shiny">Onix</span></td>
+          <td><span class="pkm shiny">Vaporeon</span></td>
+          <td><span class="pkm shiny">Ampharos</span></td>
+          <td><span class="pkm shiny">Venusaur</span></td>
+          <td><span class="pkm shiny">Nidoqueen</span></td>
+          <td><span class="pkm shiny">Xatu</span></td>
+          <td><span class="pkm shiny">Flareon</span></td>
+        </tr>
+        <tr>
+          <td><span class="pkm shiny">Nidoqueen</span></td>
+          <td><span class="pkm shiny">Rhydon</span></td>
+          <td><span class="pkm shiny">Tentacruel</span></td>
+          <td><span class="pkm shiny">Raichu</span></td>
+          <td><span class="pkm shiny">Meganium</span></td>
+          <td><span class="pkm shiny">Crobat</span></td>
+          <td><span class="pkm shiny">Wobbuffet</span></td>
+          <td><span class="pkm shiny">Ninetales</span></td>
+        </tr>
+        <tr>
+          <td><span class="pkm shiny">Dugtrio</span></td>
+          <td><span class="pkm shiny">Golem</span></td>
+          <td><span class="pkm shiny">Feraligatr</span></td>
+          <td><span class="pkm shiny">Lanturn</span></td>
+          <td><span class="pkm shiny">Tangela</span></td>
+          <td><span class="pkm shiny">Tentacruel</span></td>
+          <td><span class="pkm shiny">Espeon</span></td>
+          <td><span class="pkm shiny">Arcanine</span></td>
+        </tr>
+        <tr>
+          <td><span class="pkm shiny">Persian</span></td>
+          <td><span class="pkm">Aerodactyl</span></td>
+          <td><span class="pkm shiny">Politoed</span></td>
+          <td><span class="pkm shiny">Jolteon</span></td>
+          <td><span class="pkm shiny">Vileplume</span></td>
+          <td><span class="pkm shiny">Venomoth</span></td>
+          <td><span class="pkm shiny">Mr. Mime</span></td>
+          <td><span class="pkm shiny">Charizard</span></td>
+        </tr>
+        <tr>
+          <td><span class="pkm shiny">Rhydon</span></td>
+          <td><span class="pkm shiny">Steelix</span></td>
+          <td><span class="pkm shiny">Mantine</span></td>
+          <td><span class="pkm shiny">Electabuzz</span></td>
+          <td><span class="pkm">Vileplume</span></td>
+          <td><span class="pkm shiny">Muk</span></td>
+          <td><span class="pkm shiny">Hypno</span></td>
+          <td><span class="pkm shiny">Typhlosion</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  Guia dos Ginásios · Pokémons shiny marcados com <strong>✦</strong> ·
+  Mais informações no <a href="https://www.youtube.com/watch?v=khbKeyFrczI" target="_blank">vídeo explicativo</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier List Pokémon - Pesquisa</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .search-panel {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    padding: 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+  }
+
+  .search-panel label {
+    display: block;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #9fb0d6;
+    margin-bottom: 14px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    max-width: 560px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .search-row input {
+    flex: 1;
+    min-width: 240px;
+    padding: 13px 18px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    border: 2px solid #2c3a5e;
+    background: #0f1420;
+    color: #e6ecf5;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-row input:focus { border-color: #ffcb05; }
+  .search-row input::placeholder { color: #5c6a8c; }
+
+  .search-row button {
+    padding: 13px 26px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 10px;
+    background: #ffcb05;
+    color: #1a2133;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .search-row button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 203, 5, 0.35);
+  }
+
+  .hint {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #5c6a8c;
+  }
+
+  .result-area {
+    margin: 30px auto 0;
+    max-width: 560px;
+    text-align: center;
+  }
+
+  .result-card {
+    display: none;
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .result-card.show { display: block; }
+
+  .result-card .pkm-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #ffcb05;
+    text-shadow: 2px 2px 0 #2a4a9f;
+  }
+
+  .result-card .pkm-sub { color: #9fb0d6; font-size: 0.9rem; margin-bottom: 18px; }
+
+  .tier-badge {
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: 999px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .tier-t1 { background: linear-gradient(135deg, #ffcb05, #ff8c00); color: #1a2133; }
+  .tier-t2 { background: linear-gradient(135deg, #3ddc84, #1fa75f); }
+  .tier-t3 { background: linear-gradient(135deg, #35c2c2, #1d8f8f); }
+  .tier-t4 { background: linear-gradient(135deg, #4f8fff, #2a5fd0); }
+  .tier-t5 { background: linear-gradient(135deg, #a06bff, #6d35c9); }
+  .tier-t6 { background: linear-gradient(135deg, #ff9d6b, #e06a2a); }
+  .tier-t7 { background: linear-gradient(135deg, #e05555, #a02020); }
+  .tier-super { background: linear-gradient(135deg, #ff5edb, #b02bd6); }
+  .tier-ultra { background: linear-gradient(135deg, #00e0ff, #0070ff); }
+  .tier-legendary { background: linear-gradient(135deg, #ffd700, #ff4500); }
+  .tier-mythic { background: linear-gradient(135deg, #ff4081, #7c4dff); }
+  .tier-unknown { background: #444c5e; color: #cfd6e6; }
+
+  .result-card .tier-desc {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    color: #9fb0d6;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 44px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .list-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .list-controls input, .list-controls select {
+    padding: 11px 16px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: 2px solid #2c3a5e;
+    background: #0f1420;
+    color: #e6ecf5;
+    outline: none;
+  }
+
+  .list-controls input:focus, .list-controls select:focus { border-color: #ffcb05; }
+
+  .list-controls input { flex: 1; min-width: 200px; }
+  .list-controls select { cursor: pointer; }
+
+  .list-controls .count { color: #9fb0d6; font-size: 0.9rem; margin-left: auto; }
+
+  .pkm-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+  }
+
+  .pkm-item {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+
+  .pkm-item:hover {
+    transform: translateY(-2px);
+    border-color: #ffcb05;
+    box-shadow: 0 6px 18px rgba(255, 203, 5, 0.12);
+  }
+
+  .pkm-item .name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pkm-item .badge {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .empty-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #5c6a8c;
+    padding: 30px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html" class="active">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Tier List Pokémon</h1>
+  <p>Pesquise um Pokémon e descubra seu tier</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="search-panel">
+    <label for="search">Pesquisar Pokémon</label>
+    <div class="search-row">
+      <input type="text" id="search" placeholder="Digite o nome do Pokémon..." list="pkm-datalist" autocomplete="off">
+      <button id="btn-search">Buscar</button>
+    </div>
+    <div class="hint">Dica: busque por exemplo "Charizard", "Shiny Pikachu" ou "Tyranitar"</div>
+    <datalist id="pkm-datalist"></datalist>
+
+    <div class="result-area">
+      <div class="result-card" id="result-card">
+        <div class="pkm-name" id="result-name"></div>
+        <div class="pkm-sub" id="result-sub"></div>
+        <span class="tier-badge" id="result-tier"></span>
+        <div class="tier-desc" id="result-desc"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Lista Completa</h2>
+
+  <div class="list-controls">
+    <input type="text" id="list-search" placeholder="Filtrar por nome..." autocomplete="off">
+    <select id="tier-filter">
+      <option value="">Todos os tiers</option>
+      <option value="T1">T1</option>
+      <option value="T2">T2</option>
+      <option value="T3">T3</option>
+      <option value="T4">T4</option>
+      <option value="T5">T5</option>
+      <option value="T6">T6</option>
+      <option value="T7">T7</option>
+      <option value="Super Rare">Super Rare</option>
+      <option value="Ultra Rare">Ultra Rare</option>
+      <option value="Legendary">Legendary</option>
+      <option value="Mythic">Mythic</option>
+      <option value="?">Desconhecido (?)</option>
+    </select>
+    <span class="count" id="list-count"></span>
+  </div>
+
+  <div class="pkm-list" id="pkm-list"></div>
+
+</div>
+
+<div class="footer">
+  Tier List · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+</div>
+
+<script>
+const TIER_DATA = [{"n":"Bulbasaur","t":"T6"},{"n":"Shiny Bulbasaur","t":"T5"},{"n":"Ivysaur","t":"T5"},{"n":"Shiny Ivysaur","t":"T4"},{"n":"Venusaur","t":"T3"},{"n":"Shiny Venusaur","t":"T1"},{"n":"Charmander","t":"T6"},{"n":"Shiny Charmander","t":"T5"},{"n":"Charmeleon","t":"T5"},{"n":"Shiny Charmeleon","t":"T4"},{"n":"Charizard","t":"T3"},{"n":"Shiny Charizard","t":"T1"},{"n":"Squirtle","t":"T6"},{"n":"Shiny Squirtle","t":"T5"},{"n":"Wartortle","t":"T5"},{"n":"Shiny Wartortle","t":"T4"},{"n":"Blastoise","t":"T3"},{"n":"Shiny Blastoise","t":"T1"},{"n":"Caterpie","t":"T7"},{"n":"Shiny Caterpie","t":"T6"},{"n":"Metapod","t":"T6"},{"n":"Shiny Metapod","t":"T5"},{"n":"Butterfree","t":"T5"},{"n":"Shiny Butterfree","t":"T4"},{"n":"Weedle","t":"T7"},{"n":"Shiny Weedle","t":"T6"},{"n":"Kakuna","t":"T6"},{"n":"Shiny Kakuna","t":"T5"},{"n":"Beedrill","t":"T5"},{"n":"Shiny Beedrill","t":"T4"},{"n":"Pidgey","t":"T7"},{"n":"Shiny Pidgey","t":"T6"},{"n":"Pidgeotto","t":"T5"},{"n":"Shiny Pidgeotto","t":"T4"},{"n":"Pidgeot","t":"T3"},{"n":"Shiny Pidgeot","t":"T1"},{"n":"Rattata","t":"T7"},{"n":"Shiny Rattata","t":"T6"},{"n":"Raticate","t":"T5"},{"n":"Shiny Raticate","t":"T4"},{"n":"Spearow","t":"T7"},{"n":"Shiny Spearow","t":"T6"},{"n":"Fearow","t":"T5"},{"n":"Shiny Fearow","t":"T3"},{"n":"Ekans","t":"T6"},{"n":"Shiny Ekans","t":"T5"},{"n":"Arbok","t":"T4"},{"n":"Shiny Arbok","t":"T3"},{"n":"Pikachu","t":"T5"},{"n":"Shiny Pikachu","t":"T4"},{"n":"Raichu","t":"T3"},{"n":"Shiny Raichu","t":"T1"},{"n":"Sandshrew","t":"T6"},{"n":"Shiny Sandshrew","t":"T5"},{"n":"Sandslash","t":"T4"},{"n":"Shiny Sandslash","t":"T3"},{"n":"Nidoran female","t":"T6"},{"n":"Shiny Nidoran female","t":"T5"},{"n":"Nidorina","t":"T5"},{"n":"Shiny Nidorina","t":"T4"},{"n":"Nidoqueen","t":"T3"},{"n":"Shiny Nidoqueen","t":"T1"},{"n":"Nidoran Male","t":"T6"},{"n":"Shiny Nidoran Male","t":"T5"},{"n":"Nidorino","t":"T5"},{"n":"Shiny Nidorino","t":"T4"},{"n":"Nidoking","t":"T3"},{"n":"Shiny Nidoking","t":"T1"},{"n":"Clefairy","t":"T6"},{"n":"Shiny Clefairy","t":"T5"},{"n":"Clefable","t":"T4"},{"n":"Shiny Clefable","t":"T3"},{"n":"Mega Clefable","t":"T1"},{"n":"Vulpix","t":"T6"},{"n":"Shiny Vulpix","t":"T5"},{"n":"Ninetales","t":"T3"},{"n":"Shiny Ninetales","t":"T1"},{"n":"Jigglypuff","t":"T6"},{"n":"Shiny Jigglypuff","t":"T5"},{"n":"Wigglytuff","t":"T4"},{"n":"Shiny Wigglytuff","t":"T2"},{"n":"Zubat","t":"T7"},{"n":"Shiny Zubat","t":"T5"},{"n":"Golbat","t":"T5"},{"n":"Shiny Golbat","t":"T4"},{"n":"Oddish","t":"T7"},{"n":"Shiny Oddish","t":"T6"},{"n":"Gloom","t":"T5"},{"n":"Shiny Gloom","t":"T4"},{"n":"Vileplume","t":"T4"},{"n":"Shiny Vileplume","t":"T3"},{"n":"Paras","t":"T7"},{"n":"Shiny Paras","t":"T5"},{"n":"Parasect","t":"T5"},{"n":"Shiny Parasect","t":"T4"},{"n":"Venonat","t":"T6"},{"n":"Shiny Venonat","t":"T5"},{"n":"Venomoth","t":"T4"},{"n":"Shiny Venomoth","t":"T2"},{"n":"Diglett","t":"T6"},{"n":"Shiny Diglett","t":"T5"},{"n":"Dugtrio","t":"T4"},{"n":"Shiny Dugtrio","t":"T3"},{"n":"Meowth","t":"T6"},{"n":"Shiny Meowth","t":"T5"},{"n":"Persian","t":"T4"},{"n":"Shiny Persian","t":"T2"},{"n":"Psyduck","t":"T6"},{"n":"Shiny Psyduck","t":"T5"},{"n":"Golduck","t":"T4"},{"n":"Shiny Golduck","t":"T3"},{"n":"Mankey","t":"T6"},{"n":"Shiny Mankey","t":"T5"},{"n":"Primeape","t":"T4"},{"n":"Shiny Primeape","t":"T3"},{"n":"Growlithe","t":"T6"},{"n":"Shiny Growlithe","t":"T5"},{"n":"Arcanine","t":"T2"},{"n":"Shiny Arcanine","t":"Super Rare"},{"n":"Poliwag","t":"T6"},{"n":"Shiny Poliwag","t":"T5"},{"n":"Poliwhirl","t":"T5"},{"n":"Shiny Poliwhirl","t":"T4"},{"n":"Poliwrath","t":"T3"},{"n":"Shiny Poliwrath","t":"T1"},{"n":"Abra","t":"T6"},{"n":"Shiny Abra","t":"T5"},{"n":"Kadabra","t":"T5"},{"n":"Shiny Kadabra","t":"T4"},{"n":"Alakazam","t":"T2"},{"n":"Shiny Alakazam","t":"Legendary"},{"n":"Machop","t":"T6"},{"n":"Shiny Machop","t":"T5"},{"n":"Machoke","t":"T5"},{"n":"Shiny Machoke","t":"T4"},{"n":"Machamp","t":"T3"},{"n":"Shiny Machamp","t":"Super Rare"},{"n":"Bellsprout","t":"T7"},{"n":"Shiny Bellsprout","t":"T5"},{"n":"Weepinbell","t":"T5"},{"n":"Shiny Weepinbell","t":"T4"},{"n":"Victreebel","t":"T4"},{"n":"Shiny Victreebel","t":"T3"},{"n":"Tentacool","t":"T6"},{"n":"Shiny Tentacool","t":"T5"},{"n":"Tentacruel","t":"T3"},{"n":"Shiny Tentacruel","t":"T1"},{"n":"Geodude","t":"T6"},{"n":"Shiny Geodude","t":"T5"},{"n":"Graveler","t":"T5"},{"n":"Shiny Graveler","t":"T4"},{"n":"Golem","t":"T3"},{"n":"Shiny Golem","t":"T1"},{"n":"Ponyta","t":"T6"},{"n":"Shiny Ponyta","t":"T5"},{"n":"Rapidash","t":"T3"},{"n":"Shiny Rapidash","t":"T1"},{"n":"Slowpoke","t":"T6"},{"n":"Shiny Slowpoke","t":"T5"},{"n":"Slowbro","t":"T5"},{"n":"Shiny Slowbro","t":"T4"},{"n":"Magnemite","t":"T6"},{"n":"Shiny Magnemite","t":"T5"},{"n":"Magneton","t":"T3"},{"n":"Shiny Magneton","t":"T2"},{"n":"Farfetch\u0027d","t":"T5"},{"n":"Shiny Farfetch\u0027d","t":"T1"},{"n":"Doduo","t":"T6"},{"n":"Shiny Doduo","t":"T5"},{"n":"Dodrio","t":"T4"},{"n":"Shiny Dodrio","t":"T1"},{"n":"Seel","t":"T6"},{"n":"Shiny Seel","t":"T5"},{"n":"Dewgong","t":"T4"},{"n":"Shiny Dewgong","t":"T3"},{"n":"Grimer","t":"T6"},{"n":"Shiny Grimer","t":"T5"},{"n":"Muk","t":"T3"},{"n":"Shiny Muk","t":"T1"},{"n":"Shellder","t":"T6"},{"n":"Shiny Shellder","t":"T5"},{"n":"Cloyster","t":"T4"},{"n":"Shiny Cloyster","t":"T3"},{"n":"Gastly","t":"T6"},{"n":"Shiny Gastly","t":"T5"},{"n":"Haunter","t":"T5"},{"n":"Shiny Haunter","t":"T4"},{"n":"Gengar","t":"T2"},{"n":"Shiny Gengar","t":"Legendary"},{"n":"Onix","t":"T4"},{"n":"Shiny Onix","t":"T3"},{"n":"Drowzee","t":"T6"},{"n":"Shiny Drowzee","t":"T5"},{"n":"Hypno","t":"T4"},{"n":"Shiny Hypno","t":"T2"},{"n":"Krabby","t":"T6"},{"n":"Shiny Krabby","t":"T5"},{"n":"Kingler","t":"T4"},{"n":"Shiny Kingler","t":"T3"},{"n":"Voltorb","t":"T6"},{"n":"Shiny Voltorb","t":"T5"},{"n":"Electrode","t":"T4"},{"n":"Shiny Electrode","t":"T3"},{"n":"Exeggcute","t":"T6"},{"n":"Shiny Exeggcute","t":"T5"},{"n":"Exeggutor","t":"T3"},{"n":"Shiny Exeggutor","t":"T2"},{"n":"Cubone","t":"T6"},{"n":"Shiny Cubone","t":"T5"},{"n":"Marowak","t":"T4"},{"n":"Shiny Marowak","t":"T1"},{"n":"Hitmonlee","t":"T4"},{"n":"Shiny Hitmonlee","t":"T1"},{"n":"Hitmonchan","t":"T4"},{"n":"Shiny Hitmonchan","t":"T1"},{"n":"Lickitung","t":"T4"},{"n":"Shiny Lickitung","t":"T3"},{"n":"Koffing","t":"T6"},{"n":"Shiny Koffing","t":"T5"},{"n":"Weezing","t":"T4"},{"n":"Shiny Weezing","t":"T3"},{"n":"Rhyhorn","t":"T6"},{"n":"Shiny Rhyhorn","t":"T5"},{"n":"Rhydon","t":"T3"},{"n":"Shiny Rhydon","t":"T2"},{"n":"Chansey","t":"T4"},{"n":"Shiny Chansey","t":"T3"},{"n":"Tangela","t":"T4"},{"n":"Shiny Tangela","t":"T2"},{"n":"Kangaskhan","t":"T3"},{"n":"Shiny Kangaskhan","t":"Super Rare"},{"n":"Horsea","t":"T6"},{"n":"Shiny Horsea","t":"T5"},{"n":"Seadra","t":"T5"},{"n":"Shiny Seadra","t":"T4"},{"n":"Goldeen","t":"T6"},{"n":"Shiny Goldeen","t":"T5"},{"n":"Seaking","t":"T4"},{"n":"Shiny Seaking","t":"T3"},{"n":"Staryu","t":"T6"},{"n":"Shiny Staryu","t":"T5"},{"n":"Starmie","t":"T4"},{"n":"Shiny Starmie","t":"T2"},{"n":"Mr. Mime","t":"T3"},{"n":"Shiny Mr. Mime","t":"Super Rare"},{"n":"Scyther","t":"T3"},{"n":"Shiny Scyther","t":"Super Rare"},{"n":"Jynx","t":"T2"},{"n":"Shiny Jynx","t":"T1"},{"n":"Electabuzz","t":"T2"},{"n":"Shiny Electabuzz","t":"Legendary"},{"n":"Magmar","t":"T2"},{"n":"Shiny Magmar","t":"Legendary"},{"n":"Pinsir","t":"T3"},{"n":"Shiny Pinsir","t":"Super Rare"},{"n":"Tauros","t":"T3"},{"n":"Shiny Tauros","t":"Super Rare"},{"n":"Magikarp","t":"T7"},{"n":"Shiny Magikarp","t":"T6"},{"n":"Gyarados","t":"T2"},{"n":"Shiny Gyarados","t":"Legendary"},{"n":"Lapras","t":"T2"},{"n":"Shiny Lapras","t":"T1"},{"n":"Ditto","t":"T7"},{"n":"Shiny Ditto","t":"T7"},{"n":"Eevee","t":"T6"},{"n":"Shiny Eevee","t":"T5"},{"n":"Vaporeon","t":"T3"},{"n":"Shiny Vaporeon","t":"T1"},{"n":"Jolteon","t":"T3"},{"n":"Shiny Jolteon","t":"T1"},{"n":"Flareon","t":"T3"},{"n":"Shiny Flareon","t":"T1"},{"n":"Porygon","t":"T5"},{"n":"Shiny Porygon","t":"T4"},{"n":"Omanyte","t":"T6"},{"n":"Shiny Omanyte","t":"T5"},{"n":"Omastar","t":"T2"},{"n":"Shiny Omastar","t":"T1"},{"n":"Kabuto","t":"T6"},{"n":"Shiny Kabuto","t":"T5"},{"n":"Kabutops","t":"T3"},{"n":"Shiny Kabutops","t":"T1"},{"n":"Aerodactyl","t":"T1"},{"n":"Shiny Aerodactyl","t":"?"},{"n":"Snorlax","t":"T2"},{"n":"Shiny Snorlax","t":"Legendary"},{"n":"Articuno","t":"?"},{"n":"Shiny Articuno","t":"?"},{"n":"Zapdos","t":"?"},{"n":"Shiny Zapdos","t":"?"},{"n":"Moltres","t":"?"},{"n":"Shiny Moltres","t":"?"},{"n":"Dratini","t":"T5"},{"n":"Shiny Dratini","t":"T4"},{"n":"Dragonair","t":"T4"},{"n":"Shiny Dragonair","t":"Legendary"},{"n":"Dragonite","t":"T2"},{"n":"Shiny Dragonite","t":"Mythic"},{"n":"Mewtwo","t":"?"},{"n":"Shiny Mewtwo","t":"?"},{"n":"Mew","t":"?"},{"n":"Shiny Mew","t":"?"},{"n":"Chikorita","t":"T6"},{"n":"Shiny Chikorita","t":"T5"},{"n":"Bayleef","t":"T5"},{"n":"Shiny Bayleef","t":"T4"},{"n":"Meganium","t":"T3"},{"n":"Shiny Meganium","t":"T1"},{"n":"Cyndaquil","t":"T6"},{"n":"Shiny Cyndaquil","t":"T5"},{"n":"Quilava","t":"T5"},{"n":"Shiny Quilava","t":"T4"},{"n":"Typhlosion","t":"T3"},{"n":"Shiny Typhlosion","t":"T1"},{"n":"Totodile","t":"T6"},{"n":"Shiny Totodile","t":"T5"},{"n":"Croconaw","t":"T5"},{"n":"Shiny Croconaw","t":"T4"},{"n":"Feraligatr","t":"T3"},{"n":"Shiny Feraligatr","t":"T1"},{"n":"Sentret","t":"T7"},{"n":"Shiny Sentret","t":"T5"},{"n":"Furret","t":"T4"},{"n":"Shiny Furret","t":"T4"},{"n":"Hoothoot","t":"T7"},{"n":"Shiny Hoothoot","t":"T5"},{"n":"Noctowl","t":"T4"},{"n":"Shiny Noctowl","t":"T2"},{"n":"Ledyba","t":"T6"},{"n":"Shiny Ledyba","t":"T5"},{"n":"Ledian","t":"T4"},{"n":"Shiny Ledian","t":"T3"},{"n":"Spinarak","t":"T6"},{"n":"Shiny Spinarak","t":"T5"},{"n":"Ariados","t":"T4"},{"n":"Shiny Ariados","t":"T3"},{"n":"Crobat","t":"T3"},{"n":"Shiny Crobat","t":"T2"},{"n":"Chinchou","t":"T6"},{"n":"Shiny Chinchou","t":"T5"},{"n":"Lanturn","t":"T3"},{"n":"Shiny Lanturn","t":"T2"},{"n":"Pichu","t":"T6"},{"n":"Shiny Pichu","t":"T5"},{"n":"Cleffa","t":"T7"},{"n":"Shiny Cleffa","t":"T6"},{"n":"Igglybuff","t":"T7"},{"n":"Shiny Igglybuff","t":"T6"},{"n":"Togepi","t":"T6"},{"n":"Shiny Togepi","t":"T5"},{"n":"Togetic","t":"T4"},{"n":"Shiny Togetic","t":"T3"},{"n":"Natu","t":"T6"},{"n":"Shiny Natu","t":"T5"},{"n":"Xatu","t":"T3"},{"n":"Shiny Xatu","t":"T2"},{"n":"Mareep","t":"T6"},{"n":"Shiny Mareep","t":"T5"},{"n":"Flaaffy","t":"T5"},{"n":"Shiny Flaaffy","t":"T4"},{"n":"Ampharos","t":"T3"},{"n":"Shiny Ampharos","t":"T1"},{"n":"Bellossom","t":"T4"},{"n":"Shiny Bellossom","t":"T3"},{"n":"Marill","t":"T6"},{"n":"Shiny Marill","t":"T5"},{"n":"Azumarill","t":"T4"},{"n":"Shiny Azumarill","t":"T3"},{"n":"Sudowoodo","t":"T2"},{"n":"Shiny Sudowoodo","t":"T1"},{"n":"Politoed","t":"T4"},{"n":"Shiny Politoed","t":"T1"},{"n":"Hoppip","t":"T6"},{"n":"Shiny Hoppip","t":"T5"},{"n":"Skiploom","t":"T5"},{"n":"Shiny Skiploom","t":"T4"},{"n":"Jumpluff","t":"T4"},{"n":"Shiny Jumpluff","t":"T3"},{"n":"Aipom","t":"T6"},{"n":"Shiny Aipom","t":"T5"},{"n":"Sunkern","t":"T7"},{"n":"Shiny Sunkern","t":"T5"},{"n":"Sunflora","t":"T5"},{"n":"Shiny Sunflora","t":"T4"},{"n":"Yanma","t":"T5"},{"n":"Shiny Yanma","t":"T3"},{"n":"Wooper","t":"T6"},{"n":"Shiny Wooper","t":"T5"},{"n":"Quagsire","t":"T4"},{"n":"Shiny Quagsire","t":"T2"},{"n":"Espeon","t":"T4"},{"n":"Shiny Espeon","t":"T1"},{"n":"Umbreon","t":"T4"},{"n":"Shiny Umbreon","t":"T1"},{"n":"Murkrow","t":"T5"},{"n":"Shiny Murkrow","t":"T3"},{"n":"Slowking","t":"T2"},{"n":"Shiny Slowking","t":"T1"},{"n":"Misdreavus","t":"T3"},{"n":"Shiny Misdreavus","t":"Super Rare"},{"n":"Unown","t":"?"},{"n":"Shiny Unown","t":"?"},{"n":"Wobbuffet","t":"T2"},{"n":"Shiny Wobbuffet","t":"Super Rare"},{"n":"Girafarig","t":"T3"},{"n":"Shiny Girafarig","t":"T2"},{"n":"Pineco","t":"T7"},{"n":"Shiny Pineco","t":"T5"},{"n":"Forretress","t":"T3"},{"n":"Shiny Forretress","t":"T2"},{"n":"Dunsparce","t":"T5"},{"n":"Shiny Dunsparce","t":"T4"},{"n":"Gligar","t":"T5"},{"n":"Shiny Gligar","t":"T4"},{"n":"Steelix","t":"T2"},{"n":"Shiny Steelix","t":"T1"},{"n":"Snubbull","t":"T6"},{"n":"Shiny Snubbull","t":"T5"},{"n":"Granbull","t":"T3"},{"n":"Shiny Granbull","t":"T2"},{"n":"Qwilfish","t":"T4"},{"n":"Shiny Qwilfish","t":"T3"},{"n":"Scizor","t":"T2"},{"n":"Shiny Scizor","t":"Legendary"},{"n":"Shuckle","t":"T5"},{"n":"Shiny Shuckle","t":"T4"},{"n":"Heracross","t":"T3"},{"n":"Shiny Heracross","t":"T2"},{"n":"Sneasel","t":"T4"},{"n":"Shiny Sneasel","t":"T3"},{"n":"Teddiursa","t":"T5"},{"n":"Shiny Teddiursa","t":"T4"},{"n":"Ursaring","t":"T2"},{"n":"Shiny Ursaring","t":"T1"},{"n":"Slugma","t":"T6"},{"n":"Shiny Slugma","t":"T5"},{"n":"Magcargo","t":"T3"},{"n":"Shiny Magcargo","t":"T1"},{"n":"Swinub","t":"T6"},{"n":"Shiny Swinub","t":"T5"},{"n":"Piloswine","t":"T3"},{"n":"Shiny Piloswine","t":"T2"},{"n":"Corsola","t":"T5"},{"n":"Shiny Corsola","t":"T4"},{"n":"Remoraid","t":"T6"},{"n":"Shiny Remoraid","t":"T5"},{"n":"Octillery","t":"T4"},{"n":"Shiny Octillery","t":"T3"},{"n":"Delibird","t":"T4"},{"n":"Shiny Delibird","t":"T3"},{"n":"Mantine","t":"T2"},{"n":"Shiny Mantine","t":"T1"},{"n":"Skarmory","t":"T2"},{"n":"Shiny Skarmory","t":"Super Rare"},{"n":"Houndour","t":"T6"},{"n":"Shiny Houndour","t":"T5"},{"n":"Houndoom","t":"T2"},{"n":"Shiny Houndoom","t":"Super Rare"},{"n":"Mega Houndoom","t":"Legendary"},{"n":"Kingdra","t":"T2"},{"n":"Shiny Kingdra","t":"Super Rare"},{"n":"Phanpy","t":"T6"},{"n":"Shiny Phanpy","t":"T5"},{"n":"Donphan","t":"T3"},{"n":"Shiny Donphan","t":"T2"},{"n":"Porygon2","t":"T3"},{"n":"Shiny Porygon2","t":"T2"},{"n":"Stantler","t":"T4"},{"n":"Shiny Stantler","t":"T2"},{"n":"Smeargle","t":"T2"},{"n":"Shiny Smeargle","t":"T1"},{"n":"Tyrogue","t":"T5"},{"n":"Shiny Tyrogue","t":"T4"},{"n":"Hitmontop","t":"T4"},{"n":"Shiny Hitmontop","t":"T1"},{"n":"Smoochum","t":"T6"},{"n":"Shiny Smoochum","t":"T5"},{"n":"Elekid","t":"T6"},{"n":"Shiny Elekid","t":"T5"},{"n":"Magby","t":"T6"},{"n":"Shiny Magby","t":"T5"},{"n":"Miltank","t":"T3"},{"n":"Shiny Miltank","t":"T1"},{"n":"Blissey","t":"T2"},{"n":"Shiny Blissey","t":"T1"},{"n":"Raikou","t":"?"},{"n":"Shiny Raikou","t":"?"},{"n":"Entei","t":"?"},{"n":"Shiny Entei","t":"?"},{"n":"Suicune","t":"?"},{"n":"Shiny Suicune","t":"?"},{"n":"Larvitar","t":"T6"},{"n":"Shiny Larvitar","t":"T5"},{"n":"Pupitar","t":"T4"},{"n":"Shiny Pupitar","t":"Super Rare"},{"n":"Tyranitar","t":"T2"},{"n":"Shiny Tyranitar","t":"Mythic"},{"n":"Lugia","t":"?"},{"n":"Shiny Lugia","t":"?"},{"n":"Ho-oh","t":"?"},{"n":"Shiny Ho-oh","t":"?"},{"n":"Celebi","t":"?"},{"n":"Shiny Celebi","t":"?"},{"n":"Treecko","t":"T5"},{"n":"Shiny Treecko","t":"T4"},{"n":"Grovyle","t":"T4"},{"n":"Shiny Grovyle","t":"T3"},{"n":"Sceptile","t":"T2"},{"n":"Shiny Sceptile","t":"Ultra Rare"},{"n":"Torchic","t":"T5"},{"n":"Shiny Torchic","t":"T4"},{"n":"Combusken","t":"T4"},{"n":"Shiny Combusken","t":"T3"},{"n":"Blaziken","t":"T2"},{"n":"Shiny Blaziken","t":"Ultra Rare"},{"n":"Mudkip","t":"T5"},{"n":"Shiny Mudkip","t":"T4"},{"n":"Marshtomp","t":"T4"},{"n":"Shiny Marshtomp","t":"T3"},{"n":"Swampert","t":"T2"},{"n":"Shiny Swampert","t":"Ultra Rare"},{"n":"Poochyena","t":"T5"},{"n":"Shiny Poochyena","t":"T4"},{"n":"Mightyena","t":"T2"},{"n":"Shiny Mightyena","t":"Ultra Rare"},{"n":"Zigzagoon","t":"T5"},{"n":"Shiny Zigzagoon","t":"T4"},{"n":"Linoone","t":"T4"},{"n":"Shiny Linoone","t":"T2"},{"n":"Wurmple","t":"T6"},{"n":"Shiny Wurmple","t":"T5"},{"n":"Silcoon","t":"T6"},{"n":"Shiny Silcoon","t":"T5"},{"n":"Beautifly","t":"T3"},{"n":"Shiny Beautifly","t":"T1"},{"n":"Cascoon","t":"T6"},{"n":"Shiny Cascoon","t":"T5"},{"n":"Dustox","t":"T3"},{"n":"Shiny Dustox","t":"T1"},{"n":"Lotad","t":"T5"},{"n":"Shiny Lotad","t":"T4"},{"n":"Lombre","t":"T4"},{"n":"Shiny Lombre","t":"T3"},{"n":"Ludicolo","t":"T2"},{"n":"Shiny Ludicolo","t":"T1"},{"n":"Seedot","t":"T5"},{"n":"Shiny Seedot","t":"T4"},{"n":"Nuzleaf","t":"T2"},{"n":"Shiny Nuzleaf","t":"T3"},{"n":"Shiftry","t":"T2"},{"n":"Shiny Shiftry","t":"T1"},{"n":"Taillow","t":"T5"},{"n":"Shiny Taillow","t":"T4"},{"n":"Swellow","t":"T2"},{"n":"Shiny Swellow","t":"Super Rare"},{"n":"Wingull","t":"T5"},{"n":"Shiny Wingull","t":"T4"},{"n":"Pelipper","t":"T2"},{"n":"Shiny Pelipper","t":"T1"},{"n":"Ralts","t":"T5"},{"n":"Shiny Ralts","t":"T4"},{"n":"Kirlia","t":"T4"},{"n":"Shiny Kirlia","t":"T3"},{"n":"Gardevoir","t":"T2"},{"n":"Shiny Gardevoir","t":"Ultra Rare"},{"n":"Surskit","t":"T5"},{"n":"Shiny Surskit","t":"T4"},{"n":"Masquerain","t":"T3"},{"n":"Shiny Masquerain","t":"T1"},{"n":"Shroomish","t":"T5"},{"n":"Shiny Shroomish","t":"T4"},{"n":"Breloom","t":"T2"},{"n":"Shiny Breloom","t":"T1"},{"n":"Slakoth","t":"T5"},{"n":"Shiny Slakoth","t":"T4"},{"n":"Vigoroth","t":"T4"},{"n":"Shiny Vigoroth","t":"T3"},{"n":"Slaking","t":"T2"},{"n":"Shiny Slaking","t":"Mythic"},{"n":"Nincada","t":"T5"},{"n":"Shiny Nincada","t":"T4"},{"n":"Ninjask","t":"T2"},{"n":"Shiny Ninjask","t":"T1"},{"n":"Shedinja","t":"T2"},{"n":"Shiny Shedinja","t":"T1"},{"n":"Whismur","t":"T5"},{"n":"Shiny Whismur","t":"T4"},{"n":"Loudred","t":"T4"},{"n":"Shiny Loudred","t":"T3"},{"n":"Exploud","t":"T2"},{"n":"Shiny Exploud","t":"Ultra Rare"},{"n":"Makuhita","t":"T4"},{"n":"Shiny Makuhita","t":"T3"},{"n":"Hariyama","t":"T2"},{"n":"Shiny Hariyama","t":"T1"},{"n":"Azurill","t":"T4"},{"n":"Shiny Azurill","t":"T3"},{"n":"Nosepass","t":"T4"},{"n":"Shiny Nosepass","t":"T3"},{"n":"Skitty","t":"T5"},{"n":"Shiny Skitty","t":"T4"},{"n":"Delcatty","t":"T3"},{"n":"Shiny Delcatty","t":"T1"},{"n":"Sableye","t":"T2"},{"n":"Shiny Sableye","t":"T1"},{"n":"Mawile","t":"T2"},{"n":"Shiny Mawile","t":"T1"},{"n":"Aron","t":"T5"},{"n":"Shiny Aron","t":"T4"},{"n":"Lairon","t":"T4"},{"n":"Shiny Lairon","t":"T3"},{"n":"Aggron","t":"T2"},{"n":"Shiny Aggron","t":"Super Rare"},{"n":"Meditite","t":"T5"},{"n":"Shiny Meditite","t":"T4"},{"n":"Medicham","t":"T2"},{"n":"Shiny Medicham","t":"T1"},{"n":"Electrike","t":"T5"},{"n":"Shiny Electrike","t":"T4"},{"n":"Manectric","t":"T2"},{"n":"Shiny Manectric","t":"Ultra Rare"},{"n":"Plusle","t":"T4"},{"n":"Shiny Plusle","t":"T3"},{"n":"Minun","t":"T4"},{"n":"Shiny Minun","t":"T3"},{"n":"Volbeat","t":"T3"},{"n":"Shiny Volbeat","t":"T2"},{"n":"Illumise","t":"T3"},{"n":"Shiny Illumise","t":"T2"},{"n":"Roselia","t":"T3"},{"n":"Shiny Roselia","t":"T1"},{"n":"Gulpin","t":"T4"},{"n":"Shiny Gulpin","t":"T3"},{"n":"Swalot","t":"T2"},{"n":"Shiny Swalot","t":"Ultra Rare"},{"n":"Carvanha","t":"T4"},{"n":"Shiny Carvanha","t":"T3"},{"n":"Sharpedo","t":"T2"},{"n":"Shiny Sharpedo","t":"Super Rare"},{"n":"Wailmer","t":"T4"},{"n":"Shiny Wailmer","t":"T3"},{"n":"Wailord","t":"T2"},{"n":"Shiny Wailord","t":"T1"},{"n":"Numel","t":"T5"},{"n":"Shiny Numel","t":"T4"},{"n":"Camerupt","t":"T2"},{"n":"Shiny Camerupt","t":"T1"},{"n":"Torkoal","t":"T2"},{"n":"Shiny Torkoal","t":"Ultra Rare"},{"n":"Spoink","t":"T5"},{"n":"Shiny Spoink","t":"T4"},{"n":"Grumpig","t":"T3"},{"n":"Shiny Grumpig","t":"T1"},{"n":"Spinda","t":"T4"},{"n":"Shiny Spinda","t":"T3"},{"n":"Trapinch","t":"T5"},{"n":"Shiny Trapinch","t":"T4"},{"n":"Vibrava","t":"T4"},{"n":"Shiny Vibrava","t":"T3"},{"n":"Flygon","t":"T2"},{"n":"Shiny Flygon","t":"Legendary"},{"n":"Cacnea","t":"T5"},{"n":"Shiny Cacnea","t":"T4"},{"n":"Cacturne","t":"T2"},{"n":"Shiny Cacturne","t":"T1"},{"n":"Swablu","t":"T5"},{"n":"Shiny Swablu","t":"T4"},{"n":"Altaria","t":"T2"},{"n":"Shiny Altaria","t":"Super Rare"},{"n":"Zangoose","t":"T2"},{"n":"Shiny Zangoose","t":"T1"},{"n":"Seviper","t":"T2"},{"n":"Shiny Seviper","t":"Super Rare"},{"n":"Lunatone","t":"T2"},{"n":"Shiny Lunatone","t":"T1"},{"n":"Solrock","t":"T2"},{"n":"Shiny Solrock","t":"T1"},{"n":"Barboach","t":"T5"},{"n":"Shiny Barboach","t":"T4"},{"n":"Whiscash","t":"T2"},{"n":"Shiny Whiscash","t":"T1"},{"n":"Corphish","t":"T5"},{"n":"Shiny Corphish","t":"T4"},{"n":"Crawdaunt","t":"T2"},{"n":"Shiny Crawdaunt","t":"T1"},{"n":"Baltoy","t":"T5"},{"n":"Shiny Baltoy","t":"T4"},{"n":"Claydol","t":"T2"},{"n":"Shiny Claydol","t":"T1"},{"n":"Lileep","t":"?"},{"n":"Shiny Lileep","t":"?"},{"n":"Cradily","t":"T2"},{"n":"Shiny Cradily","t":"T1"},{"n":"Anorith","t":"T5"},{"n":"Shiny Anorith","t":"T4"},{"n":"Armaldo","t":"T2"},{"n":"Shiny Armaldo","t":"Super Rare"},{"n":"Feebas","t":"T5"},{"n":"Shiny Feebas","t":"T4"},{"n":"Milotic","t":"T2"},{"n":"Shiny Milotic","t":"Ultra Rare"},{"n":"Castform","t":"?"},{"n":"Shiny Castform","t":"?"},{"n":"Kecleon","t":"T3"},{"n":"Shiny Kecleon","t":"T1"},{"n":"Shuppet","t":"T5"},{"n":"Shiny Shuppet","t":"T4"},{"n":"Banette","t":"T2"},{"n":"Shiny Banette","t":"T1"},{"n":"Duskull","t":"T5"},{"n":"Shiny Duskull","t":"T4"},{"n":"Dusclops","t":"T2"},{"n":"Shiny Dusclops","t":"T1"},{"n":"Tropius","t":"T2"},{"n":"Shiny Tropius","t":"Ultra Rare"},{"n":"Chimecho","t":"T3"},{"n":"Shiny Chimecho","t":"T1"},{"n":"Absol","t":"T2"},{"n":"Shiny Absol","t":"Legendary"},{"n":"Wynaut","t":"T5"},{"n":"Shiny Wynaut","t":"T4"},{"n":"Snorunt","t":"T5"},{"n":"Shiny Snorunt","t":"T4"},{"n":"Glalie","t":"T2"},{"n":"Shiny Glalie","t":"Ultra Rare"},{"n":"Spheal","t":"T5"},{"n":"Shiny Spheal","t":"T4"},{"n":"Sealeo","t":"T4"},{"n":"Shiny Sealeo","t":"T3"},{"n":"Walrein","t":"T2"},{"n":"Shiny Walrein","t":"Super Rare"},{"n":"Clamperl","t":"T3"},{"n":"Shiny Clamperl","t":"T2"},{"n":"Huntail","t":"T3"},{"n":"Shiny Huntail","t":"T1"},{"n":"Gorebyss","t":"T3"},{"n":"Shiny Gorebyss","t":"T1"},{"n":"Relicanth","t":"T3"},{"n":"Shiny Relicanth","t":"T1"},{"n":"Luvdisc","t":"T3"},{"n":"Shiny Luvdisc","t":"T2"},{"n":"Bagon","t":"T5"},{"n":"Shiny Bagon","t":"T4"},{"n":"Shelgon","t":"T4"},{"n":"Shiny Shelgon","t":"T3"},{"n":"Salamence","t":"T2"},{"n":"Shiny Salamence","t":"Ultra Rare"},{"n":"Beldum","t":"T5"},{"n":"Shiny Beldum","t":"T4"},{"n":"Metang","t":"T4"},{"n":"Shiny Metang","t":"T1"},{"n":"Metagross","t":"T2"},{"n":"Shiny Metagross","t":"Ultra Rare"},{"n":"Regirock","t":"?"},{"n":"Shiny Regirock","t":"?"},{"n":"Regice","t":"?"},{"n":"Shiny Regice","t":"?"},{"n":"Registeel","t":"?"},{"n":"Shiny Registeel","t":"?"},{"n":"Latios","t":"?"},{"n":"Shiny Latios","t":"?"},{"n":"Latias","t":"?"},{"n":"Shiny Latias","t":"?"},{"n":"Kyogre","t":"?"},{"n":"Shiny Kyogre","t":"?"},{"n":"Groudon","t":"?"},{"n":"Shiny Groudon","t":"?"},{"n":"Rayquaza","t":"?"},{"n":"Shiny Rayquaza","t":"?"},{"n":"Jirachi","t":"?"},{"n":"Shiny Jirachi","t":"?"},{"n":"Deoxys","t":"?"},{"n":"Shiny Deoxys","t":"?"},{"n":"Turtwig","t":"T6"},{"n":"Shiny Turtwig","t":"T4"},{"n":"Grotle","t":"T4"},{"n":"Shiny Grotle","t":"T3"},{"n":"Torterra","t":"T1"},{"n":"Shiny Torterra","t":"Super Rare"},{"n":"Chimchar","t":"T6"},{"n":"Shiny Chimchar","t":"T4"},{"n":"Monferno","t":"T4"},{"n":"Shiny Monferno","t":"T3"},{"n":"Infernape","t":"T1"},{"n":"Shiny Infernape","t":"Super Rare"},{"n":"Shinx","t":"?"},{"n":"Shiny Shinx","t":"?"},{"n":"Luxio","t":"?"},{"n":"Shiny Luxio","t":"?"},{"n":"Luxray","t":"T1"},{"n":"Shiny Luxray","t":"Super Rare"},{"n":"Cranidos","t":"T4"},{"n":"Shiny Cranidos","t":"T3"},{"n":"Rampardos","t":"T1"},{"n":"Shiny Rampardos","t":"Ultra Rare"},{"n":"Pachirisu","t":"T2"},{"n":"Shiny Pachirisu","t":"Super Rare"},{"n":"Lopuny","t":"?"},{"n":"Shiny Lopuny","t":"?"},{"n":"Riolu","t":"T4"},{"n":"Shiny Riolu","t":"T3"},{"n":"Lucario","t":"T2"},{"n":"Shiny Lucario","t":"Legendary"},{"n":"Croagunk","t":"?"},{"n":"Shiny Croagunk","t":"?"},{"n":"Toxicroak","t":"T2"},{"n":"Shiny Toxicroak","t":"Super Rare"},{"n":"Abomasnow","t":"T2"},{"n":"Mega Abomasnow","t":"Legendary"},{"n":"Rhyperior","t":"T1"},{"n":"Shiny Rhyperior","t":"Legendary"},{"n":"Tangrowth","t":"T1"},{"n":"Shiny Tangrowth","t":"Super Rare"},{"n":"Leafeon","t":"T2"},{"n":"Shiny Leafeon","t":"Legendary"},{"n":"Glaceon","t":"T2"},{"n":"Shiny Glaceon","t":"Legendary"},{"n":"Gliscor","t":"T1"},{"n":"Shiny Gliscor","t":"Super Rare"},{"n":"Dusknoir","t":"T1"},{"n":"Shiny Dusknoir","t":"Super Rare"},{"n":"Audino","t":"T2"},{"n":"Scolipede","t":"T2"},{"n":"Mega Scolipede","t":"T2"},{"n":"Trubbish","t":"T6"},{"n":"Shiny Trubbish","t":"T4"},{"n":"Garbodor","t":"T1"},{"n":"Shiny Garbodor","t":"Legendary"},{"n":"Druddigon","t":"T2"},{"n":"Shiny Druddigon","t":"T1"},{"n":"Deino","t":"T5"},{"n":"Shiny Deino","t":"T5"},{"n":"Zweilous","t":"T2"},{"n":"Shiny Zweilous","t":"T2"},{"n":"Hydreigon","t":"T2"},{"n":"Shiny Hydreigon","t":"Super Rare"},{"n":"Flabébé","t":"T6"},{"n":"Shiny Flabébé","t":"T5"},{"n":"Floette","t":"T5"},{"n":"Shiny Floette","t":"T4"},{"n":"Florges","t":"T2"},{"n":"Shiny Florges","t":"Super Rare"},{"n":"Skiddo","t":"T4"},{"n":"Shiny Skiddo","t":"T3"},{"n":"Gogoat","t":"T1"},{"n":"Shiny Gogoat","t":"Super Rare"},{"n":"Dragalge","t":"T2"},{"n":"Mega Dragalge","t":"T2"},{"n":"Sylveon","t":"T2"},{"n":"Shiny Sylveon","t":"Legendary"},{"n":"Mimikyu","t":"T2"},{"n":"Shiny Mimikyu","t":"Super Rare"}];
+
+const TIER_INFO = {
+  'T1': { cls: 'tier-t1', desc: 'Tier 1 · O melhor nível de um Pokémon não-broken' },
+  'T2': { cls: 'tier-t2', desc: 'Tier 2 · Muito bom, forte em batalha' },
+  'T3': { cls: 'tier-t3', desc: 'Tier 3 · Bom, utilizável' },
+  'T4': { cls: 'tier-t4', desc: 'Tier 4 · Mediano' },
+  'T5': { cls: 'tier-t5', desc: 'Tier 5 · Fraco' },
+  'T6': { cls: 'tier-t6', desc: 'Tier 6 · Muito fraco' },
+  'T7': { cls: 'tier-t7', desc: 'Tier 7 · O mais fraco' },
+  'Super Rare': { cls: 'tier-super', desc: 'Super Rare · Raridade elevada, destaque' },
+  'Ultra Rare': { cls: 'tier-ultra', desc: 'Ultra Rare · Raridade muito elevada' },
+  'Legendary': { cls: 'tier-legendary', desc: 'Legendary · Pokémon lendário' },
+  'Mythic': { cls: 'tier-mythic', desc: 'Mythic · Pokémon mítico' },
+  '?': { cls: 'tier-unknown', desc: 'Tier desconhecido' }
+};
+
+const tierCls = (t) => (TIER_INFO[t] || TIER_INFO['?']).cls;
+const tierDesc = (t) => (TIER_INFO[t] || TIER_INFO['?']).desc;
+
+const normalize = (s) => s.trim().toLowerCase();
+
+const searchBtn = document.getElementById('btn-search');
+const searchInput = document.getElementById('search');
+const resultCard = document.getElementById('result-card');
+const resultName = document.getElementById('result-name');
+const resultSub = document.getElementById('result-sub');
+const resultTier = document.getElementById('result-tier');
+const resultDesc = document.getElementById('result-desc');
+const datalist = document.getElementById('pkm-datalist');
+const listSearch = document.getElementById('list-search');
+const tierFilter = document.getElementById('tier-filter');
+const pkmList = document.getElementById('pkm-list');
+const listCount = document.getElementById('list-count');
+
+TIER_DATA.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p.n;
+  datalist.appendChild(opt);
+});
+
+function showResult(p) {
+  resultName.textContent = p.n;
+  const shiny = /^shiny /i.test(p.n);
+  resultSub.textContent = shiny ? 'Pokémon Shiny' : 'Pokémon';
+  resultTier.textContent = p.t;
+  resultTier.className = 'tier-badge ' + tierCls(p.t);
+  resultDesc.textContent = tierDesc(p.t);
+  resultCard.classList.add('show');
+  resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function findByName(q) {
+  q = normalize(q);
+  if (!q) return null;
+  return TIER_DATA.find(p => normalize(p.n) === q) ||
+         TIER_DATA.find(p => normalize(p.n).includes(q));
+}
+
+function doSearch() {
+  const q = searchInput.value;
+  const p = findByName(q);
+  if (p) {
+    showResult(p);
+  } else {
+    resultCard.classList.remove('show');
+    alert('Pokémon não encontrado na tier list. Verifique o nome (ex: "Shiny Charizard").');
+  }
+}
+
+searchBtn.addEventListener('click', doSearch);
+searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
+
+let lastListQ = '';
+let lastTier = '';
+
+function renderList() {
+  const q = normalize(listSearch.value);
+  const tf = tierFilter.value;
+  const filtered = TIER_DATA.filter(p =>
+    (!q || normalize(p.n).includes(q)) &&
+    (!tf || p.t === tf)
+  );
+  pkmList.innerHTML = '';
+  listCount.textContent = filtered.length + ' Pokémon';
+  if (filtered.length === 0) {
+    const div = document.createElement('div');
+    div.className = 'empty-msg';
+    div.textContent = 'Nenhum Pokémon encontrado com esse filtro.';
+    pkmList.appendChild(div);
+    return;
+  }
+  filtered.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'pkm-item';
+    const name = document.createElement('span');
+    name.className = 'name';
+    name.textContent = p.n;
+    const badge = document.createElement('span');
+    badge.className = 'badge ' + tierCls(p.t);
+    badge.textContent = p.t;
+    item.appendChild(name);
+    item.appendChild(badge);
+    item.title = p.n + ' · Tier ' + p.t;
+    item.addEventListener('click', () => { searchInput.value = p.n; showResult(p); });
+    pkmList.appendChild(item);
+  });
+}
+
+listSearch.addEventListener('input', renderList);
+tierFilter.addEventListener('change', renderList);
+
+renderList();
+</script>
+
+</body>
+</html>

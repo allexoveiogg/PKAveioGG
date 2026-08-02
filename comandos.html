@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comandos - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 0 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .cmd-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cmd-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 203, 5, 0.12);
+  }
+
+  .cmd-card .cmd-head {
+    background: #ffcb05;
+    color: #1a2133;
+    padding: 13px 16px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cmd-card .cmd-body { padding: 16px; flex: 1; }
+
+  .key {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: #0f1420;
+    border: 2px solid #2c3a5e;
+    color: #ffcb05;
+    font-weight: 800;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .cmd-card .desc { color: #9fb0d6; font-size: 0.9rem; }
+
+  .cmd-list { list-style: none; }
+
+  .cmd-list li {
+    padding: 9px 0 9px 22px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .cmd-list li:last-child { border-bottom: none; }
+
+  .cmd-list li::before {
+    content: '»';
+    position: absolute;
+    left: 2px;
+    color: #ffcb05;
+  }
+
+  .cmd-list code {
+    display: inline-block;
+    background: #0f1420;
+    border: 1px solid #2c3a5e;
+    border-radius: 6px;
+    padding: 2px 8px;
+    color: #ffcb05;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  .cmd-list .cmd-desc { color: #9fb0d6; font-size: 0.85rem; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .cmd-grid { grid-template-columns: 1fr; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html" class="active">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Comandos</h1>
+  <p>Atalhos e comandos do servidor</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">Atalhos e Comandos</h2>
+
+  <div class="cmd-grid" id="cmd-grid"></div>
+
+</div>
+
+<div class="footer">
+  Comandos · Guia do servidor
+</div>
+
+<script>
+const ITEMS = [
+  { type: 'single', title: 'Abrir Mapa Full 🗺️', key: 'CONTROL + TAB' },
+  { type: 'single', title: 'Classic View 🖥️', key: 'CONTROL + .' },
+  { type: 'single', title: 'Poke Stop 🚏', key: '!pokestop' },
+  { type: 'single', title: 'Abrir Seu Banco 🪙', key: 'CONTROL + T' },
+  { type: 'single', title: 'Subir ou Descer com Fly 🪽', key: '!up e !down' },
+  { type: 'single', title: 'Como Teleportar 🪄', key: 'h city / h house / h house, nome' },
+  { type: 'single', title: 'Reverter Ditto', key: '!revert' },
+  { type: 'single', title: 'Full Attack ⚔️', key: '!offensive' },
+  { type: 'single', title: 'Full Def 🛡️', key: '!defensive' },
+  {
+    type: 'group', title: 'Comandos House 🏘️',
+    items: [
+      ['!invite', 'Invita um novo membro a casa'],
+      ['!door', 'Habilita o fechamento e abertura de portas'],
+      ['!viceowner', 'Libera todos os recursos da casa'],
+      ['!buyhouse', 'Compra casa'],
+      ['!leavehouse', 'Abandona a casa'],
+      ['!houseinfo', 'Descobre a data de pagamento do aluguel'],
+      ['!sellhouse "nick', 'Vende a casa para outro jogador']
+    ]
+  },
+  {
+    type: 'group', title: 'Brokes 🗒️',
+    items: [
+      ['!pokeball "nick poke', 'Mostra as brokes no chat']
+    ]
+  },
+  {
+    type: 'group', title: 'Servidor 💻',
+    items: [
+      ['!uptime', 'Mostra por quanto tempo o servidor está online'],
+      ['!buffs', 'Mostra os buffs ativos para o jogador no momento']
+    ]
+  }
+];
+
+const grid = document.getElementById('cmd-grid');
+
+ITEMS.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'cmd-card';
+
+  const head = document.createElement('div');
+  head.className = 'cmd-head';
+  head.textContent = item.title;
+  card.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'cmd-body';
+
+  if (item.type === 'single') {
+    const key = document.createElement('span');
+    key.className = 'key';
+    key.textContent = item.key;
+    body.appendChild(key);
+  } else {
+    const list = document.createElement('ul');
+    list.className = 'cmd-list';
+    item.items.forEach(([cmd, desc]) => {
+      const li = document.createElement('li');
+      const code = document.createElement('code');
+      code.textContent = cmd;
+      const span = document.createElement('span');
+      span.className = 'cmd-desc';
+      span.textContent = desc;
+      li.appendChild(code);
+      li.appendChild(span);
+      list.appendChild(li);
+    });
+    body.appendChild(list);
+  }
+
+  card.appendChild(body);
+  grid.appendChild(card);
+});
+</script>
+
+</body>
+</html>

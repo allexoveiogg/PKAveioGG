@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equipe Rocket - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .info-box {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+  }
+
+  .info-box ul { list-style: none; }
+
+  .info-box li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .info-box li:last-child { border-bottom: none; }
+
+  .info-box li::before {
+    content: '►';
+    position: absolute;
+    left: 2px;
+    color: #ffcb05;
+    font-size: 0.85rem;
+    top: 8px;
+  }
+
+  .info-box strong { color: #ffcb05; }
+  .info-box a { color: #7fb3ff; text-decoration: none; }
+  .info-box a:hover { text-decoration: underline; }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 40px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .leader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .leader-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .leader-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 203, 5, 0.12);
+  }
+
+  .leader-card .leader-name {
+    background: #ffcb05;
+    color: #1a2133;
+    padding: 13px 16px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .leader-table { width: 100%; border-collapse: collapse; }
+
+  .leader-table th {
+    background: #161d2f;
+    color: #9fb0d6;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2c3a5e;
+  }
+
+  .leader-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #1e2940;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .leader-table tr:last-child td { border-bottom: none; }
+  .leader-table tr:nth-child(even) td { background: #161d2f; }
+  .leader-table tr:hover td { background: #1e2940; }
+
+  .pkm {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #2a4a9f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pkm.shiny {
+    background: linear-gradient(90deg, #ffcb05, #ff9d00);
+    color: #1a2133;
+  }
+
+  .pkm.shiny::before { content: '✦ '; }
+
+  .vs-col { color: #5c6a8c; font-size: 0.8rem; width: 30px; }
+
+  .giovanni-card {
+    background: linear-gradient(160deg, #2a1a1a 0%, #1a2133 100%);
+    border: 2px solid #ff4500;
+  }
+
+  .giovanni-card .leader-name {
+    background: linear-gradient(90deg, #ff4500, #ffcb05);
+    color: #1a2133;
+  }
+
+  .note-line {
+    text-align: center;
+    padding: 10px;
+    background: #141a2a;
+    border-top: 1px solid #2c3a5e;
+    font-size: 0.85rem;
+    color: #9fb0d6;
+  }
+
+  .note-line strong { color: #ffcb05; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  .footer a { color: #7fb3ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .leader-grid { grid-template-columns: 1fr; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html" class="active">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Equipe Rocket</h1>
+  <p>Guia de batalhas contra os membros e o Giovanni</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <ul>
+      <li>Os Pokémons da <strong>esquerda</strong> são os do NPC. Os da <strong>direita</strong> são os recomendados.</li>
+      <li>Localização: <a href="https://imgur.com/a/p3eK6yV" target="_blank">imgur.com/a/p3eK6yV</a></li>
+      <li>Para batalhar com o <strong>Giovanni</strong>, é necessário ter ganhado <strong>130 batalhas</strong> contra os demais membros da equipe Rocket.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Membros da Equipe</h2>
+  <div class="leader-grid" id="grid-membros"></div>
+
+  <h2 class="section-title">Membros Avançados</h2>
+  <div class="leader-grid" id="grid-avancados"></div>
+
+  <h2 class="section-title">Giovanni</h2>
+  <div class="leader-grid" id="grid-giovanni"></div>
+
+</div>
+
+<div class="footer">
+  Equipe Rocket · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+</div>
+
+<script>
+const LEADERS = [
+  { name: 'Shadow', group: 'membros', npc: [['Feraligatr', 'sh Raichu'], ['Shiny Gengar', 'sh Sandslash'], ['Alakazam', 'Scizor'], ['Shiny Crobat', 'sh Golem'], ['Muk', 'sh Marowak'], ['Houndoom', 'sh Starmie']] },
+  { name: 'Frost', group: 'membros', npc: [['Misdreavus', 'sh Persian'], ['Magcargo', 'sh Starmie'], ['Hypno', 'Scizor'], ['Gligar', 'sh Jynx'], ['Houndour', 'sh Hitmontop'], ['Murkrow', 'sh Golem']] },
+  { name: 'Thorn', group: 'membros', npc: [['Shiny Arbok', 'sh Sandslash'], ['Shiny Golbat', 'sh Golem'], ['Shiny Hypno', 'Scizor'], ['Shiny Haunter', 'sh Persian'], ['Shiny Murkrow', 'sh Jynx'], ['Houndoom', 'sh Starmie']] },
+  { name: 'Cipher', group: 'membros', npc: [['Feraligatr', 'sh Raichu'], ['Shiny Persian', 'sh Hitmontop'], ['Venusaur', 'sh Pidgeot'], ['Electabuzz', 'sh Sandslash'], ['Typhlosion', 'sh Starmie'], ['Meganium', 'sh Arcanine']] },
+  { name: 'Phoenix', group: 'membros', npc: [['Charizard', 'sh Golem'], ['Shiny Blastoise', 'sh Venusaur'], ['Venusaur', 'sh Pidgeot'], ['Shiny Electrode', 'sh Sandslash'], ['Shiny Magneton', 'sh Arcanine'], ['Blastoise', 'sh Raichu']] },
+  { name: 'Scythe', group: 'membros', npc: [['Scyther', 'sh Arcanine'], ['Shiny Ampharos', 'sh Golem'], ['Shiny Raichu', 'sh Sandslash'], ['Nidoqueen', 'sh Jynx'], ['Arcanine', 'sh Starmie'], ['Shiny Houndoom', 'sh Hitmontop']] },
+  { name: 'Mirage', group: 'membros', npc: [['Charizard', 'sh Golem'], ['Shiny Charizard', 'sh Starmie'], ['Venusaur', 'sh Pidgeot'], ['Shiny Venusaur', 'sh Arcanine'], ['Blastoise', 'sh Venusaur'], ['Shiny Blastoise', 'sh Raichu']] },
+  { name: 'Zephyr', group: 'membros', npc: [['Typhlosion', 'sh Golem'], ['Shiny Typhlosion', 'sh Starmie'], ['Meganium', 'sh Pidgeot'], ['Shiny Meganium', 'sh Arcanine'], ['Feraligatr', 'sh Venusaur'], ['Shiny Feraligatr', 'sh Raichu']] },
+  { name: 'Obsidian', group: 'avancados', npc: [['Shiny Gyarados', 'sh Raichu'], ['Shiny Persian', 'sh Hitmontop'], ['Shiny Machamp', 'sh Pidgeot'], ['Shiny Kingdra', 'sh Clefable'], ['Shiny Pidgeot', 'sh Golem'], ['Shiny Scizor', 'sh Arcanine']] },
+  { name: 'Vortex', group: 'avancados', npc: [['Shiny Ninetales', 'sh Starmie'], ['Shiny Magneton', 'sh Arcanine'], ['Shiny Kabutops', 'sh Venusaur'], ['Shiny Omastar', 'sh Raichu'], ['Shiny Pidgeot', 'sh Golem'], ['Shiny Ampharos', 'sh Sandslash']] },
+  { name: 'Tempest', group: 'avancados', npc: [['Shiny Magmar', 'sh Starmie'], ['Shiny Snorlax', 'sh Hitmontop'], ['Shiny Mime', 'Scizor'], ['Shiny Pupitar', 'sh Venusaur'], ['Shiny Umbreon', 'sh Clefable'], ['Shiny Misdreavus', 'sh Persian']] },
+  { name: 'Eclipse', group: 'avancados', npc: [['Shiny Dragonair', 'sh Clefable'], ['Shiny Arcanine', 'sh Starmie'], ['Shiny Espeon', 'sh Persian'], ['Shiny Pinsir', 'sh Pidgeot'], ['Shiny Tauros', 'sh Hitmontop'], ['Shiny Skarmory', 'sh Arcanine']] },
+  { name: 'Giovanni', group: 'giovanni', giova: true, npc: [['Shiny Nidoqueen', 'sh Sandslash'], ['Shiny Persian', 'Machamp'], ['Shiny Rhydon', 'sh Venusaur'], ['Shiny Nidoking', 'sh Jynx'], ['Shiny Kangaskhan', 'sh Hitmontop'], ['Shiny Dugtrio', 'Gyarados']] }
+];
+
+const isShiny = (s) => /^sh|^shiny/i.test(s.trim());
+const displayName = (s) => s.trim().replace(/^sh\s+/i, '').replace(/^shiny\s+/i, '');
+
+function buildCard(leader) {
+  const card = document.createElement('div');
+  card.className = 'leader-card' + (leader.giova ? ' giovanni-card' : '');
+
+  const name = document.createElement('div');
+  name.className = 'leader-name';
+  name.textContent = leader.name;
+  card.appendChild(name);
+
+  const table = document.createElement('table');
+  table.className = 'leader-table';
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  ['NPC', '', 'Recomendado'].forEach(txt => {
+    const th = document.createElement('th');
+    th.textContent = txt;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  leader.npc.forEach(([npc, counter]) => {
+    const tr = document.createElement('tr');
+
+    const tdNpc = document.createElement('td');
+    const spanNpc = document.createElement('span');
+    spanNpc.className = 'pkm' + (isShiny(npc) ? ' shiny' : '');
+    spanNpc.textContent = displayName(npc);
+    tdNpc.appendChild(spanNpc);
+
+    const tdVs = document.createElement('td');
+    tdVs.className = 'vs-col';
+    tdVs.textContent = 'vs';
+
+    const tdCounter = document.createElement('td');
+    const spanCounter = document.createElement('span');
+    spanCounter.className = 'pkm' + (isShiny(counter) ? ' shiny' : '');
+    spanCounter.textContent = displayName(counter);
+    tdCounter.appendChild(spanCounter);
+
+    tr.appendChild(tdNpc);
+    tr.appendChild(tdVs);
+    tr.appendChild(tdCounter);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  card.appendChild(table);
+
+  return card;
+}
+
+function mount(gridId, group) {
+  const grid = document.getElementById(gridId);
+  LEADERS.filter(l => l.group === group).forEach(l => grid.appendChild(buildCard(l)));
+}
+
+mount('grid-membros', 'membros');
+mount('grid-avancados', 'avancados');
+mount('grid-giovanni', 'giovanni');
+</script>
+
+</body>
+</html>

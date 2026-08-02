@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polícia Pokémon - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .info-box {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+  }
+
+  .info-box ul { list-style: none; }
+
+  .info-box li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .info-box li:last-child { border-bottom: none; }
+
+  .info-box li::before {
+    content: '►';
+    position: absolute;
+    left: 2px;
+    color: #ffcb05;
+    font-size: 0.85rem;
+    top: 8px;
+  }
+
+  .info-box strong { color: #ffcb05; }
+  .info-box a { color: #7fb3ff; text-decoration: none; }
+  .info-box a:hover { text-decoration: underline; }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 40px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .leader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .leader-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .leader-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 203, 5, 0.12);
+  }
+
+  .leader-card .leader-name {
+    background: #2a4a9f;
+    color: #fff;
+    padding: 13px 16px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .leader-table { width: 100%; border-collapse: collapse; }
+
+  .leader-table th {
+    background: #161d2f;
+    color: #9fb0d6;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2c3a5e;
+  }
+
+  .leader-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #1e2940;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .leader-table tr:last-child td { border-bottom: none; }
+  .leader-table tr:nth-child(even) td { background: #161d2f; }
+  .leader-table tr:hover td { background: #1e2940; }
+
+  .pkm {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #2a4a9f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pkm.shiny {
+    background: linear-gradient(90deg, #ffcb05, #ff9d00);
+    color: #1a2133;
+  }
+
+  .pkm.shiny::before { content: '✦ '; }
+
+  .vs-col { color: #5c6a8c; font-size: 0.8rem; width: 30px; }
+
+  .type-chip {
+    display: inline-block;
+    margin: 2px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #2c3a5e;
+    color: #cfe0ff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  .footer a { color: #7fb3ff; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .leader-grid { grid-template-columns: 1fr; }
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html" class="active">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Polícia</h1>
+  <p>Guia de batalhas contra os oficiais da polícia</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <ul>
+      <li>Os Pokémons da <strong>esquerda</strong> são os do NPC. Os da <strong>direita</strong> são os tipos recomendados.</li>
+      <li>Precisa ter ganhado a batalha com o <strong>Giovanni</strong> pra iniciar.</li>
+      <li>Localização: <a href="https://imgur.com/a/Fbmmqeh" target="_blank">imgur.com/a/Fbmmqeh</a></li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Oficiais</h2>
+  <div class="leader-grid" id="officer-grid"></div>
+
+</div>
+
+<div class="footer">
+  Polícia · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+</div>
+
+<script>
+const OFFICERS = [
+  { name: 'Officer Blaze', npc: [['sh Charizard', 'Rock'], ['sh Magmar', 'Water/Ground'], ['sh Flareon', 'Water/Ground'], ['sh Typhlosion', 'Water/Ground'], ['sh Ninetales', 'Water/Ground'], ['sh Arcanine', 'Water/Ground']] },
+  { name: 'Officer Marina', npc: [['sh Feraligator', 'Grass/Electric'], ['sh Lapras', 'Grass/Electric'], ['sh Gyarados', 'Grass/Electric'], ['sh Vaporeon', 'Grass/Electric'], ['sh Starmie', 'Grass/Electric'], ['sh Blastoise', 'Grass/Electric']] },
+  { name: 'Sergeant Volt', npc: [['sh Magneton', 'Fire/Fight'], ['sh Ampharos', 'Ground'], ['sh Lanturn', 'Grass'], ['sh Electabuzz', 'Ground'], ['sh Raichu', 'Ground'], ['sh Jolteon', 'Ground']] },
+  { name: 'Captain Verdant', npc: [['sh Meganium', 'Fire/Fly/Ice'], ['sh Vileplume', 'Fire/Fly/Ice'], ['sh Venusaur', 'Fire/Fly/Ice'], ['sh Exeggutor', 'Bug/Fire/Fly'], ['sh Victreebel', 'Fire/Fly/Ice'], ['sh Jumpluff', 'Ice/Fire/Rock']] },
+  { name: 'Inspector Frost', npc: [['sh Piloswine', 'Fire/Fight'], ['sh Cloyster', 'Electric/Fight'], ['sh Jynx', 'Fire/Steel'], ['sh Lapras', 'Electric/Fight'], ['sh Dewgong', 'Electric/Fight'], ['sh Sneasel', 'Fight']] },
+  { name: 'Commander Mind', npc: [['sh Starmie', 'Grass/Electric'], ['sh Alakazam', 'Bug/Ghost/Dark'], ['sh Espeon', 'Bug/Ghost/Dark'], ['sh Exeggutor', 'Bug/Fire/Fly'], ['sh Mr. Mime', 'Ghost/Steel'], ['sh Xatu', 'Electric/Ghost']] },
+  { name: 'Warden Shade', npc: [['Houndoom', 'Fight/Water/Grd/Rock'], ['sh Sneasel', 'Fight'], ['Tyranitar', 'Fight'], ['sh Houndoom', 'Fight/Water/Grd/Rock'], ['sh Tyranitar', 'Fight'], ['sh Umbreon', 'Fight/Bug/Fairy']] },
+  { name: 'Lieutenant Alloy', npc: [['sh Scizor', 'Fire'], ['sh Magneton', 'Fire/Fight'], ['sh Skarmory', 'Fire/Electric'], ['sh Steelix', 'Fire/Fight/Water'], ['sh Forretress', 'Fire'], ['Scizor', 'Fire']] },
+  { name: 'Marshal Boulder', npc: [['sh Omastar', 'Grass'], ['sh Golem', 'Water/Grass'], ['sh Tyranitar', 'Fight'], ['sh Sudowoodo', 'Fight/Water'], ['sh Kabutops', 'Grass'], ['sh Rhydon', 'Grass/Fight/Water']] },
+  { name: 'Detective Terra', npc: [['sh Nidoqueen', 'Water/Grd/Ice'], ['sh Nidoking', 'Water/Grd/Ice'], ['sh Marowak', 'Water/Grass/Ice'], ['sh Sandslash', 'Water/Grass/Ice'], ['sh Donphan', 'Water/Grass/Ice'], ['sh Dugtrio', 'Water/Grass/Ice']] },
+  { name: 'Chief Toxin', npc: [['sh Weezing', 'Ground/Psychic'], ['sh Muk', 'Ground/Psychic'], ['sh Nidoking', 'Water/Grd/Ice'], ['sh Crobat', 'Electric/Psy/Rock/Ice'], ['sh Toxicroak', 'Psychic/Fly/Grd'], ['sh Vileplume', 'Fire/Fight/Psy/Ice']] },
+  { name: 'Ranger Strike', npc: [['sh Primeape', 'Fly/Psy'], ['sh Machamp', 'Fly/Psy'], ['sh Heracross', 'Fly/Psy/Fire'], ['sh Hitmonchan', 'Fly/Psy'], ['sh Poliwrath', 'Fly/Psy/Electric'], ['sh Hitmonlee', 'Fly/Psy']] },
+  { name: 'Captain Chitin', npc: [['sh Forretress', 'Fire'], ['sh Ariados', 'Fire/Fly/Psy/Rock'], ['sh Scyther', 'Rock'], ['sh Scizor', 'Fire'], ['sh Pinsir', 'Fire/Fly/Rock'], ['sh Heracross', 'Fly/Psy/Fire']] }
+];
+
+const isShiny = (s) => /^sh|^shiny/i.test(s.trim());
+const displayName = (s) => s.trim().replace(/^sh\s+/i, '').replace(/^shiny\s+/i, '');
+
+function buildCard(officer) {
+  const card = document.createElement('div');
+  card.className = 'leader-card';
+
+  const name = document.createElement('div');
+  name.className = 'leader-name';
+  name.textContent = officer.name;
+  card.appendChild(name);
+
+  const table = document.createElement('table');
+  table.className = 'leader-table';
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  ['NPC', '', 'Tipos Recomendados'].forEach(txt => {
+    const th = document.createElement('th');
+    th.textContent = txt;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  officer.npc.forEach(([npc, types]) => {
+    const tr = document.createElement('tr');
+
+    const tdNpc = document.createElement('td');
+    const spanNpc = document.createElement('span');
+    spanNpc.className = 'pkm' + (isShiny(npc) ? ' shiny' : '');
+    spanNpc.textContent = displayName(npc);
+    tdNpc.appendChild(spanNpc);
+
+    const tdVs = document.createElement('td');
+    tdVs.className = 'vs-col';
+    tdVs.textContent = 'vs';
+
+    const tdTypes = document.createElement('td');
+    types.split('/').forEach(type => {
+      const chip = document.createElement('span');
+      chip.className = 'type-chip';
+      chip.textContent = type;
+      tdTypes.appendChild(chip);
+    });
+
+    tr.appendChild(tdNpc);
+    tr.appendChild(tdVs);
+    tr.appendChild(tdTypes);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  card.appendChild(table);
+
+  return card;
+}
+
+const grid = document.getElementById('officer-grid');
+OFFICERS.forEach(o => grid.appendChild(buildCard(o)));
+</script>
+
+</body>
+</html>
