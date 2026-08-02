@@ -298,6 +298,32 @@
     .sub-tab:hover { color: #ffcb05; }
     .sub-tab.active { color: #ffcb05; border-bottom-color: #ffcb05; }
 
+    .elem-tier {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: #1a2133;
+      color: #ffcb05;
+      font-size: 0.72rem;
+      font-weight: 800;
+      border: 1px solid #2c3a5e;
+    }
+
+    .pc { font-size: 0.9rem; color: #c3cde2; margin-bottom: 10px; }
+    .pc:last-child { margin-bottom: 0; }
+
+    .pc .pc-lbl {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.72rem;
+      margin-bottom: 4px;
+    }
+
+    .pc.pros .pc-lbl { color: #3ddc84; }
+    .pc.cons .pc-lbl { color: #ff5d6c; }
+
     .footer {
       text-align: center;
       padding: 30px 20px;
@@ -342,6 +368,7 @@
   <div class="sub-nav-inner">
     <button class="sub-tab active" data-tab="tab-hunts">Rotações de Hunts</button>
     <button class="sub-tab" data-tab="tab-npcs">NPCs e Tasks</button>
+    <button class="sub-tab" data-tab="tab-elements">Rotações por Elemento</button>
   </div>
 </div>
 
@@ -403,6 +430,26 @@
     </div>
 
     <div id="npcs-container"></div>
+
+  </div>
+
+  <div id="tab-elements" class="tab-panel" style="display:none;">
+
+    <h2 class="section-title first">Rotações por Elemento</h2>
+
+    <div class="info-box">
+      <ul>
+        <li>Times sugeridos por <strong>elemento</strong> para montar suas rotações.</li>
+        <li>As sugestões de divisão de rotação são apenas um <strong>norte</strong>: o ideal é testar e ver o que funciona melhor para você.</li>
+        <li>No final você encontra as <strong>rotações incompletas</strong>.</li>
+      </ul>
+    </div>
+
+    <div id="elements-container"></div>
+
+    <h2 class="section-title">Rotações Incompletas</h2>
+
+    <div id="incomplete-container"></div>
 
   </div>
 
@@ -658,13 +705,212 @@ function buildNpc(npc) {
 const npcsContainer = document.getElementById('npcs-container');
 NPCS.forEach(n => npcsContainer.appendChild(buildNpc(n)));
 
+const ELEMENTS = [
+  {
+    name: 'DARK / GHOST',
+    initial: ['Mightyena 2 Stars (Offtank) - T2', 'Gengar - T2', 'Shiny Hitmonchan - T1', 'Shiny Persian 2 Stars (Offtank) - T2', 'Shiny Umbreon - T1', 'Dusknoir - T1'],
+    improve: ['Shiny Houndoom - SR', 'Shiny Hydregon - SR', 'Shiny Misdreavus - SR', 'Shiny Tauros - SR', 'Shiny Dusknoir - SR'],
+    pros: 'Time forte com muitos SR.',
+    cons: 'Offtanks ruins, normalmente caro.'
+  },
+  {
+    name: 'ELECTRIC',
+    initial: ['Luxray (Offtank) - T1', 'Pachirisu 2 Stars (Offtank) - T2', 'Shiny Raichu - T1', 'Electabuzz 2 Stars (Offtank) - T2', 'Shiny Ampharos - T1', 'Shiny Jolteon - T1'],
+    improve: ['Shiny Luxray (Offtank) - SR', 'Shiny Pachirisu (Offtank) - SR'],
+    pros: 'Time forte, bem balanceado e barato.',
+    cons: 'Hunts underwater.'
+  },
+  {
+    name: 'FAIRY',
+    initial: ['Mega Clefable (Offtank) - T1', 'Mimikyu 2 Stars (Offtank) - T2', 'Shiny Wigglytuff 2 Stars - T2', 'Shiny Granbull 2 Stars (Offtank) - T2', 'Sylveon 2 Stars (Offtank) - T2', 'Florges 2 Stars (Offtank) - T2'],
+    improve: ['Shiny Mimikyu (Offtank) - SR', 'Togetic T4 (bagulho é uma arma)', 'Shiny Florges (Offtank) - SR'],
+    pros: 'Muitos pokémons T2 sendo "acessível".',
+    cons: 'Nenhum muito relevante.'
+  },
+  {
+    name: 'FIGHTING',
+    initial: ['Shiny Hitmontop (Offtank) - T1', 'Shiny Hitmonlee - T1', 'Shiny Hitmonchan - T1', 'Shiny Poliwrath (Offtank) - T1', 'Shiny Heracross 2 Stars (Offtank) - T2', 'Shiny Ledian 3 Stars - T3'],
+    improve: ['Shiny Machamp (Offtank) - SR', 'Shiny Kangaskhan - SR', 'Shiny Hariyama (Offtank) - T1'],
+    pros: 'Time forte, bem balanceado e com muitas opções de hunt.',
+    cons: 'Stuns com área pequena e muitos attacks frontais, exige mais habilidade do player.'
+  },
+  {
+    name: 'FIRE',
+    initial: ['Arcanine 2 Stars (Offtank) - T2', 'Infernape - T1', 'Shiny Ninetales - T1', 'Shiny Rapidash (Offtank) - T1', 'Shiny Typhlosion (Offtank) - T1', 'Shiny Charizard - T1', 'Shiny Flareon - T1'],
+    improve: ['Shiny Infernape - SR', 'Shiny Arcanine (Offtank) - SR'],
+    pros: 'Hunts boas e muitas opções de pokémons pra encaixar na rotação.',
+    cons: 'Tende a ser caro mesmo que não haja demanda muito maior do que o normal.'
+  },
+  {
+    name: 'FLYING',
+    initial: ['Shiny Pidgeot (Offtank) - T1', "Shiny Farfetch'd - T1", 'Shiny Gliscor (Offtank) - SR', 'Shiny Mantine (Offtank) - T1', 'Shiny Dodrio - T1', 'Gliscor (Offtank) - T1'],
+    improve: ['Shiny Swellow - SR', 'Shiny Beautifly (Offtank) - T1 (s.geot com puxão)'],
+    pros: 'Time forte, bem balanceado, combos rápidos e em grande área exigindo pouca habilidade do jogador.',
+    cons: 'Caro e pouco acessível, muito provavelmente você terá que projetar seus próprios pokémons ou pagar caro por eles.'
+  },
+  {
+    name: 'GRASS',
+    initial: ['Tangrowth (Offtank) - T1', 'Gogoat (Offtank) - T1', 'Shiny Victrebell 3 Stars - T3', 'Shiny Tangela 2 Stars - T2', 'Shiny Venusaur (Offtank) - T1', 'Shiny Meganium (Offtank) - T1', 'Shiny Bellossom 3 Stars - T3', 'Shiny Exeguttor 2 Stars - T2'],
+    improve: ['Shiny Tangrowth (Offtank) - SR', 'Shiny Gogoat (Offtank) - SR', 'Tropius 2 Stars - T2'],
+    pros: 'Provavelmente o time mais forte e ao mesmo tempo o mais barato, o primeiro a fechar 2x2x2, pokémons t2 e t3 absurdamente fortes.',
+    cons: 'Por ser tão acessível e forte as melhores hunts são muito cheias, hunts underwater.'
+  },
+  {
+    name: 'GROUND',
+    initial: ['Shiny Steelix (Offtank) - T1', 'Torterra - T1', 'Shiny Piloswine 2 Stars - T2', 'Shiny Nidoqueen (Offtank) - T1', 'Shiny Rhydon 2 Stars (Offtank) - T2', 'Shiny Marowak - T1'],
+    improve: ['Shiny Torterra - SR', 'Shiny Pupitar - SR', 'Shiny Camerupt - T1', 'Shiny Whiscash - T1'],
+    pros: 'Time forte, bem balanceado, com muitas opções de hunt e que exige pouca habilidade do player.',
+    cons: 'Por ter muitos pontos positivos acaba sendo bem procurado o que encarece os pokémons.'
+  },
+  {
+    name: 'ICE',
+    initial: ['Shiny Lapras (Offtank) - T1', 'Shiny Jynx - T1', 'Abomasnow 2 Stars - T2', 'Glaceon 2 Stars (Offtank) - T2', 'Shiny Hitmonchan - T1', 'Shiny Smeargle Ice - T1 (cd SR)', 'Castform Snow - T2 Tem que testar', 'Shiny Castform Snow - T1 Tem que testar'],
+    improve: ['Shiny Walrein - SR'],
+    pros: 'Muitas hunts exclusivas inclusive 2 UR.',
+    cons: 'Não tem defesa a nada, difícil de montar. Compensa vc ter offtanks de outros elementos e usar os ice como burst damage.'
+  },
+  {
+    name: 'POISON',
+    initial: ['Shiny Muk (Offtank) - T1', 'Shiny Nidoking - T1', 'Shiny Qwilfish 3 Stars (Offtank) - T3', 'Swallot 2 Stars - T2', 'Shiny Tentacruel (Offtank) - T1', 'Shiny Arbok 3 Stars - T3', 'Toxicroak 2 Stars - T2'],
+    improve: ['Shiny Toxicroak - SR', 'Shiny Seviper - SR'],
+    pros: 'Time barato e razoavelmente fácil de conseguir.',
+    cons: 'Caça poucos elementos, melhor mesclar com outros elementos.'
+  },
+  {
+    name: 'PSYCH',
+    initial: ['Shiny Espeon (Offtank) - T1', 'Shiny Smeargle Psy - T1 (cd SR)', 'Shiny Wobbuffet - SR', 'Shiny Slowking (Offtank) - T1', 'Alakazam 2 Stars (Offtank) - T2', 'Shiny Mr. Mime - SR', 'Wobbuffet - T2 tem que testar'],
+    improve: [],
+    pros: 'Francamente não vejo nenhum por hora.',
+    cons: 'Tem poucas opções de pokémons e caça poucas hunts.'
+  },
+  {
+    name: 'ROCK',
+    initial: ['Rhyperior (Offtank) - T1', 'Shiny Golem - T1', 'Rampardos (Offtank) - T1', 'Shiny Lunatune - T1', 'Shiny Magcargo (Offtank) - T1', 'Shiny Miltank - T1', 'Tyranitar 2 Stars - T2', 'Shiny Solrock - T1'],
+    improve: ['Shiny Armaldo - SR'],
+    pros: 'Rotação forte de dano/def com excelentes offtanks, pokémons baratos pra estrelar, caça o próprio SR de hoenn.',
+    cons: 'Sem muitas opções de variação de pokémons.'
+  },
+  {
+    name: 'STEEL',
+    initial: ['Shiny Forretress 2 Stars (Offtank) - T2', 'Lucario 2 Stars - (Offtank) - T2', 'Magneton 3 Stars - T3', 'Shiny Metang (Offtank) - T1', 'Shiny Magneton 2 Stars - T2', 'Shiny Skarmory - SR'],
+    improve: ['Shiny Mawile - T1', 'Shiny Aggron - SR'],
+    pros: 'Pokémons com cd baixo.',
+    cons: 'Exige pokémons de hoenn que muito provavelmente você mesmo terá que projetar, melhor mesclar com outros elementos.'
+  },
+  {
+    name: 'WATER',
+    initial: ['Shiny Blastoise (Offtank) - T1', 'Shiny Vaporeon (Offtank) - T1', 'Milotic 2 Stars - T2', 'Shiny Feraligatr (Offtank) - T1', 'Shiny Politoed - T1', 'Shiny Starmie 2 Stars - T2'],
+    improve: ['Shiny Sharpedo - SR', 'Shiny Kingdra - SR'],
+    pros: 'Time forte, bem balanceado e barato.',
+    cons: ''
+  },
+  {
+    name: 'BUG (incompleta)',
+    note: 'Shiny Pinsir - SR, Shiny Scyther - SR, Scolipede - T2, Shiny Cacturne - T1'
+  },
+  {
+    name: 'DRAGON (incompleta)',
+    note: 'Loucura, nem inventa.'
+  }
+];
+
+function elementBadge(entry) {
+  const parts = String(entry).split(' - ');
+  const name = parts[0].trim();
+  const span = document.createElement('span');
+  span.className = 'pkm' + (/^shiny/i.test(name) ? ' shiny' : '');
+  span.textContent = name;
+  if (parts.length > 1) {
+    const tier = document.createElement('span');
+    tier.className = 'elem-tier';
+    tier.textContent = parts.slice(1).join(' - ').trim();
+    span.appendChild(tier);
+  }
+  return span;
+}
+
+function buildBadgeList(label, entries) {
+  const div = document.createElement('div');
+  div.className = 'rot';
+  const lbl = document.createElement('div');
+  lbl.className = 'lbl';
+  lbl.textContent = label;
+  div.appendChild(lbl);
+  entries.forEach(e => div.appendChild(elementBadge(e)));
+  return div;
+}
+
+function buildProsCons(el) {
+  const div = document.createElement('div');
+  div.className = 'rot';
+  if (el.pros) {
+    const p = document.createElement('div');
+    p.className = 'pc pros';
+    const l = document.createElement('div');
+    l.className = 'pc-lbl';
+    l.textContent = 'Prós';
+    p.appendChild(l);
+    p.appendChild(document.createTextNode(el.pros));
+    div.appendChild(p);
+  }
+  if (el.cons) {
+    const p = document.createElement('div');
+    p.className = 'pc cons';
+    const l = document.createElement('div');
+    l.className = 'pc-lbl';
+    l.textContent = 'Contras';
+    p.appendChild(l);
+    p.appendChild(document.createTextNode(el.cons));
+    div.appendChild(p);
+  }
+  return div;
+}
+
+function buildElement(el) {
+  const card = document.createElement('div');
+  card.className = 'hunt-card';
+
+  const name = document.createElement('div');
+  name.className = 'hunt-name';
+  name.textContent = el.name;
+  card.appendChild(name);
+
+  const body = document.createElement('div');
+  body.className = 'hunt-body';
+
+  if (el.note) {
+    const note = document.createElement('div');
+    note.className = 'obs';
+    note.textContent = el.note;
+    body.appendChild(note);
+  }
+
+  if (el.initial && el.initial.length) {
+    body.appendChild(buildBadgeList('Time inicial', el.initial));
+  }
+  if (el.improve && el.improve.length) {
+    body.appendChild(buildBadgeList('O que pode melhorar', el.improve));
+  }
+  if (el.pros || el.cons) {
+    body.appendChild(buildProsCons(el));
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
+const elementsContainer = document.getElementById('elements-container');
+ELEMENTS.filter(e => !/incompleta/i.test(e.name)).forEach(e => elementsContainer.appendChild(buildElement(e)));
+
+const incompleteContainer = document.getElementById('incomplete-container');
+ELEMENTS.filter(e => /incompleta/i.test(e.name)).forEach(e => incompleteContainer.appendChild(buildElement(e)));
+
 const subTabs = document.querySelectorAll('.sub-tab');
 subTabs.forEach(btn => {
   btn.addEventListener('click', () => {
     subTabs.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById('tab-hunts').style.display = 'none';
-    document.getElementById('tab-npcs').style.display = 'none';
+    document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
     document.getElementById(btn.dataset.tab).style.display = '';
   });
 });
