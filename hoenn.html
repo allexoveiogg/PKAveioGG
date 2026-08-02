@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Hoenn - Rotação de Hunts</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1420;
+    color: #e6ecf5;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #141a2a;
+    border-bottom: 1px solid #2c3a5e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9fb0d6;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #ffcb05; }
+  .nav a.active { color: #ffcb05; border-bottom-color: #ffcb05; }
+
+  .header {
+    background-color: #141a2a;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2a4a9f 0%, #141a2a 60%, #0f1420 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #ffcb05;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0 #2a4a9f, 0 0 20px rgba(255, 203, 5, 0.6);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #dbe7ff;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #9fb0d6;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .credit strong { color: #ffcb05; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #ffcb05;
+    margin: 40px 0 20px;
+    border-left: 6px solid #ffcb05;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title.first { margin-top: 0; }
+
+  .info-box {
+    background: #1a2133;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 18px;
+  }
+
+  .info-box ul { list-style: none; }
+
+  .info-box li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px dashed #2c3a5e;
+  }
+
+  .info-box li:last-child { border-bottom: none; }
+
+  .info-box li::before {
+    content: '►';
+    position: absolute;
+    left: 2px;
+    color: #ffcb05;
+    font-size: 0.85rem;
+    top: 8px;
+  }
+
+  .info-box strong { color: #ffcb05; }
+
+  .req-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .req-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .req-card.beneficio { border-color: #3ddc84; }
+  .req-card.normal { border-color: #4f8fff; }
+  .req-card.donater { border-color: #ff5edb; }
+
+  .req-card h4 {
+    color: #ffcb05;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .req-card p { color: #c3cde2; font-size: 0.95rem; }
+  .req-card p strong { color: #ffcb05; }
+
+  .hunt-card {
+    background: linear-gradient(160deg, #1a2133 0%, #141a2a 100%);
+    border: 1px solid #2c3a5e;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .hunt-card .hunt-name {
+    background: #ffcb05;
+    color: #1a2133;
+    padding: 14px 18px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hunt-body { padding: 18px; }
+
+  .rot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .rot {
+    background: #141a2a;
+    border: 1px solid #2c3a5e;
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .rot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+  }
+
+  .rot h5 {
+    color: #ffcb05;
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .rot h5 .size {
+    background: #2a4a9f;
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  .rot .row { margin-bottom: 10px; }
+
+  .rot .row:last-child { margin-bottom: 0; }
+
+  .rot .row .lbl {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #5c6a8c;
+    margin-bottom: 5px;
+    font-weight: 800;
+  }
+
+  .rot .row.lurer .lbl { color: #3ddc84; }
+  .rot .row.dps .lbl { color: #ff9d6b; }
+
+  .pkm {
+    display: inline-block;
+    margin: 3px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #2a4a9f;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pkm.shiny {
+    background: linear-gradient(90deg, #ffcb05, #ff9d00);
+    color: #1a2133;
+  }
+
+  .pkm.shiny::before { content: '✦ '; }
+
+  .rot .obs {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #161d2f;
+    border-left: 3px solid #ff5edb;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    color: #9fb0d6;
+    font-style: italic;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #7a86a3;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .rot-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="police.html">Polícia</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="hoenn.html" class="active">Guia Hoenn</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Guia Hoenn</h1>
+  <p>Rotações de hunts para conteúdos 350+</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title first">Sobre as Rotações</h2>
+
+  <div class="info-box">
+    <ul>
+      <li>Sempre irei colocar <strong>3 tipos de rotações</strong>: <strong>custo benefício</strong>, <strong>custo normal</strong> e <strong>custo donater</strong>.</li>
+      <li>Será adicionado apenas pokes que <strong>já foram capturados</strong> no jogo. Se está disponível pra compra ou não, não é problema meu.</li>
+      <li>As rotações foram criadas pra terem <strong>harmonia na hunt</strong>. Existem outras opções? Sim, você pode adaptar conforme o seu interesse. Esse guia é apenas um norte pra quem está "perdido" no que fazer pra começar os conteúdos <strong>350+</strong>.</li>
+      <li>Aqui você pode <strong>mesclar elementos</strong>, ou seja, você não fica preso a um elemento apenas, podendo usufruir de uma gama maior de pokes nas hunts, diferente dos demais poketibias.</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Helds e Boosts por Nível de Rotação</h2>
+
+  <div class="req-grid">
+    <div class="req-card beneficio">
+      <h4>Rot. Custo Benefício</h4>
+      <p>Pokes entre <strong>+15 e +20</strong> e <strong>atk 4</strong></p>
+    </div>
+    <div class="req-card normal">
+      <h4>Rot. Custo Normal</h4>
+      <p>Pokes entre <strong>+25 e +30</strong> e <strong>atk 5</strong></p>
+    </div>
+    <div class="req-card donater">
+      <h4>Rot. Custo Donater</h4>
+      <p>Pokes entre <strong>+30 e +70</strong> e <strong>atk 6 e 7</strong></p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <ul>
+      <li><strong>Custo benefício</strong>: você está entre o lvl <strong>350-410</strong> (vai passar fome aqui, é necessário ter os talentos feitos e usar <strong>prey de atk</strong>).</li>
+      <li><strong>Custo normal</strong>: você vai começar a caçar bem sendo <strong>lvl 410+</strong> utilizando <strong>prey de atk</strong> também. <strong>SEMPRE lure com os pokes de tier 1</strong> para ir diminuindo o cooldown, pois o cd dos t1 são bem maiores que os demais.</li>
+      <li><strong>Custo donater</strong>: você vai conseguir caçar super bem e não vai passar por dificuldades. O seu maior problema aqui vai ser o <strong>CD</strong> (vai ter que esperar o cd em algumas ocasiões).</li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">Rotações por Hunt</h2>
+
+  <div id="hunts-container"></div>
+
+</div>
+
+<div class="footer">
+  Guia Hoenn · Rotações de hunts
+</div>
+
+<script>
+const HUNTS = [
+  {
+    target: 'Mightyena e Absol',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Top', 'Sh Lee', 'Sh Poliwrath', 'Machamp normal', 'Sh Ledian', 'Sh Machamp'], lurer: ['Sh Top', 'Sh Poliwrath'], dps: ['Sh Lee', 'Machamp normal', 'Sh Ledian', 'Sh Machamp'] },
+      { label: 'Rotação Padrão', size: '(2x2)', pokes: ['Sh Top', 'Sh Machamp', 'Sh Scyther', 'Sh Pinsir', 'Sh Florges', 'Sh Kanga'], lurer: ['Sh Top', 'Sh Machamp', 'Sh Florges'], dps: ['Sh Scyther', 'Sh Pinsir', 'Sh Kanga'] },
+      { label: 'Rotação Dream', size: '(2x2)', pokes: ['Sh Machamp', 'Sh Florges', 'Sh Sylveon', 'Sh Scyther', 'Sh Gardevoir', 'Sh Blaziken'], lurer: ['Sh Machamp', 'Sh Florges', 'Sh Sylveon'], dps: ['Sh Scyther', 'Sh Gardevoir', 'Sh Blaziken'] }
+    ]
+  },
+  {
+    target: 'Sharpedo',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Ampharos', 'Sh Top', 'Sh Raichu', 'Sh Venu', 'Sh Lee', 'Sh Victreebel'], lurer: ['Sh Ampharos', 'Sh Top'], dps: ['Sh Raichu', 'Sh Venu', 'Sh Lee', 'Sh Victreebel'] },
+      { label: 'Rotação Padrão', size: '(2x2)', pokes: ['Sh Machamp', 'Sh Scyther', 'Sh Florges', 'Sh Pinsir', 'Sh Mimikyu', 'Sh Kanga'], lurer: ['Sh Machamp', 'Sh Scyther', 'Sh Florges'], dps: ['Sh Pinsir', 'Sh Mimikyu', 'Sh Kanga'] },
+      { label: 'Rotação Dream', size: '(2x2)', pokes: ['Sh Sylveon', 'Sh Machamp', 'Sh Gardevoir', 'Sh Blaziken', 'Sh Electabuzz', 'Sh Sceptile'], lurer: ['Sh Machamp', 'Sh Sceptile', 'Sh Sylveon'], dps: ['Sh Gardevoir', 'Sh Blaziken', 'Sh Electabuzz'] }
+    ]
+  },
+  {
+    target: 'Exploud',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Top', 'Sh Lee', 'Sh Poliwrath', 'Machamp normal', 'Sh Ledian', 'Sh Smeragle Lutador'], lurer: ['Sh Top', 'Sh Poliwrath'], dps: ['Sh Lee', 'Machamp normal', 'Sh Ledian', 'Sh Smeargle Lutador'] },
+      { label: 'Rotação Padrão', size: '', pokes: ['Sh Machamp', 'Sh Top', 'Sh Lee', 'Sh Poliwrath', 'Sh Smeargle Lutador', 'Sh Kangaskhan'], lurer: ['Sh Machamp', 'Sh Top', 'Sh Poliwrath'], dps: ['Sh Lee', 'Sh Kangaskhan', 'Sh Smeargle Lutador'] },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Machamp', 'Sh Blaziken', 'Sh Kangaskhan', 'Sh Lee', 'Sh Top', 'Sh Smeargle Lutador'], lurer: ['Sh Machamp', 'Sh Top', 'Sh Blaziken'], dps: ['Sh Lee', 'Sh Kangaskhan', 'Sh Smeargle Lutador'] }
+    ]
+  },
+  {
+    target: 'Glalie',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Typhlosion', 'Sh Zard', 'Sh Top', 'Sh Lee', 'Sh Smeargle Lutador', 'Sh Flareon'], lurer: ['Sh Typhlosion', 'Sh Top'], dps: ['Sh Zard', 'Sh Flareon', 'Sh Lee', 'Sh Smeargle Lutador'] },
+      { label: 'Rotação Padrão', size: '', pokes: ['Sh Arcanine', 'Sh Machamp', 'Sh Zard', 'Sh Typhlosion', 'Sh Top', 'Sh Skarmory'], lurer: ['Sh Arcanine (ou champ)', 'Sh Typhlosion', 'Sh Top'], dps: ['Sh Arcanine (ou champ)', 'Sh Zard', 'Sh Skarmory'] },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Magmar', 'Sh Scizor', 'Sh Machamp', 'Sh Arcanine', 'Sh Blaziken', 'Sh Metagoss'], lurer: ['Sh Metagross', 'Sh Arcanine', 'Sh Machamp'], dps: ['Sh Magmar', 'Sh Scizor', 'Sh Blaziken'], obs: 'Aqui depende muito de como você quer caçar.. colocando os SR/UR pra lurar é melhor devido ao cd superior que os legendarys..' }
+    ]
+  },
+  {
+    target: 'Metagros',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Typhlosion', 'Sh Zard', 'Sh Umbreon', 'Sh Wak', 'Sh Smeargle Fogo', 'Sh Smeargle Terra'], lurer: ['Sh Typhlosion', 'Sh Umbreon'], dps: ['Sh Zard', 'Sh Wak', 'Sh Smeargle Fogo', 'Sh Smeargle Terra'] },
+      { label: 'Rotação Normal', size: '(2x2)', pokes: ['Sh Arcanine', 'Sh Houndoom', 'Sh Misdreavus', 'Sh Pupitar', 'Sh Typhlosion', 'Sh Zard ou Wak'], lurer: ['Sh Typhlosion', 'Sh Houndoom', 'Sh Pupitar'], dps: ['Sh Arcanine', 'Sh Misdreavus', 'Sh Zard ou Wak'] },
+      { label: 'Rotação Dream', size: '(2x2)', pokes: ['Sh Magmar', 'Sh Absol', 'Sh Gengar', 'Sh Flygon', 'Sh Mightyena', 'Sh Torkoal'], lurer: ['Sh Magmar', 'Sh Absol', 'Sh Mightyena'], dps: ['Sh Gengar', 'Sh Flygon', 'Sh Torkoal'] }
+    ]
+  },
+  {
+    target: 'Sceptile',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '(3x3)', pokes: ['Sh Typhlosion', 'Sh Zard', 'Sh Geot', 'Sh Farf', 'Sh Jynx', 'Sh Lapras'], lurer: ['Sh Typhlosion', 'Sh Farf', 'Sh Geot'], dps: ['Sh Zard', 'Sh Lapras', 'Sh Jynx'] },
+      { label: 'Rotação Normal', size: '(2x2)', pokes: ['Sh Arcanine', 'Sh Scyther', 'Sh Pinsir', 'Sh Swellow', 'Sh Typhlosion', 'Sh Walrein'], lurer: ['Sh Arcanine', 'Sh Scyther', 'Sh Typhlosion'], dps: ['Sh Pinsir', 'Sh Swellow', 'Sh Walrein'], dpsNote: '(pode por um zard ou farf no lugar)' },
+      { label: 'Rotação Dream', size: '(2x2)', pokes: ['Sh Magmar', 'Sh Glalie', 'Sh Scyther', 'Sh Torkoal', 'Sh Pinsir', 'Sh Arca'], lurer: ['Sh Magmar', 'Sh Scyther', 'Sh Glalie'], dps: ['Sh Pinsir', 'Sh Torkoal', 'Sh Arca'] }
+    ]
+  },
+  {
+    target: 'Gardevoir',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '', pokes: ['Sh Muk', 'Sh Nidoking', 'Sh Magneton (2*)', 'Sh Tentacruel', 'Sh Smeargle Poison', 'Sh Smeargle Metal ou Sh Smeargle Ghost'], lurer: ['Sh Muk', 'Sh Magneton'], dps: ['Sh Nidoking', 'Sh Tentacruel', 'Sh Smeargle Poison', 'Sh Smeargle ou Sh Smeargle Ghost'] },
+      { label: 'Rotação Custo Normal', size: '', pokes: ['Sh Skarmory', 'Sh Aggron', 'Sh Misdreavus', 'Sh Muk', 'Sh Magneton', 'Sh Tentacruel'], lurer: ['Sh Muk', 'Sh Magneton', 'Sh Tentacruel'], dps: ['Sh Skarmory', 'Sh Aggron', 'Sh Misdreavus'] },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Scizor', 'Sh Gengar', 'Sh Skarmory', 'Sh Swalot', 'Sh Misdreavus', 'Sh Aggron'], lurer: ['Sh Scizor', 'Sh Gengar', 'Sh Swalot'], dps: ['Sh Skarmory', 'Sh Misdreavus', 'Sh Aggron'] }
+    ]
+  },
+  {
+    target: 'Torkoal',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '', pokes: ['Sh Starmie', 'Sh Blastoise', 'Sh Steelix', 'Sh Marowak', 'Sh Nidoqueen', 'Sh Politoed'], lurer: ['Sh Blastoise', 'Sh Nidoqueen'], dps: ['Sh Starmie', 'Sh Steelix', 'Sh Marowak', 'Sh Politoed'] },
+      { label: 'Rotação Custo Normal', size: '', pokes: ['Sh Pupitar', 'Sh Kingdra', 'Sh Sharpedo', 'Sh Marowak', 'Sh Blastoise', 'Sh Starmie'], lurer: ['Sh Pupitar', 'Sh Kingdra', 'Sh Blastoise'], dps: ['Sh Sharpedo', 'Sh Marowak', 'Sh Starmie'] },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Flygon', 'Sh Red Gya', 'Sh Pupitar', 'Sh Kingdra', 'Sh Sharpedo', 'Sh Milotic'], lurer: ['Sh Flygon', 'Sh Red Gya', 'Sh Pupitar'], dps: ['Sh Kingdra', 'Sh Sharpedo', 'Sh Milotic'] }
+    ]
+  },
+  {
+    target: 'Swellow',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '', pokes: ['Sh Raichu', 'Sh Ampharos', 'Sh Golem', 'Sh Magcargo', 'Sh Jynx', 'Sh Lapras'], lurer: ['Sh Ampharos', 'Sh Golem'], dps: ['Sh Raichu', 'Sh Magcargo', 'Sh Jynx', 'Sh Lapras'] },
+      { label: 'Rotação Custo Normal', size: '', pokes: ['Sh Walrein', 'Sh Raichu', 'Sh Ampharos', 'Sh Jynx', 'Sh Smeargle Eletrico', 'Sh Lapras'], lurer: ['Sh Ampharos', 'Sh Raichu', 'Sh Jynx'], dps: ['Sh Walrein', 'Sh Lapras', 'Sh Smeargle Eletrico'], dpsNote: '(opção pelo cd de UR)' },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Electabuzz', 'Sh Glalie', 'Sh Manectric', 'Sh Walrein', 'Sh Smeargle Raio', 'Sh Smeargle Gelo'], lurer: ['Sh Electabuzz', 'Sh Glalie', 'Sh Manectric'], dps: ['Sh Walrein', 'Sh Smeargle Raio', 'Sh Smeargle Gelo'] }
+    ]
+  },
+  {
+    target: 'Hariyama',
+    rotations: [
+      { label: 'Rotação Custo Benefício', size: '', pokes: ['Sh Espeon', 'Sh Geot', 'Sh Farf', 'Sh Dodrio', 'Sh Mantine', 'Sh Smeargle Fly'], lurer: ['Sh Espeon', 'Sh Mantine'], dps: ['Sh Geot', 'Sh Farf', 'Dodrio', 'Sh Smeargle Fly'] },
+      { label: 'Rotação Custo Normal', size: '', pokes: ['Sh Wobbu', 'Sh Mime', 'Sh Swellow', 'Sh Florges', 'Sh Mimikyu', 'Sh Espeon'], lurer: ['Sh Wobbu', 'Sh Florges', 'Sh Espeon'], dps: ['Sh Mime', 'Sh Swellow', 'Sh Mimikyu'] },
+      { label: 'Rotação Dream', size: '', pokes: ['Sh Alaka', 'Sh Sylveon', 'Sh Wobbu', 'Sh Voir', 'Sh Tropius', 'Sh Florges'], lurer: ['Sh Wobbu', 'Sh Sylveon', 'Sh Tropius'], dps: ['Sh Alaka', 'Sh Voir', 'Sh Florges'] }
+    ]
+  }
+];
+
+const isShiny = (s) => /^sh\s/i.test(s.trim());
+const displayName = (s) => s.trim().replace(/^sh\s+/i, '');
+
+function pkmBadge(name) {
+  const span = document.createElement('span');
+  span.className = 'pkm' + (isShiny(name) ? ' shiny' : '');
+  span.textContent = displayName(name);
+  return span;
+}
+
+function buildRotation(rot) {
+  const div = document.createElement('div');
+  div.className = 'rot';
+
+  const h5 = document.createElement('h5');
+  h5.textContent = rot.label;
+  if (rot.size) {
+    const size = document.createElement('span');
+    size.className = 'size';
+    size.textContent = rot.size;
+    h5.appendChild(size);
+  }
+  div.appendChild(h5);
+
+  const pokesRow = document.createElement('div');
+  pokesRow.className = 'row';
+  const pokesLbl = document.createElement('div');
+  pokesLbl.className = 'lbl';
+  pokesLbl.textContent = 'Pokémons';
+  pokesRow.appendChild(pokesLbl);
+  rot.pokes.forEach(p => pokesRow.appendChild(pkmBadge(p)));
+  div.appendChild(pokesRow);
+
+  const lurerRow = document.createElement('div');
+  lurerRow.className = 'row lurer';
+  const lurerLbl = document.createElement('div');
+  lurerLbl.className = 'lbl';
+  lurerLbl.textContent = 'Lurer';
+  lurerRow.appendChild(lurerLbl);
+  rot.lurer.forEach(p => lurerRow.appendChild(pkmBadge(p)));
+  div.appendChild(lurerRow);
+
+  const dpsRow = document.createElement('div');
+  dpsRow.className = 'row dps';
+  const dpsLbl = document.createElement('div');
+  dpsLbl.className = 'lbl';
+  dpsLbl.textContent = 'DPS';
+  dpsRow.appendChild(dpsLbl);
+  rot.dps.forEach(p => dpsRow.appendChild(pkmBadge(p)));
+  if (rot.dpsNote) {
+    const note = document.createElement('span');
+    note.className = 'pkm';
+    note.textContent = rot.dpsNote;
+    dpsRow.appendChild(note);
+  }
+  div.appendChild(dpsRow);
+
+  if (rot.obs) {
+    const obs = document.createElement('div');
+    obs.className = 'obs';
+    obs.textContent = 'Obs: ' + rot.obs;
+    div.appendChild(obs);
+  }
+
+  return div;
+}
+
+function buildHunt(hunt) {
+  const card = document.createElement('div');
+  card.className = 'hunt-card';
+
+  const name = document.createElement('div');
+  name.className = 'hunt-name';
+  name.textContent = 'Rotação para caçar ' + hunt.target;
+  card.appendChild(name);
+
+  const body = document.createElement('div');
+  body.className = 'hunt-body';
+  const grid = document.createElement('div');
+  grid.className = 'rot-grid';
+  hunt.rotations.forEach(r => grid.appendChild(buildRotation(r)));
+  body.appendChild(grid);
+  card.appendChild(body);
+
+  return card;
+}
+
+const container = document.getElementById('hunts-container');
+HUNTS.forEach(h => container.appendChild(buildHunt(h)));
+</script>
+
+</body>
+</html>
