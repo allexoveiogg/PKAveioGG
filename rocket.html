@@ -9,7 +9,7 @@
 
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1A1D24;
+    background: #0D131E;
     color: #E6EAF2;
     line-height: 1.6;
     min-height: 100vh;
@@ -17,8 +17,8 @@
   }
 
   .nav {
-    background: #2B3342;
-    border-bottom: 1px solid #3A4356;
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -35,7 +35,7 @@
   }
 
   .nav a {
-    color: #A6B0C4;
+    color: #9AA7C4;
     text-decoration: none;
     padding: 14px 18px;
     font-weight: 700;
@@ -44,25 +44,25 @@
     transition: color 0.2s, border-color 0.2s;
   }
 
-  .nav a:hover { color: #6CA7FF; }
-  .nav a.active { color: #7B61FF; border-bottom-color: #7B61FF; }
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
 
   .header {
-    background-color: #2B3342;
-    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #4C8DFF 0%, #2B3342 60%, #1A1D24 100%);
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
     background-size: cover, cover;
     background-position: center, center;
     padding: 60px 20px;
     text-align: center;
-    border-bottom: 4px solid #7B61FF;
+    border-bottom: 4px solid #6E5CE0;
     box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.7);
   }
 
   .header h1 {
     font-size: 2.4rem;
     letter-spacing: 2px;
-    color: #7B61FF;
-    text-shadow: 3px 3px 0 #4C8DFF, 0 0 20px rgba(123, 97, 255, 0.6);
+    color: #6E5CE0;
+    text-shadow: 3px 3px 0 #2A63E0, 0 0 20px rgba(110, 92, 224, 0.6);
     text-transform: uppercase;
   }
 
@@ -80,8 +80,8 @@
   }
 
   .info-box {
-    background: #2B3342;
-    border: 1px solid #3A4356;
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
     border-radius: 12px;
     padding: 20px 26px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
@@ -93,7 +93,7 @@
   .info-box li {
     padding: 8px 0 8px 28px;
     position: relative;
-    border-bottom: 1px dashed #3A4356;
+    border-bottom: 1px dashed #1E2A3D;
   }
 
   .info-box li:last-child { border-bottom: none; }
@@ -102,20 +102,20 @@
     content: '►';
     position: absolute;
     left: 2px;
-    color: #7B61FF;
+    color: #6E5CE0;
     font-size: 0.85rem;
     top: 8px;
   }
 
-  .info-box strong { color: #7B61FF; }
-  .info-box a { color: #6CA7FF; text-decoration: none; }
+  .info-box strong { color: #6E5CE0; }
+  .info-box a { color: #4E82F0; text-decoration: none; }
   .info-box a:hover { text-decoration: underline; }
 
   .section-title {
     font-size: 1.5rem;
-    color: #7B61FF;
+    color: #6E5CE0;
     margin: 40px 0 20px;
-    border-left: 6px solid #7B61FF;
+    border-left: 6px solid #6E5CE0;
     padding-left: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -128,8 +128,8 @@
   }
 
   .leader-card {
-    background: linear-gradient(160deg, #2B3342 0%, #2B3342 100%);
-    border: 1px solid #3A4356;
+    background: linear-gradient(160deg, #161E2A 0%, #161E2A 100%);
+    border: 1px solid #1E2A3D;
     border-radius: 14px;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -138,11 +138,11 @@
 
   .leader-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(123, 97, 255, 0.12);
+    box-shadow: 0 12px 30px rgba(110, 92, 224, 0.12);
   }
 
   .leader-card .leader-name {
-    background: #7B61FF;
+    background: #6E5CE0;
     color: #FFFFFF;
     padding: 13px 16px;
     font-size: 1.1rem;
@@ -155,70 +155,70 @@
   .leader-table { width: 100%; border-collapse: collapse; }
 
   .leader-table th {
-    background: #242B38;
-    color: #A6B0C4;
+    background: #121B2B;
+    color: #9AA7C4;
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     padding: 8px 12px;
-    border-bottom: 1px solid #3A4356;
+    border-bottom: 1px solid #1E2A3D;
   }
 
   .leader-table td {
     padding: 9px 12px;
-    border-bottom: 1px solid #2E3746;
+    border-bottom: 1px solid #1A2434;
     text-align: center;
     font-size: 0.9rem;
     font-weight: 600;
   }
 
   .leader-table tr:last-child td { border-bottom: none; }
-  .leader-table tr:nth-child(even) td { background: #242B38; }
-  .leader-table tr:hover td { background: #2E3746; }
+  .leader-table tr:nth-child(even) td { background: #121B2B; }
+  .leader-table tr:hover td { background: #1A2434; }
 
   .pkm {
     display: inline-block;
     padding: 3px 10px;
     border-radius: 999px;
-    background: #4C8DFF;
+    background: #2A63E0;
     font-size: 0.8rem;
     font-weight: 700;
     white-space: nowrap;
   }
 
   .pkm.shiny {
-    background: linear-gradient(90deg, #7B61FF, #4C8DFF);
+    background: linear-gradient(90deg, #6E5CE0, #2A63E0);
     color: #FFFFFF;
   }
 
   .pkm.shiny::before { content: '✦ '; }
 
-  .vs-col { color: #7A8499; font-size: 0.8rem; width: 30px; }
+  .vs-col { color: #7C88A6; font-size: 0.8rem; width: 30px; }
 
   .giovanni-card {
-    background: linear-gradient(160deg, #2a1a1a 0%, #2B3342 100%);
+    background: linear-gradient(160deg, #2a1a1a 0%, #161E2A 100%);
     border: 2px solid #FF6B6B;
   }
 
   .giovanni-card .leader-name {
-    background: linear-gradient(90deg, #FF6B6B, #7B61FF);
+    background: linear-gradient(90deg, #FF6B6B, #6E5CE0);
     color: #FFFFFF;
   }
 
   .note-line {
     text-align: center;
     padding: 10px;
-    background: #2B3342;
-    border-top: 1px solid #3A4356;
+    background: #161E2A;
+    border-top: 1px solid #1E2A3D;
     font-size: 0.85rem;
-    color: #A6B0C4;
+    color: #9AA7C4;
   }
 
-  .note-line strong { color: #7B61FF; }
+  .note-line strong { color: #6E5CE0; }
 
   .sub-nav {
-    background: #161A21;
-    border-bottom: 1px solid #3A4356;
+    background: #0A1018;
+    border-bottom: 1px solid #1E2A3D;
     position: sticky;
     top: 52px;
     z-index: 90;
@@ -235,7 +235,7 @@
   .sub-tab {
     background: none;
     border: none;
-    color: #A6B0C4;
+    color: #9AA7C4;
     padding: 12px 18px;
     font-weight: 700;
     cursor: pointer;
@@ -245,15 +245,15 @@
     transition: color 0.2s, border-color 0.2s;
   }
 
-  .sub-tab:hover { color: #6CA7FF; }
-  .sub-tab.active { color: #7B61FF; border-bottom-color: #7B61FF; }
+  .sub-tab:hover { color: #4E82F0; }
+  .sub-tab.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
 
   .type-chip {
     display: inline-block;
     margin: 2px;
     padding: 3px 10px;
     border-radius: 999px;
-    background: #3A4356;
+    background: #1E2A3D;
     color: #E6EAF2;
     font-size: 0.72rem;
     font-weight: 800;
@@ -261,13 +261,13 @@
     letter-spacing: 0.5px;
   }
 
-  .police-card { border-color: #4C8DFF; }
-  .police-card .leader-name { background: #4C8DFF; color: #fff; }
+  .police-card { border-color: #2A63E0; }
+  .police-card .leader-name { background: #2A63E0; color: #fff; }
 
     .footer {
       text-align: center;
       padding: 30px 20px;
-      color: #8B93A7;
+      color: #8490AC;
       font-size: 0.9rem;
     }
 
@@ -277,7 +277,7 @@
       opacity: 0.75;
     }
 
-  .footer a { color: #6CA7FF; text-decoration: none; }
+  .footer a { color: #4E82F0; text-decoration: none; }
   .footer a:hover { text-decoration: underline; }
 
   @media (max-width: 600px) {
@@ -288,11 +288,11 @@
   .credit {
     margin-top: 14px;
     font-size: 0.95rem;
-    color: #A6B0C4;
+    color: #9AA7C4;
     text-shadow: 1px 1px 2px #000;
   }
 
-  .credit strong { color: #7B61FF; }
+  .credit strong { color: #6E5CE0; }
 </style>
 </head>
 <body>
