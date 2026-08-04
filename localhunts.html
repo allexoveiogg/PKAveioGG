@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Hunts - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+  .credit strong { color: #6E5CE0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #6E5CE0;
+    margin: 0 0 20px;
+    border-left: 6px solid #6E5CE0;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .note-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-left: 4px solid #6E5CE0;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    color: #C3CEE9;
+    font-size: 0.95rem;
+  }
+  .note-box strong { color: #6E5CE0; }
+  .note-box a { color: #4E82F0; }
+  .note-box .refs { margin-top: 10px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .search-row input {
+    flex: 1;
+    min-width: 260px;
+    padding: 13px 18px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    border: 2px solid #1E2A3D;
+    background: #0D131E;
+    color: #E6EAF2;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-row input:focus { border-color: #6E5CE0; }
+  .search-row input::placeholder { color: #7C88A6; }
+
+  .country-row { text-align: center; margin-bottom: 18px; }
+  .country-chip {
+    display: inline-flex;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid #1E2A3D;
+    background: #161E2A;
+    color: #C3CEE9;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 4px;
+  }
+  .country-chip span { color: #6E5CE0; }
+
+  .count-line { text-align: center; color: #9AA7C4; font-size: 0.9rem; margin-bottom: 14px; }
+  .count-line strong { color: #6E5CE0; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+  }
+  .lh-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  .lh-table thead th {
+    background: #121B2B;
+    color: #9AA7C4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.72rem;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid #6E5CE0;
+    position: sticky;
+    top: 0;
+  }
+  .lh-table tbody tr { border-bottom: 1px solid #1E2A3D; }
+  .lh-table tbody tr:hover { background: #1A2434; }
+  .lh-table td {
+    padding: 10px 14px;
+    color: #E6EAF2;
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+  .lh-table td.pkm { font-weight: 800; color: #FFFFFF; white-space: nowrap; }
+  .lh-table td a { color: #4E82F0; text-decoration: none; }
+  .lh-table td a:hover { text-decoration: underline; color: #FFFFFF; }
+  .lh-table td.no-data { color: #3E4A63; }
+  .lh-table tr.hide { display: none; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8490AC;
+    font-size: 0.9rem;
+  }
+  .footer .copyright {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">InÃ­cio</a>
+    <a href="ginasios.html">GinÃ¡sios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="localhunts.html" class="active">Local Hunts</a>
+    <a href="faq.html">FAQ</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Local Hunts</h1>
+  <p>Onde encontrar cada PokÃ©mon por rota e regiÃ£o</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">LocalizaÃ§Ãµes de Hunts</h2>
+
+  <div class="note-box">
+    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do PokÃ©mon que quer caÃ§ar.
+    <div class="refs">
+      <a href="https://imgur.com/a/FV42d75" target="_blank" rel="noopener">Ilhas Laranja</a>
+      <a href="https://imgur.com/a/Uwf1wBW" target="_blank" rel="noopener">Hoenn</a>
+    </div>
+  </div>
+
+  <div class="search-row">
+    <input type="text" id="search" placeholder="Filtrar por nome do PokÃ©mon..." autocomplete="off">
+  </div>
+
+  <div class="country-row">
+    <span class="country-chip">Wildscape <span>Lvl 150+</span></span>
+    <span class="country-chip">Normal</span>
+    <span class="country-chip">Hoenn / Tubos <span>Lvl 350+</span></span>
+  </div>
+
+  <div class="count-line">Total de PokÃ©mon: <strong id="total-count">â€“</strong></div>
+
+  <div class="table-wrap">
+    <table class="lh-table" id="lh-table">
+      <thead>
+        <tr>
+          <th>PokÃ©mon</th>
+          <th>Wildscape (Lvl 150+)</th>
+          <th>Normal</th>
+          <th>Hoenn / Tubos (Lvl 350+)</th>
+        </tr>
+      </thead>
+      <tbody id="lh-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  Local Hunts Â· Guia do servidor
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">â€“</span></div>
+</div>
+
+<script>
+const HUNTS = [
+  ['Bulbasaur', '', 'https://imgur.com/a/jcpzOgr', ''],
+  ['Ivysaur', '', 'https://imgur.com/a/XEfXuD8', ''],
+  ['Venusaur', 'https://imgur.com/a/QZY9tMI', 'https://imgur.com/a/zRcrSLP', ''],
+  ['Charmander', '', 'https://imgur.com/a/8vGvdYp', ''],
+  ['Charmelion', '', 'https://imgur.com/a/5ZdzM08', ''],
+  ['Charizard', 'https://imgur.com/a/thSWZiw', 'https://imgur.com/a/ksXMwHN', ''],
+  ['Squirtle', '', 'https://imgur.com/a/8ZPHQzh', ''],
+  ['Wartortle', '', 'https://imgur.com/a/wXrfm6F', ''],
+  ['Blastoise', 'https://imgur.com/a/H98mIzg', 'https://imgur.com/a/o6O5mnt', ''],
+  ['Caterpie', '', 'https://imgur.com/a/FRZPc0L', ''],
+  ['Metapod', '', 'https://imgur.com/a/Md3zxUt', ''],
+  ['Butterfree', '', 'https://imgur.com/a/IAhK3th', ''],
+  ['Weedle', '', 'https://imgur.com/a/3UGhQN6', ''],
+  ['Kakuna', '', 'https://imgur.com/a/u3FmFya', ''],
+  ['Beedrill', '', 'https://imgur.com/a/1F8OZPT', ''],
+  ['Pidgey', '', 'https://imgur.com/a/ANHSsgY', ''],
+  ['Pidgeotto', '', 'https://imgur.com/a/yq5WqUg', ''],
+  ['Pidgeot', 'https://imgur.com/a/mZdWvFw', 'https://imgur.com/a/SmDawr1', ''],
+  ['Rattata', '', 'https://imgur.com/a/ZyszZOZ', ''],
+  ['Raticate', '', 'https://imgur.com/a/ZyszZOZ', ''],
+  ['Spearow', '', 'https://imgur.com/a/ANHSsgY', ''],
+  ['Fearow', '', 'https://imgur.com/a/NVXqWOp', ''],
+  ['Ekans', '', 'https://imgur.com/a/X7pm0Qb', ''],
+  ['Arbok', '', 'https://imgur.com/a/urtC1Gz', ''],
+  ['Pikachu', '', 'https://imgur.com/a/eMjPulX', ''],
+  ['Raichu', 'https://imgur.com/a/clP3jSD', 'https://imgur.com/a/tVt9b2v', ''],
+  ['Sandshrew', '', 'https://imgur.com/a/hqHxs3c', ''],
+  ['Sandslash', 'https://imgur.com/a/d4z4t8M', 'https://imgur.com/a/jyNtIqk', ''],
+  ['Nidoran female', '', 'https://imgur.com/a/fZJqgPy', ''],
+  ['Nidorina', '', 'https://imgur.com/a/x0itz9y', ''],
+  ['Nidoqueen', 'https://imgur.com/a/lnONjUq', 'Safari', ''],
+  ['Nidoran Male', '', 'https://imgur.com/a/fZJqgPy', ''],
+  ['Nidorino', '', 'https://imgur.com/a/x0itz9y', ''],
+  ['Nidoking', 'https://imgur.com/a/HWxtEs3', 'Safari', ''],
+  ['Clefairy', '', 'https://imgur.com/a/HipDvE8', ''],
+  ['Clefable', 'https://imgur.com/a/sXQlso1', 'Escada na DG de Floette em Pewter', ''],
+  ['Vulpix', '', 'https://imgur.com/a/G4NlFHG', ''],
+  ['Ninetales', 'https://imgur.com/a/2uMZqFZ', 'https://imgur.com/a/Rh21XkV', ''],
+  ['Jigglypuff', '', 'https://imgur.com/a/HipDvE8', ''],
+  ['Wigglytuff', 'https://imgur.com/a/FuZNCOC', 'Escada na DG de Folette em Pewter', ''],
+  ['Zubat', '', 'https://imgur.com/a/RlR6LYU', ''],
+  ['Golbat', '', 'https://imgur.com/a/uvfPxaO', ''],
+  ['Oddish', '', 'https://imgur.com/a/2SuUURl', ''],
+  ['Gloom', '', 'https://imgur.com/a/TaH2l6m', ''],
+  ['Vileplume', '', 'https://imgur.com/a/iOsQeVF', ''],
+  ['Paras', '', 'https://imgur.com/a/tv3nErv', ''],
+  ['Parasect', '', 'https://imgur.com/a/tv3nErv', ''],
+  ['Venonat', '', 'https://imgur.com/a/X5fPhhu', ''],
+  ['Venomoth', 'https://imgur.com/a/pfHx2qk', 'https://imgur.com/a/09DbkdU', ''],
+  ['Diglett', '', 'Direita de Cerulean', ''],
+  ['Dugtrio', '', 'Direita de Cerulean', ''],
+  ['Meowth', '', 'https://imgur.com/a/ZaKbHhf', ''],
+  ['Persian', 'https://imgur.com/a/B7jUmCO', 'https://imgur.com/a/pCa1RXB', ''],
+  ['Psyduck', '', 'https://imgur.com/a/ndO8iRQ', ''],
+  ['Golduck', '', 'https://youtu.be/jTEe_aB8h-A', ''],
+  ['Mankey', '', 'https://imgur.com/a/4E7gOtq', ''],
+  ['Primeape', '', 'https://imgur.com/a/4E7gOtq', ''],
+  ['Growlithe', '', 'https://imgur.com/a/yAYRe4r', ''],
+  ['Arcanine', 'https://imgur.com/a/NnkwV5t', 'https://imgur.com/a/InCkrp9', ''],
+  ['Poliwag', '', 'https://imgur.com/a/LmUUKug', ''],
+  ['Poliwhirl', '', 'https://imgur.com/a/4pP85lz', ''],
+  ['Poliwrath', 'https://imgur.com/a/c9ewG6a', 'https://imgur.com/a/IyWzoPx', ''],
+  ['Abra', '', 'https://imgur.com/a/ekO6c8T', ''],
+  ['Kadabra', '', 'https://imgur.com/a/G7qjSsO', ''],
+  ['Alakazam', 'https://imgur.com/a/OEmy8zV', 'https://imgur.com/a/n2TjM6f', 'https://imgur.com/a/wFcUcVR'],
+  ['Machop', '', 'https://imgur.com/a/C6BDrQk', ''],
+  ['Machoke', '', 'https://imgur.com/a/C6BDrQk', ''],
+  ['Machamp', 'https://imgur.com/a/yB63tms', 'Norte de Lavender, último andar', ''],
+  ['Bellsprout', '', 'https://imgur.com/a/MnFL6no', ''],
+  ['Weepinbell', '', 'https://imgur.com/a/Xw7aLDs', ''],
+  ['Victreebel', '', 'https://imgur.com/a/oL0tt9a', ''],
+  ['Tentacool', '', 'https://imgur.com/a/UadRpGw', ''],
+  ['Tentacruel', 'https://imgur.com/a/1MIh0TT', 'https://imgur.com/a/1MIh0TT', ''],
+  ['Geodude', '', 'https://imgur.com/a/IhJ17iJ', ''],
+  ['Graveler', '', 'https://imgur.com/a/SHzJxH4', ''],
+  ['Golem', 'https://imgur.com/a/rg5qYI4', 'https://imgur.com/a/1JOCaQq', ''],
+  ['Ponyta', '', 'https://imgur.com/a/Wj6MnzA', ''],
+  ['Rapidash', 'https://imgur.com/a/lwqRvJB', 'https://imgur.com/a/wtXPt06', ''],
+  ['Slowpoke', '', 'Poço direita de Azalea', ''],
+  ['Slowbro', '', 'Poço direita de Azalea', ''],
+  ['Magnemite', '', 'https://imgur.com/a/ZNQjOvj', ''],
+  ['Magneton', 'https://imgur.com/a/fbJrvin', 'https://imgur.com/a/ZNQjOvj', ''],
+  ['Farfetch\'d', 'https://imgur.com/a/mZdWvFw', 'Direita de Fuchsia', ''],
+  ['Doduo', '', 'Esquerda de Viridian', ''],
+  ['Dodrio', 'https://imgur.com/a/mZdWvFw', 'https://imgur.com/a/8rw5VI3', ''],
+  ['Seel', '', 'https://imgur.com/a/0FU7pxA', ''],
+  ['Dewgong', 'https://imgur.com/a/AWD6nTs', 'https://imgur.com/a/6S3V66E', ''],
+  ['Grimer', '', 'https://imgur.com/a/vgGrrfT', ''],
+  ['Muk', 'https://imgur.com/a/vgGrrfT', 'https://imgur.com/a/vgGrrfT', ''],
+  ['Shellder', '', 'https://imgur.com/a/mHLB6sh', ''],
+  ['Cloyster', 'https://imgur.com/a/JxKX8lv', 'Ilha de gelo sudeste de Kanto', ''],
+  ['Gastly', '', 'https://imgur.com/a/9zmYETV', ''],
+  ['Haunter', '', 'https://imgur.com/a/WeJwwK9', ''],
+  ['Gengar', 'https://imgur.com/a/8auiFkj', 'Não tem', 'https://imgur.com/a/wFcUcVR'],
+  ['Onix', '', 'https://imgur.com/a/XRtE7Ns', ''],
+  ['Drowzee', '', 'https://imgur.com/a/H8LgV6N', ''],
+  ['Hypno', '', 'https://imgur.com/a/c500gBU', ''],
+  ['Krabby', '', 'https://imgur.com/a/9CsLe4f', ''],
+  ['Kingler', '', 'https://imgur.com/a/RJTlGC2', ''],
+  ['Voltorb', '', 'https://imgur.com/a/ZNQjOvj', ''],
+  ['Electrode', '', 'https://imgur.com/a/ZNQjOvj', ''],
+  ['Exeggcute', '', 'Esquerda de Viridian', ''],
+  ['Exeggutor', 'https://imgur.com/a/Jh715JE', 'https://imgur.com/a/oelxrIL', ''],
+  ['Cubone', '', 'https://imgur.com/a/Q6i4UqM', ''],
+  ['Marowak', 'https://imgur.com/a/AYaHOY2', 'https://imgur.com/a/VrqZwDG', ''],
+  ['Hitmonlee', 'https://imgur.com/a/pjIUv00', 'Não tem', ''],
+  ['Hitmonchan', 'https://imgur.com/a/pjIUv00', 'Não tem', ''],
+  ['Lickitung', '', 'Safari', ''],
+  ['Koffing', '', 'https://imgur.com/a/vgGrrfT', ''],
+  ['Weezing', '', 'https://imgur.com/a/vgGrrfT', ''],
+  ['Rhyhorn', '', 'https://imgur.com/a/cPbYaoO', ''],
+  ['Rhydon', 'https://imgur.com/a/P6cK6PD', 'https://imgur.com/a/sROG59a', ''],
+  ['Chansey', '', 'https://imgur.com/a/njzmTdU', ''],
+  ['Tangela', 'https://imgur.com/a/dtwFHj6', 'https://imgur.com/a/IZyOqys', ''],
+  ['Kangaskhan', 'https://imgur.com/a/j21SPSA', 'Safari', ''],
+  ['Horsea', '', 'https://imgur.com/a/vl4bFGw', ''],
+  ['Seadra', '', 'https://imgur.com/a/SBsknJ7', ''],
+  ['Goldeen', '', 'https://imgur.com/a/0ZHbtgY', ''],
+  ['Seaking', '', 'https://imgur.com/a/kd1pFE9', ''],
+  ['Staryu', '', 'https://imgur.com/a/mNdE7Lo', ''],
+  ['Starmie', 'https://imgur.com/a/ZaL8AAc', 'https://imgur.com/a/YOVObyR', ''],
+  ['Mr. Mime', 'https://imgur.com/a/bIuz6Tm', 'https://imgur.com/a/yn32FNm', ''],
+  ['Scyther', 'https://imgur.com/a/df36NrE', 'https://imgur.com/a/j21SPSA', ''],
+  ['Jynx', 'https://imgur.com/a/3LppiO7', 'https://imgur.com/a/4fLbygt', ''],
+  ['Electabuzz', 'https://imgur.com/a/clP3jSD', 'https://imgur.com/a/lx2xnEu', 'https://imgur.com/a/wFcUcVR'],
+  ['Magmar', 'https://imgur.com/a/TykewxH', 'Esquerda do CP de Cinnabar', 'https://imgur.com/a/wFcUcVR'],
+  ['Pinsir', 'https://imgur.com/a/T3rOBjE', 'https://imgur.com/a/Q0Pn5Tv', ''],
+  ['Tauros', 'https://imgur.com/a/j21SPSA', 'Safari', ''],
+  ['Magikarp', '', 'https://imgur.com/a/kMnqXdd', ''],
+  ['Gyarados', 'https://imgur.com/a/mfds9di', 'https://imgur.com/a/dvZETth', 'https://imgur.com/a/wFcUcVR'],
+  ['Lapras', 'https://imgur.com/a/ca4NlMA', 'https://imgur.com/a/gB97GTZ', ''],
+  ['Ditto', '', '', ''],
+  ['Eevee', '', 'https://imgur.com/a/dJnqJtS', ''],
+  ['Vaporeon', 'https://imgur.com/a/RI7U1mv', 'https://imgur.com/a/rzkzhzF', ''],
+  ['Jolteon', 'https://imgur.com/a/clP3jSD', 'https://imgur.com/a/tVt9b2v', ''],
+  ['Flareon', 'https://imgur.com/a/0QTUhoj', 'https://imgur.com/a/ifO0TRh', ''],
+  ['Porygon', '', '', ''],
+  ['Omanyte', '', 'https://imgur.com/a/lrEa6jJ', ''],
+  ['Omastar', '', 'https://imgur.com/a/lrEa6jJ', ''],
+  ['Kabuto', '', 'https://imgur.com/a/hGRDfmM', ''],
+  ['Kabutops', '', 'https://imgur.com/a/hGRDfmM', ''],
+  ['Aerodactyl', '', '', ''],
+  ['Snorlax', 'https://imgur.com/a/j21SPSA', 'https://imgur.com/a/gFsPWgx', 'https://imgur.com/a/wFcUcVR'],
+  ['Articuno', '', '', ''],
+  ['Zapdos', '', '', ''],
+  ['Moltres', '', '', ''],
+  ['Dratini', '', 'Ilha de gelo sudeste de Kanto', ''],
+  ['Dragonair', 'https://imgur.com/a/P4wh1Pv', 'Ilha de gelo sudeste de Kanto', 'https://imgur.com/a/wFcUcVR'],
+  ['Dragonite', 'https://imgur.com/a/eJHK8SE', 'https://imgur.com/a/U3QIuQB', 'https://imgur.com/a/wFcUcVR'],
+  ['Mewtwo', '', '', ''],
+  ['Mew', '', '', ''],
+  ['Chikorita', '', 'https://imgur.com/a/INejCDG', ''],
+  ['Bayleef', '', 'https://imgur.com/a/FQ8roQ4', ''],
+  ['Meganium', 'https://imgur.com/uw0XICj', 'https://imgur.com/a/iHrZsw8', ''],
+  ['Cyndaquil', '', 'https://imgur.com/a/PjJgh5m', ''],
+  ['Quilava', '', 'https://imgur.com/a/PjJgh5m', ''],
+  ['Typhlosion', 'https://imgur.com/a/nmnNuO5', 'https://imgur.com/a/yhVaW4Z', ''],
+  ['Totodile', '', 'https://imgur.com/a/Oaet1M6', ''],
+  ['Croconaw', '', 'https://imgur.com/a/Pc6sqFF', ''],
+  ['Feraligatr', 'https://imgur.com/a/H98mIzg', 'https://imgur.com/a/wpVvk3n', ''],
+  ['Sentret', '', 'https://imgur.com/a/ScBW2W0', ''],
+  ['Furret', '', 'https://imgur.com/a/9Tbj4NB', ''],
+  ['Hoothoot', '', 'https://imgur.com/a/xxiIVMq', ''],
+  ['Noctowl', 'https://imgur.com/a/6DevZes', 'https://imgur.com/a/k0zFzjl', ''],
+  ['Ledyba', '', 'https://imgur.com/a/h0IZeRQ', ''],
+  ['Ledian', '', 'Esquerda de Ecruteak', ''],
+  ['Spinarak', '', 'Norte de Olivine', ''],
+  ['Ariados', '', 'Norte de Olivine', ''],
+  ['Crobat', 'https://imgur.com/a/DgtNeZR', 'https://imgur.com/a/kAVI10S', ''],
+  ['Chinchou', '', 'https://imgur.com/a/h2WnRle', ''],
+  ['Lanturn', '', 'https://imgur.com/a/h2WnRle', ''],
+  ['Pichu', '', 'https://imgur.com/a/owJDq0n', ''],
+  ['Cleffa', '', 'https://imgur.com/a/wFWndAk', ''],
+  ['Igglybuff', '', 'Ilha direita de Fuchsia', ''],
+  ['Togepi', '', 'https://imgur.com/a/4Gfcwjm', ''],
+  ['Togetic', '', 'https://imgur.com/a/4Gfcwjm', ''],
+  ['Natu', '', 'Ilha norte de Ecruteak', ''],
+  ['Xatu', 'https://imgur.com/a/46mYVO7', 'https://imgur.com/a/yVLhMR7', ''],
+  ['Mareep', '', 'Norte de Olivine', ''],
+  ['Flaaffy', '', 'Norte de Olivine', ''],
+  ['Ampharos', 'https://imgur.com/a/O7GKc00', 'Norte de Olivine', ''],
+  ['Bellossom', '', 'https://imgur.com/a/y1nJZLe', ''],
+  ['Marill', '', 'https://imgur.com/a/3YGU4BO', ''],
+  ['Azumarill', '', 'https://imgur.com/a/3YGU4BO', ''],
+  ['Sudowoodo', '', '', ''],
+  ['Politoed', 'https://imgur.com/a/zMl0ekj', 'https://imgur.com/a/zMl0ekj', ''],
+  ['Hoppip', '', 'https://imgur.com/a/xTyMEaj', ''],
+  ['Skiploom', '', 'https://imgur.com/a/ourpstD', ''],
+  ['Jumpluff', '', 'https://imgur.com/a/zyv2Y81', ''],
+  ['Aipom', '', 'Direita de Mahogany', ''],
+  ['Sunkern', '', 'Nordeste de Olivine', ''],
+  ['Sunflora', '', 'https://imgur.com/a/EpRy5tT', ''],
+  ['Yanma', '', 'https://imgur.com/a/0GZB0Pc', ''],
+  ['Wooper', '', 'https://imgur.com/a/zU19ndv', ''],
+  ['Quagsire', 'https://imgur.com/a/mXj9hj8', 'https://imgur.com/a/RYNQ8l0', ''],
+  ['Espeon', 'https://imgur.com/a/CkBSqXN', '', ''],
+  ['Umbreon', 'https://imgur.com/a/CkBSqXN', '', ''],
+  ['Murkrow', '', 'https://imgur.com/a/jYvUp9l', ''],
+  ['Slowking', 'https://imgur.com/a/XUZFbv9', 'https://imgur.com/a/XUZFbv9', ''],
+  ['Misdreavus', 'https://imgur.com/a/xfYPzTw', 'https://youtu.be/zipnyzf5caE', ''],
+  ['Unown', '', '', ''],
+  ['Wobbuffet', 'https://imgur.com/a/ZlGOsvk', 'https://imgur.com/a/l7MbVV5', ''],
+  ['Girafarig', 'https://imgur.com/a/6m4rkdL', 'https://imgur.com/a/ZlGOsvk', ''],
+  ['Pineco', '', 'https://imgur.com/a/AgaCXsX', ''],
+  ['Forretress', '', 'https://imgur.com/a/X4CH3uc', ''],
+  ['Dunsparce', '', 'Direita de Mahogany', ''],
+  ['Gligar', '', 'https://imgur.com/a/wljXV9h', ''],
+  ['Steelix', 'https://imgur.com/a/GWp5vC7', 'https://imgur.com/a/HDUZnBJ', ''],
+  ['Snubbull', '', 'https://imgur.com/a/i2zVgop', ''],
+  ['Granbull', 'https://imgur.com/a/ubd3F1A', 'https://imgur.com/a/6k6J7No', ''],
+  ['Qwilfish', '', 'https://imgur.com/a/fmnPze7', ''],
+  ['Scizor', 'https://imgur.com/a/TXJL5sM', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Shuckle', '', 'https://imgur.com/a/jom11IM', ''],
+  ['Heracross', 'https://imgur.com/a/Cpi5yCV', 'https://imgur.com/a/zRWr3Ry', ''],
+  ['Sneasel', '', 'Andando Norte do CP de Blackthorn', ''],
+  ['Teddiursa', '', 'https://imgur.com/a/K1wNTv6', ''],
+  ['Ursaring', 'https://imgur.com/a/nBXkwSw', 'https://imgur.com/a/K1wNTv6', ''],
+  ['Slugma', '', 'https://imgur.com/a/PjJgh5m', ''],
+  ['Magcargo', 'https://imgur.com/a/PjJgh5m', 'https://imgur.com/a/FSCg92Z', ''],
+  ['Swinub', '', 'Andando Norte do CP de Blackthorn', ''],
+  ['Piloswine', 'https://imgur.com/a/f5KRTsE', 'https://imgur.com/a/VfulNAF', ''],
+  ['Corsola', '', 'https://imgur.com/a/SBsknJ7', ''],
+  ['Remoraid', '', 'https://imgur.com/a/SBsknJ7', ''],
+  ['Octillery', '', 'https://imgur.com/a/SBsknJ7', ''],
+  ['Delibird', '', 'https://imgur.com/a/EDtI5vP', ''],
+  ['Mantine', 'https://imgur.com/a/H98mIzg', 'https://imgur.com/a/SBsknJ7', ''],
+  ['Skarmory', 'https://imgur.com/a/otQbKEE', 'https://imgur.com/a/EBb46PO', ''],
+  ['Houndour', '', 'https://imgur.com/a/PjJgh5m', ''],
+  ['Houndoom', 'https://imgur.com/a/kUQvKbL', 'https://imgur.com/a/MjvZQ35', ''],
+  ['Kingdra', 'https://imgur.com/a/W6HZl3X', '', ''],
+  ['Phanpy', '', 'Esquerda de Cianwood', ''],
+  ['Donphan', 'https://imgur.com/a/70P2Qxv', 'https://imgur.com/a/DKLY2JN', ''],
+  ['Porygon2', '', '', ''],
+  ['Stantler', '', 'Norte de Olivine', ''],
+  ['Smeargle', 'https://imgur.com/a/vlWgMyH', '', ''],
+  ['Tyrogue', '', 'Sul de Cherrygrove', ''],
+  ['Hitmontop', 'https://imgur.com/a/30cn4iq', 'Sul de Cherrygrove', ''],
+  ['Smoochum', '', 'Ilha de gelo sudeste de Kanto', ''],
+  ['Elekid', '', 'Direita de Ecruteak', ''],
+  ['Magby', '', 'https://imgur.com/a/kShgmOK', ''],
+  ['Miltank', 'https://imgur.com/a/doQnA6i', 'https://imgur.com/a/xxiIVMq', ''],
+  ['Blissey', '', '', ''],
+  ['Raikou', '', '', ''],
+  ['Entei', '', '', ''],
+  ['Suicune', '', '', ''],
+  ['Larvitar', '', 'https://imgur.com/a/SJntAUa', ''],
+  ['Pupitar', 'https://imgur.com/a/SJntAUa', 'https://imgur.com/a/SJntAUa', ''],
+  ['Tyranitar', 'https://imgur.com/a/oEyaCY3', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Lugia', '', '', ''],
+  ['Ho-oh', '', '', ''],
+  ['Celebi', '', '', ''],
+  ['Treecko', '', '', 'https://imgur.com/a/QwRNjsJ'],
+  ['Grovyle', '', '', 'https://imgur.com/a/plu4yw9'],
+  ['Sceptile', '', '', 'https://imgur.com/a/0NfZ1UB'],
+  ['Torchic', '', '', 'https://imgur.com/a/H8eBhUD'],
+  ['Combusken', '', '', 'https://imgur.com/a/WaCvBxT'],
+  ['Blaziken', '', '', 'https://imgur.com/a/Z1blUfu'],
+  ['Mudkip', '', '', 'https://imgur.com/a/sZjLUro'],
+  ['Marshtomp', '', '', 'https://imgur.com/a/7Nmijrk'],
+  ['Swampert', '', '', 'https://imgur.com/a/ZZR9q3t'],
+  ['Poochyena', '', '', 'https://imgur.com/a/AV1brbq'],
+  ['Mightyena', '', '', 'https://imgur.com/a/TtFAFi8'],
+  ['Zigzagoon', '', '', 'https://imgur.com/a/WBUCnKo'],
+  ['Linoone', '', '', 'https://imgur.com/a/OZ3NIfX'],
+  ['Wurmple', '', '', 'https://imgur.com/a/EPQWSoP'],
+  ['Silcoon', '', '', 'https://imgur.com/a/EPQWSoP'],
+  ['Beautifly', '', '', 'https://imgur.com/a/vePSZZs'],
+  ['Cascoon', '', '', 'https://imgur.com/a/EPQWSoP'],
+  ['Dustox', '', '', 'https://imgur.com/a/aa8JVeg'],
+  ['Lotad', '', '', 'https://imgur.com/a/H3DeAbj'],
+  ['Lombre', '', '', 'https://imgur.com/a/UH76hUF'],
+  ['Ludicolo', '', '', 'https://imgur.com/a/uSuyBkT'],
+  ['Seedot', '', '', 'https://imgur.com/a/ddPPOJp'],
+  ['Nuzleaf', '', '', 'https://imgur.com/a/BlSbyDr'],
+  ['Shiftry', '', '', 'https://imgur.com/a/d9DZYAm'],
+  ['Taillow', '', '', 'https://imgur.com/a/PywbkCI'],
+  ['Swellow', '', '', 'https://imgur.com/a/zWjp1is'],
+  ['Wingull', '', '', 'https://imgur.com/a/mQzmvVE'],
+  ['Pelipper', '', '', 'https://imgur.com/a/9ny4RTg'],
+  ['Ralts', '', '', 'https://imgur.com/a/HeG92xQ'],
+  ['Kirlia', '', '', 'https://imgur.com/a/Duh5van'],
+  ['Gardevoir', '', '', 'https://imgur.com/a/Duh5van'],
+  ['Surskit', '', '', 'https://imgur.com/a/hupWoKE'],
+  ['Masquerain', '', '', 'https://imgur.com/a/A6mD163'],
+  ['Shroomish', '', '', 'https://imgur.com/a/ASbhmgA'],
+  ['Breloom', '', '', 'https://imgur.com/a/xkbItkt'],
+  ['Slakoth', '', '', 'https://imgur.com/a/ISjWYSS'],
+  ['Vigoroth', '', '', 'https://imgur.com/a/zBv5poV'],
+  ['Slaking', '', '', 'https://imgur.com/a/JFAXd2m'],
+  ['Nincada', '', '', 'https://imgur.com/a/lbHpkKV'],
+  ['Ninjask', '', '', 'https://imgur.com/a/J42Cek5'],
+  ['Shedinja', '', '', 'https://imgur.com/a/LUgy00h'],
+  ['Whismur', '', '', 'https://imgur.com/a/UOLx5iS'],
+  ['Loudred', '', '', 'https://imgur.com/a/9hx1oWG'],
+  ['Exploud', '', '', 'https://imgur.com/a/WTFRBwz'],
+  ['Makuhita', '', '', 'https://imgur.com/a/aTDa0zK'],
+  ['Hariyama', '', '', 'https://imgur.com/a/ywTJuVx'],
+  ['Azurill', '', '', 'https://imgur.com/a/GKSI8P8'],
+  ['Nosepass', '', '', 'https://imgur.com/a/idVWM4R'],
+  ['Skitty', '', '', 'https://imgur.com/a/HXpaVFd'],
+  ['Delcatty', '', '', 'https://imgur.com/a/PC3fNSZ'],
+  ['Sableye', '', '', 'https://imgur.com/a/cI3PbPr'],
+  ['Mawile', '', '', 'https://imgur.com/a/odInvRR'],
+  ['Aron', '', '', 'https://imgur.com/a/dsmbUWE'],
+  ['Lairon', '', '', 'https://imgur.com/a/6drUaI7'],
+  ['Aggron', '', '', 'https://imgur.com/a/cJndpSb'],
+  ['Meditite', '', '', 'https://imgur.com/a/0irrv1r'],
+  ['Medicham', '', '', 'https://imgur.com/a/0irrv1r'],
+  ['Electrike', '', '', 'https://imgur.com/a/WJui6MS'],
+  ['Manectric', '', '', 'https://imgur.com/a/OoNfzDJ'],
+  ['Plusle', '', '', 'https://imgur.com/a/6gftpgd'],
+  ['Minun', '', '', 'https://imgur.com/a/6gftpgd'],
+  ['Volbeat', '', '', 'https://imgur.com/a/WCp8TTD'],
+  ['Illumise', '', '', 'https://imgur.com/a/WCp8TTD'],
+  ['Roselia', '', '', 'https://imgur.com/a/Dv4T5af'],
+  ['Gulpin', '', '', 'https://imgur.com/a/OZOu6rY'],
+  ['Swalot', '', '', 'https://imgur.com/a/CVYjLFv'],
+  ['Carvanha', '', '', 'https://imgur.com/a/waSih15'],
+  ['Sharpedo', '', '', 'https://imgur.com/a/xEQLyNo'],
+  ['Wailmer', '', '', 'https://imgur.com/a/2m6nCb5'],
+  ['Wailord', '', '', 'https://imgur.com/a/2m6nCb5'],
+  ['Numel', '', '', 'https://imgur.com/a/oweq0Ji'],
+  ['Camerupt', '', '', 'https://imgur.com/a/a8pfzjH'],
+  ['Torkoal', '', '', 'https://imgur.com/a/KBxrXSg'],
+  ['Spoink', '', '', 'https://imgur.com/a/TGgvFue'],
+  ['Grumpig', '', '', 'https://imgur.com/a/sL7iPRj'],
+  ['Spinda', '', '', 'https://imgur.com/a/seJsd66'],
+  ['Trapinch', '', '', 'https://imgur.com/a/jDK1dA0'],
+  ['Vibrava', '', '', 'https://imgur.com/a/OAkNAlc'],
+  ['Flygon', '', '', 'https://imgur.com/a/frxHhRk'],
+  ['Cacnea', '', '', 'https://imgur.com/a/hoA3sFt'],
+  ['Cacturne', '', '', 'https://imgur.com/a/DRfmDZB'],
+  ['Swablu', '', '', 'https://imgur.com/a/4BU3DIw'],
+  ['Altaria', '', '', 'https://imgur.com/a/4BU3DIw'],
+  ['Zangoose', '', '', 'https://imgur.com/a/NfMKEg7'],
+  ['Seviper', '', '', 'https://imgur.com/a/l3lliRe'],
+  ['Lunatone', '', '', 'https://imgur.com/a/NUmiPTH'],
+  ['Solrock', '', '', 'https://imgur.com/a/eWSLlta'],
+  ['Barboach', '', '', 'https://imgur.com/a/pCVvQWa'],
+  ['Whiscash', '', '', 'https://imgur.com/a/AfWRHhd'],
+  ['Corphish', '', '', 'https://imgur.com/a/5Ljg7sC'],
+  ['Crawdaunt', '', '', 'https://imgur.com/a/5Ljg7sC'],
+  ['Baltoy', '', '', 'https://imgur.com/a/8EPyq93'],
+  ['Claydol', '', '', 'https://imgur.com/a/FaZB45d'],
+  ['Lileep', '', '', ''],
+  ['Cradily', '', '', 'https://imgur.com/a/zziX3N4'],
+  ['Anorith', '', '', 'https://imgur.com/a/xG6MiHI'],
+  ['Armaldo', '', '', 'https://imgur.com/a/xG6MiHI'],
+  ['Feebas', '', '', 'https://imgur.com/a/4Ovdko8'],
+  ['Milotic', '', '', 'https://imgur.com/a/4Ovdko8'],
+  ['Castform', '', '', 'https://imgur.com/a/Ts9I3R9'],
+  ['Kecleon', '', '', 'https://imgur.com/a/8sxx7sN'],
+  ['Shuppet', '', '', 'https://imgur.com/a/OahinY3'],
+  ['Banette', '', '', 'https://imgur.com/a/JL6EoDR'],
+  ['Duskull', '', '', 'https://imgur.com/a/S4yJs5f'],
+  ['Dusclops', '', '', 'https://imgur.com/a/625I8kI'],
+  ['Tropius', '', '', 'https://imgur.com/a/9vbSqES'],
+  ['Chimecho', '', '', 'https://imgur.com/a/SGKMzoy'],
+  ['Absol', '', '', 'https://imgur.com/a/bKY4IH1'],
+  ['Wynaut', '', '', 'https://imgur.com/a/P3Yij7o'],
+  ['Snorunt', '', '', 'https://imgur.com/a/zoIbYgW'],
+  ['Glalie', '', '', 'https://imgur.com/a/zeIeMhU'],
+  ['Spheal', '', '', ''],
+  ['Sealeo', '', '', ''],
+  ['Walrein', '', '', 'https://imgur.com/a/MtwwL6b'],
+  ['Clamperl', '', '', 'https://imgur.com/a/3by4nDT'],
+  ['Huntail', '', '', 'https://imgur.com/a/xi7IxsL'],
+  ['Gorebyss', '', '', 'https://imgur.com/a/dtnPZxU'],
+  ['Relicanth', '', '', 'https://imgur.com/a/RVcmBFH'],
+  ['Luvdisc', '', '', 'https://imgur.com/a/HpHEs6t'],
+  ['Bagon', '', '', 'https://imgur.com/a/JWeTEEf'],
+  ['Shelgon', '', '', 'https://imgur.com/a/x6vRELh'],
+  ['Salamence', '', '', 'https://imgur.com/a/c60bAOF'],
+  ['Beldum', '', '', 'https://imgur.com/a/rQJH8mB'],
+  ['Metang', '', '', 'https://imgur.com/a/rQJH8mB'],
+  ['Metagross', '', '', 'https://imgur.com/a/rQJH8mB'],
+  ['Regirock', '', '', ''],
+  ['Regice', '', '', ''],
+  ['Registeel', '', '', ''],
+  ['Latios', '', '', ''],
+  ['Latias', '', '', ''],
+  ['Kyogre', '', '', ''],
+  ['Groudon', '', '', ''],
+  ['Rayquaza', '', '', ''],
+  ['Jirachi', '', '', ''],
+  ['Deoxys', '', '', ''],
+  ['Turtwig', '', 'https://imgur.com/a/MqC3Zcx', ''],
+  ['Grotle', '', 'https://imgur.com/a/FnOsG7p', ''],
+  ['Torterra', 'https://imgur.com/a/OSpmhX3', '', ''],
+  ['Chimchar', '', 'https://imgur.com/a/FaS0Gng', ''],
+  ['Monferno', '', 'https://imgur.com/a/trDdCP1', ''],
+  ['Infernape', 'https://imgur.com/a/wmqPdfw', '', ''],
+  ['Shinx', '', 'https://imgur.com/a/f1Qf5nZ', ''],
+  ['Luxio', '', 'https://imgur.com/a/UahO6zW', ''],
+  ['Luxray', 'https://imgur.com/a/L0bj8Vd', '', ''],
+  ['Cranidos', '', '', ''],
+  ['Rampardos', '', '', ''],
+  ['Pachirisu', 'https://imgur.com/a/RzUEzwM', '', ''],
+  ['Lopuny', '', '', ''],
+  ['Riolu', '', 'https://imgur.com/a/m5Tr8hw', ''],
+  ['Lucario', '', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Croagunk', '', '', ''],
+  ['Toxicroak', 'https://imgur.com/a/voSoRee', '', ''],
+  ['Abomasnow', '', '', 'https://imgur.com/a/3Axl08R'],
+  ['Rhyperior', '', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Tangrowth', 'https://imgur.com/a/6PD5gEv', '', ''],
+  ['Leafeon', '', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Glaceon', '', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Gliscor', 'https://imgur.com/a/7Oi6jPs', '', ''],
+  ['Dusknoir', 'https://imgur.com/a/DMCBxm0', '', ''],
+  ['Audino', '', '', 'https://imgur.com/a/3Axl08R'],
+  ['Scolipede', '', '', 'https://imgur.com/a/3Axl08R'],
+  ['Trubbish', '', 'https://imgur.com/a/TvxHyi5', ''],
+  ['Garbodor', '', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Druddigon', '', '', ''],
+  ['Deino', '', 'DG de Deino', ''],
+  ['Zweilous', '', 'DG de Zweilous', ''],
+  ['Hydreigon', 'https://imgur.com/a/tkRwGdL', '', ''],
+  ['Flabébé', '', 'DG de Flabébé', ''],
+  ['Floette', '', 'DG de Folette', ''],
+  ['Florges', 'https://imgur.com/a/dHnsWqn', '', ''],
+  ['Skiddo', '', 'https://imgur.com/a/F5s8G9v', ''],
+  ['Gogoat', 'https://imgur.com/a/yMA3Qn2', '', ''],
+  ['Dragalge', '', '', 'https://imgur.com/a/3Axl08R'],
+  ['Sylveon', 'https://imgur.com/a/LR5ibxC', '', 'https://imgur.com/a/wFcUcVR'],
+  ['Mimikyu', 'https://imgur.com/a/tBNDQGq', '', ''],
+];
+
+function norm(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+}
+
+function makeCell(value) {
+  if (!value || value === '-') {
+    const td = document.createElement('td');
+    td.className = 'no-data';
+    td.textContent = 'â€“';
+    return td;
+  }
+  const td = document.createElement('td');
+  const isUrl = /^https?:\/\//i.test(value);
+  if (isUrl) {
+    const a = document.createElement('a');
+    a.href = value;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = 'Local';
+    td.appendChild(a);
+  } else {
+    td.textContent = value;
+  }
+  return td;
+}
+
+const body = document.getElementById('lh-body');
+const totalEl = document.getElementById('total-count');
+totalEl.textContent = HUNTS.length;
+
+HUNTS.forEach(([name, w, n, h]) => {
+  const tr = document.createElement('tr');
+  tr.dataset.norm = norm(name);
+
+  const tdName = document.createElement('td');
+  tdName.className = 'pkm';
+  tdName.textContent = name;
+  tr.appendChild(tdName);
+
+  tr.appendChild(makeCell(w));
+  tr.appendChild(makeCell(n));
+  tr.appendChild(makeCell(h));
+  body.appendChild(tr);
+});
+
+const searchEl = document.getElementById('search');
+const rows = body.querySelectorAll('tr');
+searchEl.addEventListener('input', () => {
+  const q = norm(searchEl.value);
+  rows.forEach(tr => {
+    tr.classList.toggle('hide', q !== '' && tr.dataset.norm.indexOf(q) === -1);
+  });
+});
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+</body>
+</html>
