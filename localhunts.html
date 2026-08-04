@@ -209,8 +209,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">InÃ­cio</a>
-    <a href="ginasios.html">GinÃ¡sios</a>
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html">Equipe Rocket</a>
@@ -223,16 +223,16 @@
 
 <div class="header">
   <h1>Local Hunts</h1>
-  <p>Onde encontrar cada PokÃ©mon por rota e regiÃ£o</p>
+  <p>Onde encontrar cada Pokémon por rota e região</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
 <div class="container">
 
-  <h2 class="section-title">LocalizaÃ§Ãµes de Hunts</h2>
+  <h2 class="section-title">Localizações de Hunts</h2>
 
   <div class="note-box">
-    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do PokÃ©mon que quer caÃ§ar.
+    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do Pokémon que quer caçar.
     <div class="refs">
       <a href="https://imgur.com/a/FV42d75" target="_blank" rel="noopener">Ilhas Laranja</a>
       <a href="https://imgur.com/a/Uwf1wBW" target="_blank" rel="noopener">Hoenn</a>
@@ -240,7 +240,7 @@
   </div>
 
   <div class="search-row">
-    <input type="text" id="search" placeholder="Filtrar por nome do PokÃ©mon..." autocomplete="off">
+    <input type="text" id="search" placeholder="Filtrar por nome do Pokémon..." autocomplete="off">
   </div>
 
   <div class="country-row">
@@ -249,13 +249,13 @@
     <span class="country-chip">Hoenn / Tubos <span>Lvl 350+</span></span>
   </div>
 
-  <div class="count-line">Total de PokÃ©mon: <strong id="total-count">â€“</strong></div>
+  <div class="count-line">Total de Pokémon: <strong id="total-count">–</strong></div>
 
   <div class="table-wrap">
     <table class="lh-table" id="lh-table">
       <thead>
         <tr>
-          <th>PokÃ©mon</th>
+          <th>Pokémon</th>
           <th>Wildscape (Lvl 150+)</th>
           <th>Normal</th>
           <th>Hoenn / Tubos (Lvl 350+)</th>
@@ -268,9 +268,9 @@
 </div>
 
 <div class="footer">
-  Local Hunts Â· Guia do servidor
+  Local Hunts · Guia do servidor
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">â€“</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -702,7 +702,16 @@ const HUNTS = [
   ['Sylveon', 'https://imgur.com/a/LR5ibxC', '', 'https://imgur.com/a/wFcUcVR'],
   ['Mimikyu', 'https://imgur.com/a/tBNDQGq', '', ''],
 ];
+</script>
 
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script>
 function norm(s) {
   return (s || '').toLowerCase()
     .normalize('NFD')
@@ -715,7 +724,7 @@ function makeCell(value) {
   if (!value || value === '-') {
     const td = document.createElement('td');
     td.className = 'no-data';
-    td.textContent = 'â€“';
+    td.textContent = '–';
     return td;
   }
   const td = document.createElement('td');
@@ -760,13 +769,6 @@ searchEl.addEventListener('input', () => {
     tr.classList.toggle('hide', q !== '' && tr.dataset.norm.indexOf(q) === -1);
   });
 });
-</script>
-
-<script>
-fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
-  .then(r => r.json())
-  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
-  .catch(() => {});
 </script>
 
 </body>
