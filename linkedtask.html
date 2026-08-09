@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linked Tasks - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+  .credit strong { color: #6E5CE0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #6E5CE0;
+    margin: 0 0 20px;
+    border-left: 6px solid #6E5CE0;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title.second { margin-top: 45px; }
+
+  .note-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-left: 4px solid #6E5CE0;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    color: #C3CEE9;
+    font-size: 0.95rem;
+  }
+  .note-box strong { color: #6E5CE0; }
+  .note-box a { color: #4E82F0; }
+  .note-box .refs { margin-top: 10px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .search-row input {
+    flex: 1;
+    min-width: 260px;
+    padding: 13px 18px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    border: 2px solid #1E2A3D;
+    background: #0D131E;
+    color: #E6EAF2;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-row input:focus { border-color: #6E5CE0; }
+  .search-row input::placeholder { color: #7C88A6; }
+
+  .country-row { text-align: center; margin-bottom: 18px; }
+  .country-chip {
+    display: inline-flex;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid #1E2A3D;
+    background: #161E2A;
+    color: #C3CEE9;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 4px;
+  }
+  .country-chip span { color: #6E5CE0; }
+
+  .count-line { text-align: center; color: #9AA7C4; font-size: 0.9rem; margin-bottom: 14px; }
+  .count-line strong { color: #6E5CE0; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+  }
+  .lt-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  .lt-table thead th {
+    background: #121B2B;
+    color: #9AA7C4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.72rem;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid #6E5CE0;
+    position: sticky;
+    top: 0;
+  }
+  .lt-table tbody tr { border-bottom: 1px solid #1E2A3D; }
+  .lt-table tbody tr:hover { background: #1A2434; }
+  .lt-table td {
+    padding: 10px 14px;
+    color: #E6EAF2;
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+  .lt-table td.pkm { font-weight: 800; color: #FFFFFF; white-space: nowrap; }
+  .lt-table td.qtd { font-weight: 800; color: #4E82F0; white-space: nowrap; }
+  .lt-table td.tipo { color: #C3CEE9; white-space: nowrap; }
+  .lt-table td.kph { color: #7C88A6; white-space: nowrap; }
+  .lt-table td a { color: #4E82F0; text-decoration: none; }
+  .lt-table td a:hover { text-decoration: underline; color: #FFFFFF; }
+  .lt-table td.no-data { color: #3E4A63; }
+  .lt-table tr.hide { display: none; }
+
+  .rest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .rest-card {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .rest-card .rk { font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: #7C88A6; margin-bottom: 6px; }
+  .rest-card .rp { font-weight: 800; color: #FFFFFF; font-size: 1.05rem; }
+  .rest-card .rr { margin-top: 6px; font-size: 0.8rem; color: #9AA7C4; }
+  .rest-card .rr span { color: #4E82F0; font-weight: 700; }
+
+  .rest-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .rest-summary .chip {
+    background: #121B2B;
+    border: 1px solid #1E2A3D;
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #C3CEE9;
+  }
+  .rest-summary .chip span { color: #6E5CE0; }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8490AC;
+    font-size: 0.9rem;
+  }
+  .footer .copyright {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="localhunts.html">Local Hunts</a>
+    <a href="linkedtask.html" class="active">Linked Tasks</a>
+    <a href="faq.html">FAQ</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Linked Tasks</h1>
+  <p>Missões de captura e kills por tipo de hunt</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">Tabela de Linked Tasks</h2>
+
+  <div class="note-box">
+    <strong>Como funciona</strong>: para ver as tasks, aperte <strong>Ctrl + L</strong> no jogo. Completar uma task libera a próxima,
+    então esta tabela mostra a quantidade de kills exigida por Pokémon em cada tipo de hunt.
+    <div class="refs">
+      <a href="https://discord.com/channels/1159230367803392022/1159230368940032093/1495879078094311494" target="_blank" rel="noopener">Mais detalhes no Discord</a>
+    </div>
+  </div>
+
+  <div class="search-row">
+    <input type="text" id="search" placeholder="Buscar Pokémon..." autocomplete="off">
+  </div>
+
+  <div class="country-row">
+    <span class="country-chip" data-tipo="Normal">Normal <span id="cnt0">0</span></span>
+    <span class="country-chip" data-tipo="Wild">Wild <span id="cnt1">0</span></span>
+    <span class="country-chip" data-tipo="Hoenn">Hoenn <span id="cnt2">0</span></span>
+  </div>
+
+  <div class="count-line">Total de kills listadas: <strong id="total-kills">0</strong></div>
+
+  <div class="table-wrap">
+    <table class="lt-table" id="lt-table">
+      <thead>
+        <tr>
+          <th>Qtd</th>
+          <th>Pokémon</th>
+          <th>Tipo de Hunt</th>
+          <th>Local</th>
+          <th>Kills/h</th>
+        </tr>
+      </thead>
+      <tbody id="lt-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="container">
+  <h2 class="section-title second">Restantes</h2>
+
+  <div class="rest-summary">
+    <span class="chip">Restantes: <span id="rest-total">8</span></span>
+    <span class="chip">Super Rare (Wild) <span>3</span></span>
+    <span class="chip">Ultra Rare (Hoenn) <span>1</span></span>
+    <span class="chip">Legendary (Tubos) <span>1</span></span>
+    <span class="chip">Mythic (Tubos) <span>2</span></span>
+    <span class="chip">Mythic (Hoenn) <span>1</span></span>
+  </div>
+
+  <div class="rest-grid" id="rest-grid"></div>
+</div>
+
+<div class="footer">
+  Linked Tasks · Guia do servidor
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+</div>
+
+<script>
+const LT = [
+  ['30','Normal','Rattata','https://imgur.com/a/ZyszZOZ',''],
+  ['30','Normal','Oddish','https://imgur.com/a/2SuUURl',''],
+  ['30','Normal','Geodude','https://imgur.com/a/IhJ17iJ',''],
+  ['60','Normal','Mankey','https://imgur.com/a/4E7gOtq',''],
+  ['60','Normal','Rhyhorn','https://imgur.com/a/cPbYaoO',''],
+  ['60','Normal','Gloom','https://imgur.com/a/TaH2l6m',''],
+  ['100','Normal','Graveler','https://imgur.com/a/SHzJxH4',''],
+  ['100','Normal','Golbat','https://imgur.com/a/uvfPxaO',''],
+  ['250','Normal','Tangela','https://imgur.com/a/IZyOqys',''],
+  ['250','Normal','Marowak','https://imgur.com/a/VrqZwDG','2150'],
+  ['250','Normal','Electrode','https://imgur.com/a/ZNQjOvj',''],
+  ['400','Normal','Magneton','https://imgur.com/a/ZNQjOvj',''],
+  ['500','Normal','Fearow','https://imgur.com/a/NVXqWOp',''],
+  ['800','Normal','Venusaur','https://imgur.com/a/zRcrSLP',''],
+  ['800','Normal','Blastoise','https://imgur.com/a/o6O5mnt',''],
+  ['800','Normal','Charizard','https://imgur.com/a/ksXMwHN',''],
+  ['10000','Wild','Ampharos','https://imgur.com/a/O7GKc00','3000'],
+  ['10000','Wild','Blastoise','https://imgur.com/a/H98mIzg','2000'],
+  ['10000','Wild','Charizard','https://imgur.com/a/thSWZiw','2500'],
+  ['10000','Wild','Dodrio','https://imgur.com/a/mZdWvFw','2350'],
+  ['10000','Wild','Espeon','https://imgur.com/a/CkBSqXN',''],
+  ['10000','Wild','Farfetch\'d','https://imgur.com/a/mZdWvFw','2150'],
+  ['10000','Wild','Feraligatr','https://imgur.com/a/H98mIzg','2700'],
+  ['10000','Wild','Flareon','https://imgur.com/a/0QTUhoj','2500'],
+  ['10000','Wild','Golem','https://imgur.com/a/rg5qYI4','3150'],
+  ['10000','Wild','Hitmonchan','https://imgur.com/a/pjIUv00',''],
+  ['10000','Wild','Hitmonlee','https://imgur.com/a/pjIUv00','3300'],
+  ['10000','Wild','Hitmontop','https://imgur.com/a/30cn4iq',''],
+  ['10000','Wild','Jolteon','https://imgur.com/a/clP3jSD',''],
+  ['10000','Wild','Jynx','https://imgur.com/a/3LppiO7','3750'],
+  ['100','Normal','Kabutops','https://imgur.com/a/hGRDfmM',''],
+  ['10000','Wild','Lapras','https://imgur.com/a/ca4NlMA',''],
+  ['10000','Wild','Magcargo','https://imgur.com/a/PjJgh5m',''],
+  ['10000','Wild','Mantine','https://imgur.com/a/H98mIzg','2750'],
+  ['10000','Wild','Marowak','https://imgur.com/a/AYaHOY2',''],
+  ['10000','Wild','Meganium','https://imgur.com/uw0XICj','2100'],
+  ['10000','Wild','Miltank','https://imgur.com/a/doQnA6i',''],
+  ['10000','Wild','Muk','https://imgur.com/a/vgGrrfT','2400'],
+  ['10000','Wild','Nidoking','https://imgur.com/a/HWxtEs3','2050'],
+  ['10000','Wild','Nidoqueen','https://imgur.com/a/lnONjUq',''],
+  ['10000','Wild','Ninetales','https://imgur.com/a/2uMZqFZ','3000'],
+  ['100','Normal','Omastar','https://imgur.com/a/lrEa6jJ',''],
+  ['10000','Wild','Pidgeot','https://imgur.com/a/mZdWvFw',''],
+  ['10000','Wild','Politoed','https://imgur.com/a/zMl0ekj','3220'],
+  ['10000','Wild','Poliwrath','https://imgur.com/a/c9ewG6a',''],
+  ['10000','Wild','Raichu','https://imgur.com/a/clP3jSD',''],
+  ['10000','Wild','Rapidash','https://imgur.com/a/lwqRvJB',''],
+  ['10000','Wild','Slowking','https://imgur.com/a/XUZFbv9','3500'],
+  ['10000','Wild','Steelix','https://imgur.com/a/GWp5vC7','2300'],
+  ['10000','Wild','Tentacruel','https://imgur.com/a/1MIh0TT','1800'],
+  ['10000','Wild','Typhlosion','https://imgur.com/a/nmnNuO5',''],
+  ['10000','Wild','Umbreon','https://imgur.com/a/CkBSqXN',''],
+  ['10000','Wild','Ursaring','https://imgur.com/a/nBXkwSw',''],
+  ['10000','Wild','Vaporeon','https://imgur.com/a/RI7U1mv',''],
+  ['10000','Wild','Venusaur','https://imgur.com/a/QZY9tMI','2600'],
+  ['10000','Wild','Misdreavus','https://imgur.com/a/xfYPzTw',''],
+  ['10000','Wild','Mr. Mime','https://imgur.com/a/bIuz6Tm',''],
+  ['10000','Wild','Pinsir','https://imgur.com/a/T3rOBjE',''],
+  ['10000','Wild','Pupitar','https://imgur.com/a/SJntAUa',''],
+  ['10000','Wild','Scyther','https://imgur.com/a/df36NrE',''],
+  ['10000','Wild','Skarmory','https://imgur.com/a/otQbKEE',''],
+  ['10000','Wild','Tauros','https://imgur.com/a/j21SPSA',''],
+  ['10000','Wild','Houndoom','https://imgur.com/a/kUQvKbL',''],
+  ['10000','Wild','Kangaskhan','https://imgur.com/a/j21SPSA',''],
+  ['10000','Wild','Kingdra','https://imgur.com/a/W6HZl3X',''],
+  ['10000','Wild','Machamp','https://imgur.com/a/yB63tms',''],
+  ['10000','Wild','Wobbuffet','https://imgur.com/a/ZlGOsvk','3700'],
+  ['10000','Wild','Dusknoir','https://imgur.com/a/DMCBxm0','2300'],
+  ['10000','Wild','Luxray','https://imgur.com/a/L0bj8Vd','2100'],
+  ['10000','Wild','Mimikyu','https://imgur.com/a/tBNDQGq','2400'],
+  ['10000','Wild','Toxicroak','https://imgur.com/a/voSoRee','2900'],
+  ['10000','Wild','Torterra','https://imgur.com/a/OSpmhX3','2600'],
+  ['10000','Wild','Tangrowth','https://imgur.com/a/6PD5gEv','2800'],
+  ['10000','Wild','Arcanine','https://imgur.com/a/NnkwV5t','2800'],
+  ['10000','Wild','Florges','https://imgur.com/a/dHnsWqn','3400'],
+  ['10000','Wild','Hydreigon','https://imgur.com/a/tkRwGdL','2600'],
+  ['4000','Hoenn','Walrein','https://imgur.com/a/MtwwL6b','1120'],
+  ['4000','Hoenn','Seviper','https://imgur.com/a/l3lliRe','1120'],
+  ['4000','Hoenn','Aggron','https://imgur.com/a/cJndpSb','1120'],
+  ['4000','Hoenn','Sharpedo','https://imgur.com/a/xEQLyNo','1400'],
+  ['4000','Hoenn','Armaldo','https://imgur.com/a/xG6MiHI','1400'],
+  ['4000','Hoenn','Altaria','https://imgur.com/a/4BU3DIw','1200'],
+  ['4000','Hoenn','Swellow','https://imgur.com/a/zWjp1is','1300'],
+  ['4000','Hoenn','Huntail','https://imgur.com/a/xi7IxsL','1400'],
+  ['4000','Hoenn','Breloom','https://imgur.com/a/xkbItkt','1140'],
+  ['4000','Hoenn','Claydol','https://imgur.com/a/FaZB45d','1400'],
+  ['4000','Hoenn','Hariyama','https://imgur.com/a/ywTJuVx','1100'],
+  ['4000','Hoenn','Cradily','https://imgur.com/a/zziX3N4','1050'],
+  ['4000','Hoenn','Roselia','https://imgur.com/a/Dv4T5af','1600'],
+  ['4000','Hoenn','Pelipper','https://imgur.com/a/9ny4RTg','1170'],
+  ['4000','Hoenn','Dustox','https://imgur.com/a/aa8JVeg','1250'],
+  ['4000','Hoenn','Solrock','https://imgur.com/a/eWSLlta','1500'],
+  ['4000','Hoenn','Clamperl','https://imgur.com/a/3by4nDT','1350'],
+  ['4000','Hoenn','Banette','https://imgur.com/a/JL6EoDR','900'],
+  ['4000','Hoenn','Camerupt','https://imgur.com/a/a8pfzjH','1250'],
+  ['4000','Hoenn','Castform Fire','https://imgur.com/a/Ts9I3R9','1150'],
+  ['4000','Hoenn','Castform Ice','https://imgur.com/a/Ts9I3R9','1300'],
+  ['4000','Hoenn','Castform Electric','https://imgur.com/a/Ts9I3R9','1090'],
+  ['4000','Hoenn','Kecleon','https://imgur.com/a/8sxx7sN','1070'],
+  ['4000','Hoenn','Dusclops','https://imgur.com/a/625I8kI','1370'],
+  ['4000','Hoenn','Zangoose','https://imgur.com/a/NfMKEg7','850'],
+  ['4000','Hoenn','Metang','https://imgur.com/a/rQJH8mB','1470'],
+  ['4000','Hoenn','Beautifly','https://imgur.com/a/vePSZZs','1220'],
+  ['4000','Hoenn','Ludicolo','https://imgur.com/a/uSuyBkT','1450'],
+  ['4000','Hoenn','Cacturne','https://imgur.com/a/DRfmDZB','1140'],
+  ['4000','Hoenn','Chimecho','https://imgur.com/a/SGKMzoy','1460'],
+  ['4000','Hoenn','Gorebyss','https://imgur.com/a/dtnPZxU','1460'],
+  ['4000','Hoenn','Shiftry','https://imgur.com/a/d9DZYAm','990'],
+  ['4000','Hoenn','Crawdaunt','https://imgur.com/a/5Ljg7sC','1460'],
+  ['4000','Hoenn','Ninjask','https://imgur.com/a/J42Cek5','900'],
+  ['4000','Hoenn','Relicanth','https://imgur.com/a/RVcmBFH','1270'],
+  ['4000','Hoenn','Masquerain','https://imgur.com/a/A6mD163','1270'],
+  ['4000','Hoenn','Wailord','https://imgur.com/a/2m6nCb5','1340'],
+  ['4000','Hoenn','Mawile','https://imgur.com/a/odInvRR','1230'],
+  ['4000','Hoenn','Lunatone','https://imgur.com/a/NUmiPTH','1600'],
+  ['4000','Hoenn','Medicham','https://imgur.com/a/0irrv1r','1160'],
+  ['4000','Hoenn','Whiscash','https://imgur.com/a/AfWRHhd','970'],
+  ['4000','Hoenn','Shedinja','https://imgur.com/a/LUgy00h','1350'],
+  ['4000','Hoenn','Delcatty','https://imgur.com/a/PC3fNSZ','1250'],
+  ['4000','Hoenn','Grumpig','https://imgur.com/a/sL7iPRj','1250'],
+  ['4000','Hoenn','Blaziken','https://imgur.com/a/Z1blUfu','1010'],
+  ['4000','Hoenn','Metagross','https://imgur.com/a/rQJH8mB','1480'],
+  ['4000','Hoenn','Swalot','https://imgur.com/a/CVYjLFv','1260'],
+  ['4000','Hoenn','Exploud','https://imgur.com/a/WTFRBwz','1160'],
+  ['4000','Hoenn','Tropius','https://imgur.com/a/9vbSqES','1260'],
+  ['4000','Hoenn','Manectric','https://imgur.com/a/OoNfzDJ','1160'],
+  ['4000','Hoenn','Torkoal','https://imgur.com/a/KBxrXSg','1400'],
+  ['4000','Hoenn','Gardevoir','https://imgur.com/a/Duh5van','1500'],
+  ['4000','Hoenn','Salamence','https://imgur.com/a/c60bAOF','1400'],
+  ['4000','Hoenn','Mightyena','https://imgur.com/a/TtFAFi8','1480'],
+  ['4000','Hoenn','Milotic','https://imgur.com/a/4Ovdko8','1360'],
+  ['4000','Hoenn','Sceptile','https://imgur.com/a/0NfZ1UB','1540'],
+  ['4000','Hoenn','Swampert','https://imgur.com/a/ZZR9q3t','1420'],
+  ['4000','Hoenn','Glalie','https://imgur.com/a/zeIeMhU','1400'],
+  ['4000','Hoenn','Absol','https://imgur.com/a/bKY4IH1','1360'],
+  ['4000','Hoenn','Flygon','https://imgur.com/a/frxHhRk','1200'],
+  ['4000','Hoenn','Dragonair','https://imgur.com/a/wFcUcVR','1450'],
+  ['4000','Hoenn','Gengar','https://imgur.com/a/wFcUcVR','1350'],
+  ['4000','Hoenn','Electabuzz','https://imgur.com/a/wFcUcVR','1200'],
+  ['4000','Hoenn','Gyarados','https://imgur.com/a/wFcUcVR','1500'],
+  ['4000','Hoenn','Magmar','https://imgur.com/a/wFcUcVR','1400'],
+  ['4000','Hoenn','Scizor','https://imgur.com/a/wFcUcVR','1470'],
+  ['4000','Hoenn','Lucario','https://imgur.com/a/wFcUcVR','1570'],
+  ['4000','Hoenn','Rhyperior','https://imgur.com/a/wFcUcVR','1500'],
+  ['4000','Hoenn','Alakazam','https://imgur.com/a/wFcUcVR','1440'],
+  ['4000','Hoenn','Snorlax','https://imgur.com/a/wFcUcVR','1170'],
+  ['4000','Hoenn','Sylveon','https://imgur.com/a/wFcUcVR','1220'],
+  ['4000','Hoenn','Glaceon','https://imgur.com/a/wFcUcVR','1550'],
+  ['4000','Hoenn','Garbodor','https://imgur.com/a/wFcUcVR','1400'],
+  ['4000','Hoenn','Sableye','https://imgur.com/a/cI3PbPr','1350'],
+];
+
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script>
+function norm(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+}
+
+function makeLocal(value) {
+  const td = document.createElement('td');
+  if (!value || value === '-') {
+    td.className = 'no-data';
+    td.textContent = '–';
+  } else {
+    const a = document.createElement('a');
+    a.href = value;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = 'Ver local';
+    td.appendChild(a);
+  }
+  return td;
+}
+
+const REST = [
+  ['Super Rare (Wild)', 'Gliscor', 'Wild'],
+  ['Super Rare (Wild)', 'Infernape', 'Wild'],
+  ['Super Rare (Wild)', 'Pachirisu', 'Wild'],
+  ['Ultra Rare (Hoenn)', 'Rampardos', 'Hoenn'],
+  ['Legendary (Tubos)', 'Leafeon', 'Tubos'],
+  ['Mythic (Tubos)', 'Dragonite', 'Tubos'],
+  ['Mythic (Hoenn)', 'Slaking', 'Hoenn'],
+  ['Mythic (Tubos)', 'Tyranitar', 'Tubos'],
+];
+
+const body = document.getElementById('lt-body');
+const totalKills = document.getElementById('total-kills');
+
+let sum = 0;
+LT.forEach(([qtd, tipo, name, url, kph]) => {
+  sum += parseInt(qtd, 10) || 0;
+  const tr = document.createElement('tr');
+  tr.dataset.norm = norm(name);
+
+  const tdQ = document.createElement('td');
+  tdQ.className = 'qtd';
+  tdQ.textContent = qtd;
+  tr.appendChild(tdQ);
+
+  const tdN = document.createElement('td');
+  tdN.className = 'pkm';
+  tdN.textContent = name;
+  tr.appendChild(tdN);
+
+  const tdT = document.createElement('td');
+  tdT.className = 'tipo';
+  tdT.textContent = tipo;
+  tr.appendChild(tdT);
+
+  tr.appendChild(makeLocal(url));
+  tr.appendChild(makeKph(kph));
+  body.appendChild(tr);
+});
+totalKills.textContent = sum.toLocaleString('pt-BR');
+
+function makeKph(value) {
+  const td = document.createElement('td');
+  if (!value) {
+    td.className = 'no-data';
+    td.textContent = '–';
+  } else {
+    td.className = 'kph';
+    td.textContent = value;
+  }
+  return td;
+}
+
+['Normal', 'Wild', 'Hoenn'].forEach((t, i) => {
+  const el = document.getElementById('cnt' + i);
+  if (el) el.textContent = LT.filter(r => r[1] === t).length;
+});
+
+const restGrid = document.getElementById('rest-grid');
+REST.forEach(([rarity, name, type]) => {
+  const card = document.createElement('div');
+  card.className = 'rest-card';
+  const rk = document.createElement('div');
+  rk.className = 'rk';
+  rk.textContent = rarity;
+  const rp = document.createElement('div');
+  rp.className = 'rp';
+  rp.textContent = name;
+  const rr = document.createElement('div');
+  rr.className = 'rr';
+  rr.innerHTML = 'Tipo: <span>' + type + '</span>';
+  card.appendChild(rk);
+  card.appendChild(rp);
+  card.appendChild(rr);
+  restGrid.appendChild(card);
+});
+
+const searchEl = document.getElementById('search');
+const rows = body.querySelectorAll('tr');
+searchEl.addEventListener('input', () => {
+  const q = norm(searchEl.value);
+  rows.forEach(tr => {
+    tr.classList.toggle('hide', q !== '' && tr.dataset.norm.indexOf(q) === -1);
+  });
+});
+</script>
+
+</body>
+</html>
