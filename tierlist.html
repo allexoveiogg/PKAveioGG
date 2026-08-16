@@ -147,6 +147,22 @@
     color: #7C88A6;
   }
 
+  .elem-search-row {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px dashed #1E2A3D;
+  }
+
+  .elem-search-row label {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #6E5CE0;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
   .result-area {
     margin: 30px auto 0;
     max-width: 560px;
@@ -419,6 +435,16 @@
       <input type="text" id="search" placeholder="Digite o nome do Pokémon..." list="pkm-datalist" autocomplete="off">
       <button id="btn-search">Buscar</button>
     </div>
+
+    <div class="elem-search-row">
+      <label for="elem-search">Pesquisar por elemento / Moveset</label>
+      <div class="search-row">
+        <input type="text" id="elem-search" placeholder="Ex: grass, fire, water, electric..." list="elm-datalist" autocomplete="off">
+        <button id="btn-elem">Buscar</button>
+      </div>
+      <datalist id="elm-datalist"></datalist>
+    </div>
+
     <div class="hint">Dica: busque por nome (ex: "Charizard", "Shiny Pikachu") ou por elemento/tipo (ex: "grass", "fire", "water").</div>
     <datalist id="pkm-datalist"></datalist>
 
@@ -508,6 +534,9 @@ const pkmList = document.getElementById('pkm-list');
 const listCount = document.getElementById('list-count');
 const resultElem = document.getElementById('result-elem');
 const searchResults = document.getElementById('search-results');
+const elemSearch = document.getElementById('elem-search');
+const btnElem = document.getElementById('btn-elem');
+const elmDatalist = document.getElementById('elm-datalist');
 
 TIER_DATA.forEach(p => {
   const opt = document.createElement('option');
@@ -518,10 +547,31 @@ TIER_DATA.forEach(p => {
 const ELEMENTS = [...new Set(TIER_DATA.map(p => p.e))].sort();
 ELEMENTS.forEach(el => {
   const opt = document.createElement('option');
-  opt.value = el;
+  opt.value = el === '?' ? '?' : el;
   opt.textContent = el === '?' ? 'Desconhecido (?)' : el;
   elemFilter.appendChild(opt);
+  const dopt = document.createElement('option');
+  dopt.value = el === '?' ? '?' : el;
+  elmDatalist.appendChild(dopt);
 });
+
+function doElemSearch() {
+  const q = normalize(elemSearch.value);
+  resultCard.classList.remove('show');
+  if (!q) {
+    searchResults.classList.remove('show');
+    return;
+  }
+  const results = q === '?' 
+    ? TIER_DATA.filter(p => p.e === '?')
+    : TIER_DATA.filter(p => normalize(p.e).includes(q) || normalize(p.n).includes(q));
+  if (results.length === 0) {
+    searchResults.classList.remove('show');
+    alert('Nenhum resultado para o elemento "' + q + '". Ex: grass, fire, water.');
+    return;
+  }
+  renderSearchResults(results, q);
+}
 
 function showResult(p) {
   resultName.textContent = p.n;
@@ -605,6 +655,8 @@ function doSearch() {
 
 searchBtn.addEventListener('click', doSearch);
 searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
+btnElem.addEventListener('click', doElemSearch);
+elemSearch.addEventListener('keydown', (e) => { if (e.key === 'Enter') doElemSearch(); });
 
 let lastListQ = '';
 let lastTier = '';
