@@ -281,6 +281,39 @@
 
   .list-controls .count { color: #9AA7C4; font-size: 0.9rem; margin-left: auto; }
 
+  .elem-box-panel {
+    margin-top: 44px;
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 14px;
+    padding: 22px 24px;
+  }
+
+  .elem-box-panel .section-title { margin: 0 0 16px; }
+
+  .elem-box-panel .list-controls { margin-bottom: 0; }
+
+  .elem-box-panel .list-controls button, .btn-elem-box {
+    padding: 11px 24px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 10px;
+    background: #2A63E0;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .elem-box-panel .list-controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  }
+
+  .elem-box-panel .hint { text-align: left; color: #7C88A6; margin-top: 10px; }
+
   .pkm-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -487,6 +520,16 @@
 
   <div class="pkm-list" id="pkm-list"></div>
 
+  <div class="elem-box-panel">
+    <h2 class="section-title">Pesquisar por Elemento (Moveset)</h2>
+    <div class="list-controls">
+      <input type="text" id="elem-box-search" placeholder="Digite o elemento... ex: grass, fire, water, electric" list="elem-box-datalist" autocomplete="off">
+      <button id="btn-elem-box" class="btn-elem-box">Buscar</button>
+      <datalist id="elem-box-datalist"></datalist>
+    </div>
+    <div class="hint">O elemento vem da coluna Moveset da Pokedex. Digite o nome do tipo (ex: "grass") e a lista completa acima será filtrada.</div>
+  </div>
+
 </div>
 
 <div class="footer">
@@ -537,6 +580,9 @@ const searchResults = document.getElementById('search-results');
 const elemSearch = document.getElementById('elem-search');
 const btnElem = document.getElementById('btn-elem');
 const elmDatalist = document.getElementById('elm-datalist');
+const elemBoxSearch = document.getElementById('elem-box-search');
+const btnElemBox = document.getElementById('btn-elem-box');
+const elemBoxDatalist = document.getElementById('elem-box-datalist');
 
 TIER_DATA.forEach(p => {
   const opt = document.createElement('option');
@@ -553,6 +599,9 @@ ELEMENTS.forEach(el => {
   const dopt = document.createElement('option');
   dopt.value = el === '?' ? '?' : el;
   elmDatalist.appendChild(dopt);
+  const bopt = document.createElement('option');
+  bopt.value = el === '?' ? '?' : el;
+  elemBoxDatalist.appendChild(bopt);
 });
 
 function doElemSearch() {
@@ -661,15 +710,7 @@ elemSearch.addEventListener('keydown', (e) => { if (e.key === 'Enter') doElemSea
 let lastListQ = '';
 let lastTier = '';
 
-function renderList() {
-  const q = normalize(listSearch.value);
-  const tf = tierFilter.value;
-  const ef = elemFilter.value;
-  const filtered = TIER_DATA.filter(p =>
-    (!q || normalize(p.n).includes(q) || normalize(p.e).includes(q)) &&
-    (!tf || p.t === tf) &&
-    (!ef || p.e === ef)
-  );
+function renderFiltered(filtered) {
   pkmList.innerHTML = '';
   listCount.textContent = filtered.length + ' Pokémon';
   if (filtered.length === 0) {
@@ -704,9 +745,44 @@ function renderList() {
   });
 }
 
+function renderList() {
+  const q = normalize(listSearch.value);
+  const tf = tierFilter.value;
+  const ef = elemFilter.value;
+  const filtered = TIER_DATA.filter(p =>
+    (!q || normalize(p.n).includes(q) || normalize(p.e).includes(q)) &&
+    (!tf || p.t === tf) &&
+    (!ef || p.e === ef)
+  );
+  renderFiltered(filtered);
+}
+
+function doElemBoxSearch() {
+  const q = normalize(elemBoxSearch.value);
+  const tf = tierFilter.value;
+  const ef = elemFilter.value;
+  let filtered;
+  if (!q) {
+    filtered = TIER_DATA.filter(p => (!tf || p.t === tf) && (!ef || p.e === ef));
+  } else {
+    filtered = q === '?'
+      ? TIER_DATA.filter(p => p.e === '?' && (!tf || p.t === tf) && (!ef || p.e === ef))
+      : TIER_DATA.filter(p =>
+          (normalize(p.e).includes(q) || normalize(p.n).includes(q)) &&
+          (!tf || p.t === tf) &&
+          (!ef || p.e === ef)
+        );
+  }
+  renderFiltered(filtered);
+  const panel = document.querySelector('.elem-box-panel');
+  if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 listSearch.addEventListener('input', renderList);
 tierFilter.addEventListener('change', renderList);
 elemFilter.addEventListener('change', renderList);
+btnElemBox.addEventListener('click', doElemBoxSearch);
+elemBoxSearch.addEventListener('keydown', (e) => { if (e.key === 'Enter') doElemBoxSearch(); });
 
 renderList();
 </script>
