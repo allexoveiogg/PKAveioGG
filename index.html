@@ -121,14 +121,25 @@
 
   .section-title.first { margin-top: 0; }
 
-  .twitch-card {
+  .big-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .twitch-card, .partner-card {
     background: linear-gradient(160deg, #3a1d5c 0%, #161E2A 100%);
     border: 2px solid #9146ff;
     border-radius: 16px;
     padding: 30px;
     text-align: center;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    margin-bottom: 10px;
+  }
+
+  .partner-card {
+    background: linear-gradient(160deg, #123a5c 0%, #161E2A 100%);
+    border-color: #4E82F0;
   }
 
   .twitch-card .live-dot {
@@ -163,9 +174,28 @@
     transition: transform 0.15s, box-shadow 0.15s;
   }
 
-  .twitch-card a:hover {
+  .twitch-card a:hover,
+  .partner-card a:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .partner-card .live-dot {
+    background: #4E82F0;
+  }
+
+  .partner-card a {
+    display: inline-block;
+    padding: 9px 22px;
+    background: #4E82F0;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
 
   .about-text {
@@ -242,6 +272,7 @@
   @media (max-width: 600px) {
     .header h1 { font-size: 1.7rem; }
     .home-grid { grid-template-columns: 1fr; }
+    .big-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -276,10 +307,20 @@
 
 <div class="container">
 
-  <div class="twitch-card">
-    <h3><span class="live-dot"></span>Live na Twitch</h3>
-    <p>Acompanhe a live do VeioGG ao vivo na Twitch!</p>
-    <a href="https://www.twitch.tv/veiogg" target="_blank">Assistir na Twitch</a>
+  <div class="big-grid">
+
+    <div class="twitch-card">
+      <h3><span class="live-dot"></span>Live na Twitch</h3>
+      <p>Acompanhe a live do VeioGG ao vivo na Twitch!</p>
+      <a href="https://www.twitch.tv/veiogg" target="_blank">Assistir na Twitch</a>
+    </div>
+
+    <div class="partner-card">
+      <h3><span class="live-dot"></span>Parceiros</h3>
+      <p>Canais parceiros do Guia Pokémon!</p>
+      <a href="https://www.twitch.tv/flameikki" target="_blank">FLAMEIKKI</a>
+    </div>
+
   </div>
 
   <h2 class="section-title first">Sobre o Site</h2>
