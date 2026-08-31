@@ -386,6 +386,7 @@
     <button class="sub-tab active" data-tab="tab-hunts">Rotações de Hunts</button>
     <button class="sub-tab" data-tab="tab-npcs">NPCs e Tasks</button>
     <button class="sub-tab" data-tab="tab-elements">Rotações por Elemento</button>
+    <button class="sub-tab" data-tab="tab-progress">Guia de Progressão</button>
     <button class="sub-tab" data-tab="tab-dicas">Dicas e Estratégias</button>
   </div>
 </div>
@@ -472,6 +473,23 @@
     <h2 class="section-title">Rotações Incompletas</h2>
 
     <div id="incomplete-container"></div>
+
+  </div>
+
+  <div id="tab-progress" class="tab-panel" style="display:none;">
+
+    <p class="tab-credit">Guia de progressão por <strong>VeioGG</strong></p>
+
+    <h2 class="section-title first">Guia de Progressão por Elemento</h2>
+
+    <div class="info-box">
+      <ul>
+        <li>Times <strong>SR + T1</strong> para começar cada elemento.</li>
+        <li>Depois a <strong>evolução</strong>: trocas por <strong>Ultra Raros</strong> e <strong>Lendários</strong>.</li>
+      </ul>
+    </div>
+
+    <div id="progress-container"></div>
 
   </div>
 
@@ -996,6 +1014,131 @@ ELEMENTS.filter(e => !/incompleta/i.test(e.name)).forEach(e => elementsContainer
 
 const incompleteContainer = document.getElementById('incomplete-container');
 ELEMENTS.filter(e => /incompleta/i.test(e.name)).forEach(e => incompleteContainer.appendChild(buildElement(e)));
+
+const TIMES = [
+  {
+    name: 'FOGO',
+    sr: ['Shiny Arcanine', 'Shiny Infernape'],
+    t1: ['Shiny Rapidash', 'Shiny Typhlosion', 'Shiny Charizard', 'Infernape comum'],
+    upgrades: ['Troca Infernape comum por Shiny Torkoal Ultra Raro', 'Troca Shiny Charizard por Shiny Magmar Lendário']
+  },
+  {
+    name: 'ELÉTRICO',
+    sr: ['Shiny Luxray', 'Shiny Pachirisu'],
+    t1: ['Luxray', 'Shiny Raichu', 'Shiny Ampharos', 'Shiny Smeargle Elétrico'],
+    obs: 'Time bom, com hunt exclusiva, pokes relativamente baratos e fortes.',
+    upgrades: ['Substitui Shiny Raichu por Shiny Manectric Ultra Raro', 'Substitui Luxray por Shiny Buzz Lendário']
+  },
+  {
+    name: 'ÁGUA',
+    sr: ['Shiny Kingdra', 'Shiny Sharpedo'],
+    t1: ['Shiny Blastoise', 'Shiny Feraligatr', 'Shiny Vaporeon', 'Shiny Relicanth'],
+    obs: 'Também pode substituir algum deles por Shiny Wailord ou Shiny Smeargle Água, os outros T1 são meme.',
+    upgrades: ['Substitui Shiny Vaporeon por Shiny Milotic Ultra Raro', 'Substitui Shiny Relicanth por Shiny Gyarados Lendário']
+  },
+  {
+    name: 'PLANTA',
+    sr: ['Shiny Gogoat', 'Shiny Tangrowth'],
+    t1: ['Gogoat', 'Tangrowth', 'Shiny Venusaur', 'Shiny Meganium'],
+    upgrades: ['Troca Shiny Meganium por Shiny Sceptile', 'Troca Shiny Venusaur por Shiny Leafeon']
+  },
+  {
+    name: 'TERRA',
+    sr: ['Shiny Torterra', 'Shiny Pupitar'],
+    t1: ['Torterra', 'Shiny Marowak', 'Shiny Steelix', 'Shiny Nidoqueen'],
+    upgrades: ['Troca Nidoqueen por Shiny Swampert Ultra Raro', 'Troca Steelix ou Torterra por Shiny Flygon Lendário']
+  },
+  {
+    name: 'LUTADOR',
+    sr: ['Shiny Machamp', 'Shiny Kangaskhan'],
+    t1: ['Shiny Hitmontop', 'Shiny Hitmonlee', 'Shiny Hitmonchan', 'Shiny Poliwrath'],
+    obs: 'Existe a possibilidade de tirar o Shiny Kangaskhan por um Shiny Snorlax que também é lendário no time.',
+    upgrades: ['Troca Shiny Hitmonlee por Shiny Blaziken Ultra Raro', 'Troca Shiny Hitmonchan por Shiny Lucario Lendário']
+  },
+  {
+    name: 'POISON',
+    sr: ['Shiny Toxicroak', 'Shiny Seviper'],
+    t1: ['Shiny Muk', 'Shiny Tentacruel', 'Garbordor', 'Shiny Smeargle Poison'],
+    upgrades: ['Troca Shiny Smeargle por Shiny Swallot Ultra Raro', 'Troca Shiny Tentacruel por Shiny Garbodor Lendário']
+  },
+  {
+    name: 'FADA',
+    sr: ['Shiny Florges', 'Shiny Mimikyu'],
+    t1: ['Shiny Delcatty', 'Mega Clefable', 'Shiny Smeargle Fada'],
+    upgrades: ['Completa com Shiny Gardevoir Ultra Rara', 'Completa com Shiny Sylveon Lendária'],
+    obs: 'O grande problema atual de fada é que ela precisa ser a Mega Clefable.'
+  }
+];
+
+function timeBadge(entry) {
+  const name = String(entry).trim();
+  const shiny = /^shiny/i.test(name);
+  const span = document.createElement('span');
+  span.className = 'pkm' + (shiny ? ' shiny' : '');
+  span.textContent = name.replace(/^\s*Shiny\s+/i, '');
+  return span;
+}
+
+function timeBadgeList(label, entries) {
+  const div = document.createElement('div');
+  div.className = 'rot';
+  const lbl = document.createElement('div');
+  lbl.className = 'lbl';
+  lbl.textContent = label;
+  div.appendChild(lbl);
+  entries.forEach(e => div.appendChild(timeBadge(e)));
+  return div;
+}
+
+function buildUpgradeList(upgrades) {
+  const div = document.createElement('div');
+  div.className = 'rot';
+  const lbl = document.createElement('div');
+  lbl.className = 'lbl';
+  lbl.textContent = 'Evolução do Time';
+  div.appendChild(lbl);
+  upgrades.forEach(u => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.style.cssText = 'margin-bottom:8px;';
+    const step = document.createElement('span');
+    step.style.cssText = 'color:#E08CE6;font-weight:700;margin-right:8px;';
+    step.textContent = '\u25B8';
+    row.appendChild(step);
+    row.appendChild(document.createTextNode(u));
+    div.appendChild(row);
+  });
+  return div;
+}
+
+function buildTime(t) {
+  const card = document.createElement('div');
+  card.className = 'hunt-card';
+
+  const name = document.createElement('div');
+  name.className = 'hunt-name';
+  name.textContent = t.name;
+  card.appendChild(name);
+
+  const body = document.createElement('div');
+  body.className = 'hunt-body';
+
+  if (t.sr && t.sr.length) body.appendChild(timeBadgeList('SR', t.sr));
+  if (t.t1 && t.t1.length) body.appendChild(timeBadgeList('T1', t.t1));
+  if (t.upgrades && t.upgrades.length) body.appendChild(buildUpgradeList(t.upgrades));
+  if (t.obs) {
+    const obs = document.createElement('div');
+    obs.className = 'obs';
+    obs.textContent = t.obs;
+    body.appendChild(obs);
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
+const progressContainer = document.getElementById('progress-container');
+TIMES.forEach(t => progressContainer.appendChild(buildTime(t)));
 
 const subTabs = document.querySelectorAll('.sub-tab');
 subTabs.forEach(btn => {
