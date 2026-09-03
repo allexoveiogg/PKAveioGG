@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Max Brokes PokÃ©mon</title>
+<title>Max Brokes Pokémon</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -188,7 +188,7 @@
   .notes-box li:last-child { border-bottom: none; }
 
   .notes-box li::before {
-    content: 'â€¢';
+    content: '•';
     position: absolute;
     left: 4px;
     color: #6E5CE0;
@@ -231,8 +231,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">InÃ­cio</a>
-    <a href="ginasios.html">GinÃ¡sios</a>
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html" class="active">Max Brokes</a>
     <a href="rocket.html">Equipe Rocket</a>
@@ -246,13 +246,13 @@
 
 <div class="header">
   <h1>Max Brokes</h1>
-  <p>MÃ¡ximo de brokes por tier para captura de Shinys</p>
+  <p>Máximo de brokes por tier para captura de Shinys</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
 <div class="container">
 
-  <h2 class="section-title">MÃ¡ximo de Brokes por Tier</h2>
+  <h2 class="section-title">Máximo de Brokes por Tier</h2>
 
   <div class="broke-table-wrap">
     <table class="broke-table">
@@ -260,7 +260,7 @@
         <tr>
           <th>Tier</th>
           <th>Max Brokes</th>
-          <th class="bar-cell">ReferÃªncia</th>
+          <th class="bar-cell">Referência</th>
         </tr>
       </thead>
       <tbody id="broke-tbody">
@@ -269,24 +269,24 @@
   </div>
 
   <div class="notes-box">
-    <h4>ObservaÃ§Ãµes</h4>
+    <h4>Observações</h4>
     <ul>
       <li>Premier/Alliance balls contam sempre como a <strong>primeira bola</strong> jogada.</li>
       <li>Premier/Alliance balls contam para a contagem de <strong>brokes totais</strong>.</li>
-      <li>O max Ã© um valor <strong>nÃ£o oficial</strong> descoberto pela comunidade, e pode mudar a qualquer momento.</li>
-      <li>As brokes sÃ£o pra <strong>shinys</strong>. PokÃ©mon normal nÃ£o tem max.</li>
-      <li>Chegar na mÃ¡xima <strong>nÃ£o garante o catch</strong>. A chance sÃ³ fica muito mais alta.</li>
-      <li>Rates: <strong>PB = 4x</strong> Â· <strong>UB = 4x</strong> Â· <strong>AB = 5x</strong> Â· <strong>Elemental = 5x</strong></li>
-      <li>O sistema de mÃ©rito considera o <strong>total de brokes</strong>. Os rates nÃ£o tÃªm nada a ver com ele.</li>
+      <li>O max é um valor <strong>não oficial</strong> descoberto pela comunidade, e pode mudar a qualquer momento.</li>
+      <li>As brokes são pra <strong>shinys</strong>. Pokémon normal não tem max.</li>
+      <li>Chegar na máxima <strong>não garante o catch</strong>. A chance só fica muito mais alta.</li>
+      <li>Rates: <strong>PB = 4x</strong> · <strong>UB = 4x</strong> · <strong>AB = 5x</strong> · <strong>Elemental = 5x</strong></li>
+      <li>O sistema de mérito considera o <strong>total de brokes</strong>. Os rates não têm nada a ver com ele.</li>
     </ul>
   </div>
 
 </div>
 
 <div class="footer">
-  Max Brokes Â· Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex PÃºblica PokeAlliance</a>
+  Max Brokes · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">â€“</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -301,7 +301,7 @@ const BROKE_ORDER = [
   { tier: 'T4', value: '~600', pct: 2, cls: 'tier-t4' },
   { tier: 'T5', value: '~400', pct: 2, cls: 'tier-t5' },
   { tier: 'T6', value: '~200', pct: 1, cls: 'tier-t6' },
-  { tier: 'T7', value: 'â€”', pct: 0, cls: 'tier-t7' }
+  { tier: 'T7', value: '—', pct: 0, cls: 'tier-t7' }
 ];
 
 const tbody = document.getElementById('broke-tbody');

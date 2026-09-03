@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -247,8 +247,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">InÃ­cio</a>
-    <a href="ginasios.html">GinÃ¡sios</a>
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html">Equipe Rocket</a>
@@ -262,7 +262,7 @@
 
 <div class="header">
   <h1>Linked Tasks</h1>
-  <p>MissÃµes de captura e kills por tipo de hunt</p>
+  <p>Missões de captura e kills por tipo de hunt</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
@@ -271,15 +271,15 @@
   <h2 class="section-title">Tabela de Linked Tasks</h2>
 
   <div class="note-box">
-    <strong>Como funciona</strong>: para ver as tasks, aperte <strong>Ctrl + L</strong> no jogo. Completar uma task libera a prÃ³xima,
-    entÃ£o esta tabela mostra a quantidade de kills exigida por PokÃ©mon em cada tipo de hunt.
+    <strong>Como funciona</strong>: para ver as tasks, aperte <strong>Ctrl + L</strong> no jogo. Completar uma task libera a próxima,
+    então esta tabela mostra a quantidade de kills exigida por Pokémon em cada tipo de hunt.
     <div class="refs">
       <a href="https://discord.com/channels/1159230367803392022/1159230368940032093/1495879078094311494" target="_blank" rel="noopener">Mais detalhes no Discord</a>
     </div>
   </div>
 
   <div class="search-row">
-    <input type="text" id="search" placeholder="Buscar PokÃ©mon..." autocomplete="off">
+    <input type="text" id="search" placeholder="Buscar Pokémon..." autocomplete="off">
   </div>
 
   <div class="country-row">
@@ -295,7 +295,7 @@
       <thead>
         <tr>
           <th>Qtd</th>
-          <th>PokÃ©mon</th>
+          <th>Pokémon</th>
           <th>Tipo de Hunt</th>
           <th>Local</th>
           <th>Kills/h</th>
@@ -323,9 +323,9 @@
 </div>
 
 <div class="footer">
-  Linked Tasks Â· Guia do servidor
+  Linked Tasks · Guia do servidor
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">â€“</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
 
 <script>
@@ -504,7 +504,7 @@ function makeLocal(value) {
   const td = document.createElement('td');
   if (!value || value === '-') {
     td.className = 'no-data';
-    td.textContent = 'â€“';
+    td.textContent = '–';
   } else {
     const a = document.createElement('a');
     a.href = value;
@@ -561,7 +561,7 @@ function makeKph(value) {
   const td = document.createElement('td');
   if (!value) {
     td.className = 'no-data';
-    td.textContent = 'â€“';
+    td.textContent = '–';
   } else {
     td.className = 'kph';
     td.textContent = value;
