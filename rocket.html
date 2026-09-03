@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -99,7 +99,7 @@
   .info-box li:last-child { border-bottom: none; }
 
   .info-box li::before {
-    content: '►';
+    content: 'â–º';
     position: absolute;
     left: 2px;
     color: #6E5CE0;
@@ -191,7 +191,7 @@
     color: #FFFFFF;
   }
 
-  .pkm.shiny::before { content: '✦ '; }
+  .pkm.shiny::before { content: 'âœ¦ '; }
 
   .vs-col { color: #7C88A6; font-size: 0.8rem; width: 30px; }
 
@@ -299,8 +299,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">Início</a>
-    <a href="ginasios.html">Ginásios</a>
+    <a href="index.html">InÃ­cio</a>
+    <a href="ginasios.html">GinÃ¡sios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html" class="active">Equipe Rocket</a>
@@ -314,14 +314,14 @@
 
 <div class="header">
   <h1>Equipe Rocket</h1>
-  <p>Guia de batalhas contra os membros, o Giovanni e a Polícia</p>
+  <p>Guia de batalhas contra os membros, o Giovanni e a PolÃ­cia</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
 <div class="sub-nav">
   <div class="sub-nav-inner">
     <button class="sub-tab active" data-tab="tab-rocket">Equipe Rocket</button>
-    <button class="sub-tab" data-tab="tab-police">Polícia</button>
+    <button class="sub-tab" data-tab="tab-police">PolÃ­cia</button>
   </div>
 </div>
 
@@ -331,16 +331,16 @@
 
   <div class="info-box">
     <ul>
-      <li>Os Pokémons da <strong>esquerda</strong> são os do NPC. Os da <strong>direita</strong> são os recomendados.</li>
-      <li>Localização: <a href="https://imgur.com/a/p3eK6yV" target="_blank">imgur.com/a/p3eK6yV</a></li>
-      <li>Para batalhar com o <strong>Giovanni</strong>, é necessário ter ganhado <strong>130 batalhas</strong> contra os demais membros da equipe Rocket.</li>
+      <li>Os PokÃ©mons da <strong>esquerda</strong> sÃ£o os do NPC. Os da <strong>direita</strong> sÃ£o os recomendados.</li>
+      <li>LocalizaÃ§Ã£o: <a href="https://imgur.com/a/p3eK6yV" target="_blank">imgur.com/a/p3eK6yV</a></li>
+      <li>Para batalhar com o <strong>Giovanni</strong>, Ã© necessÃ¡rio ter ganhado <strong>130 batalhas</strong> contra os demais membros da equipe Rocket.</li>
     </ul>
   </div>
 
   <h2 class="section-title">Membros da Equipe</h2>
   <div class="leader-grid" id="grid-membros"></div>
 
-  <h2 class="section-title">Membros Avançados</h2>
+  <h2 class="section-title">Membros AvanÃ§ados</h2>
   <div class="leader-grid" id="grid-avancados"></div>
 
   <h2 class="section-title">Giovanni</h2>
@@ -352,9 +352,9 @@
 
     <div class="info-box">
       <ul>
-        <li>Os Pokémons da <strong>esquerda</strong> são os do NPC. Os da <strong>direita</strong> são os tipos recomendados.</li>
+        <li>Os PokÃ©mons da <strong>esquerda</strong> sÃ£o os do NPC. Os da <strong>direita</strong> sÃ£o os tipos recomendados.</li>
         <li>Precisa ter ganhado a batalha com o <strong>Giovanni</strong> pra iniciar.</li>
-        <li>Localização: <a href="https://imgur.com/a/Fbmmqeh" target="_blank">imgur.com/a/Fbmmqeh</a></li>
+        <li>LocalizaÃ§Ã£o: <a href="https://imgur.com/a/Fbmmqeh" target="_blank">imgur.com/a/Fbmmqeh</a></li>
       </ul>
     </div>
 
@@ -366,9 +366,9 @@
 </div>
 
 <div class="footer">
-  Equipe Rocket · Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex Pública PokeAlliance</a>
+  Equipe Rocket Â· Dados da <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/htmlview" target="_blank">Pokedex PÃºblica PokeAlliance</a>
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">â€“</span></div>
 </div>
 
 <script>
@@ -543,5 +543,6 @@ fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
   .catch(() => {});
 </script>
 
+<script src="btop.js"></script>
 </body>
 </html>
