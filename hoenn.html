@@ -356,6 +356,105 @@
     .header h1 { font-size: 1.7rem; }
     .rot-grid { grid-template-columns: 1fr; }
   }
+
+  .subsection {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    margin: 18px 0 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .guide-p { color: #C3CEE9; margin-bottom: 14px; font-size: 0.98rem; }
+  .guide-p strong { color: #E08CE6; }
+
+  .guide-note {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .guide-note.warning {
+    background: #1A1414;
+    border-left: 3px solid #FFB18A;
+    color: #E6EAF2;
+  }
+
+  .guide-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  }
+
+  .guide-table th {
+    background: #6E5CE0;
+    color: #FFFFFF;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .guide-table td {
+    background: #161E2A;
+    color: #E6EAF2;
+    padding: 10px 14px;
+    border-bottom: 1px solid #1E2A3D;
+    font-size: 0.92rem;
+  }
+
+  .guide-table tr:last-child td { border-bottom: none; }
+  .guide-table td strong { color: #6E5CE0; }
+  .guide-table tr:hover td { background: #1A2233; }
+
+  .guide-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+    padding: 16px 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  }
+
+  .guide-box p { color: #E6EAF2; margin-bottom: 8px; }
+  .guide-box .subsection { margin-top: 0; }
+
+  .guide-warn-text { color: #FFB18A !important; font-weight: 800; }
+
+  .guide-penalty { list-style: none; margin: 6px 0 12px; }
+  .guide-penalty li {
+    display: inline-block;
+    background: #1A1414;
+    border: 1px solid #FFB18A;
+    color: #E6EAF2;
+    border-radius: 999px;
+    padding: 6px 16px;
+    margin: 3px 6px 3px 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .guide-gold {
+    background: linear-gradient(160deg, #2A2412 0%, #161E2A 100%);
+    border: 2px solid #FFD700;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+  }
+
+  .guide-gold p { color: #FFF3C4; font-size: 1.02rem; }
+  .guide-gold strong { color: #FFD700; }
+  .guide-gold .guide-final { margin-top: 12px; font-size: 1.05rem; }
+
+  @media (max-width: 600px) {
+    .guide-table th, .guide-table td { padding: 8px 10px; font-size: 0.82rem; }
+    .guide-penalty li { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -388,6 +487,7 @@
     <button class="sub-tab" data-tab="tab-elements">Rotações por Elemento</button>
     <button class="sub-tab" data-tab="tab-progress">Guia de Progressão</button>
     <button class="sub-tab" data-tab="tab-hunts2">Rotações de Hunts 2</button>
+    <button class="sub-tab" data-tab="tab-guia150">Guia 1 ao 150</button>
   </div>
 </div>
 
@@ -507,6 +607,124 @@
     </div>
 
     <div id="hunts2-container"></div>
+
+  </div>
+
+  <div id="tab-guia150" class="tab-panel" style="display:none;">
+
+    <p class="tab-credit">Guia para pegar os <strong>150 primeiros Pokémons</strong></p>
+
+    <h2 class="section-title first">🟢 Dicas Iniciais para Novatos</h2>
+
+    <h3 class="subsection">💰 Pokémon iniciais com potencial — baratos</h3>
+    <p class="guide-p">Boas opções para quem está começando, tanto para <strong>pegar os 150</strong> quanto para <strong>caçar Wildscape</strong>.</p>
+
+    <div class="guide-note warning">
+      <strong>⚠️ Nenhum dos Pokémon abaixo é Shiny.</strong> O foco é <strong>custo-benefício, potencial e utilidade em diferentes locais</strong>.
+    </div>
+
+    <table class="guide-table">
+      <thead>
+        <tr><th>🎯 Para caçar</th><th>🐾 Pokémon indicados</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⚪ Normal / 🌑 Dark</td><td><strong>Poliwrath / Machamp</strong> 🥊</td></tr>
+        <tr><td>🥊 Lutador / 🐛 Bug</td><td><strong>Mimikyu ⭐ / Gengar / Pidgeot</strong></td></tr>
+        <tr><td>🔥 Fogo / 🪨 Pedra / 🌎 Terra</td><td><strong>Gyarados / Tyranitar (apenas fogo)</strong></td></tr>
+        <tr><td>⚡ Elétrico</td><td><strong>Steelix</strong></td></tr>
+        <tr><td>✨ Fada</td><td><strong>Lucario / Gengar ⭐ / Scizor</strong></td></tr>
+        <tr><td>🌿 Planta / ⚙️ Metal</td><td><strong>Arcanine / Charizard / Pidgeot</strong></td></tr>
+        <tr><td>🌊 Água / 🪽 Voador</td><td><strong>Pachirisu / Electabuzz</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="guide-box">
+      <h3 class="subsection">⭐ Destaques</h3>
+      <ul>
+        <li><strong>🥊 Poliwrath / Machamp</strong> → Normal e Dark</li>
+        <li><strong>👻 Mimikyu</strong> → Lutador e Bug</li>
+        <li><strong>👻 Gengar</strong> → Lutador e Bug</li>
+        <li><strong>🌊 Gyarados / Tyranitar (apenas fogo)</strong> → Fogo, Pedra e Terra</li>
+        <li><strong>⛓️ Steelix</strong> → Elétrico</li>
+        <li><strong>👻 Gengar</strong> → Fada — <strong>melhor opção e ainda é Fly</strong></li>
+        <li><strong>⚙️ Lucario / Scizor</strong> → Fada</li>
+        <li><strong>🔥 Arcanine / Charizard / Pidgeot</strong> → Planta e Metal</li>
+        <li><strong>⚡ Pachirisu / Electabuzz</strong> → Água e Voador</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">🔥 Melhores Opções — Sem Erro!</h2>
+
+    <h3 class="subsection">💎 Custo-benefício</h3>
+    <p class="guide-p">Opções para quem quer investir em Pokémon que continuam sendo úteis em <strong>vários locais</strong>, evitando gastar dinheiro à toa.</p>
+
+    <table class="guide-table">
+      <thead>
+        <tr><th>🎯 Para caçar</th><th>🏆 Melhores opções</th><th>💡 Observação</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⚪ Normal / 🌑 Dark</td><td><strong>Shiny Hitmonchan / Shiny Hitmonlee / Shiny Hitmontop</strong> 🥊</td><td>Ótimas opções Lutadoras</td></tr>
+        <tr><td>🥊 Lutador / 🐛 Bug</td><td><strong>Mimikyu ⭐ / Shiny Pidgeot</strong></td><td>Mimikyu é a melhor opção</td></tr>
+        <tr><td>🔥 Fogo / 🪨 Pedra / 🌎 Terra</td><td><strong>Shiny Starmie</strong> 🌊</td><td>Excelente opção</td></tr>
+        <tr><td>⚡ Elétrico</td><td><strong>Steelix</strong> ⛓️</td><td>Ótimo custo-benefício</td></tr>
+        <tr><td>✨ Fada</td><td><strong>Shiny Magneton</strong> ⚡⚙️</td><td>Excelente opção</td></tr>
+        <tr><td>🌿 Planta / ⚙️ Metal / 🧊 Ice</td><td><strong>Arcanine</strong> 🔥</td><td>Muito versátil</td></tr>
+        <tr><td>🌊 Água</td><td><strong>Pachirisu / Luxray / Electabuzz</strong> ⚡</td><td>Luxray é mais caro</td></tr>
+      </tbody>
+    </table>
+
+    <div class="guide-box">
+      <h3 class="subsection">💰 Luxray</h3>
+      <p><strong>Luxray</strong> é uma excelente opção para caçar Pokémon de Água, mas é <strong>meio caro</strong>.</p>
+      <p>➡️ Se você está começando, <strong>Pachirisu ou Electabuzz</strong> podem ser opções mais interessantes pelo custo-benefício.</p>
+    </div>
+
+    <h2 class="section-title">🃏 Shiny Ditto — O Coringa</h2>
+
+    <div class="guide-box">
+      <p><strong>Shiny Ditto</strong> é uma opção diferente de todas as outras: <strong>🔄 copia qualquer T1 do game</strong>.</p>
+      <p>Isso faz dele um Pokémon extremamente versátil e útil para diferentes situações.</p>
+      <p class="guide-warn-text">⚠️ Porém, existe uma penalidade:</p>
+      <ul class="guide-penalty">
+        <li>⚔️ <strong>ATQ: -20%</strong></li>
+        <li>🛡️ <strong>DEF: -20%</strong></li>
+      </ul>
+      <p>➡️ <strong>Mais versatilidade, menos força.</strong> O Ditto pode copiar praticamente qualquer T1, mas terá essa redução de <strong>20% em ATQ e DEF</strong>.</p>
+    </div>
+
+    <h2 class="section-title">🏆 Resumo Rápido</h2>
+
+    <div class="req-grid">
+      <div class="req-card beneficio">
+        <h4>🟢 Começando — barato</h4>
+        <p><strong>Poliwrath / Machamp</strong> → Normal e Dark</p>
+        <p><strong>Mimikyu / Gengar / Pidgeot</strong> → Lutador e Bug</p>
+        <p><strong>Gyarados / Tyranitar</strong> → Fogo, Pedra e Terra</p>
+        <p><strong>Steelix</strong> → Elétrico</p>
+        <p><strong>Gengar / Lucario / Scizor</strong> → Fada</p>
+        <p><strong>Arcanine / Charizard / Pidgeot</strong> → Planta e Metal</p>
+        <p><strong>Pachirisu / Electabuzz</strong> → Água e Voador</p>
+      </div>
+      <div class="req-card normal">
+        <h4>🔵 Investindo — melhores opções</h4>
+        <p><strong>Shiny Hitmonchan / Hitmonlee / Hitmontop</strong> → Normal e Dark</p>
+        <p><strong>Mimikyu / Shiny Pidgeot</strong> → Lutador e Bug</p>
+        <p><strong>Shiny Starmie</strong> → Fogo, Pedra e Terra</p>
+        <p><strong>Steelix</strong> → Elétrico</p>
+        <p><strong>Shiny Magneton</strong> → Fada</p>
+        <p><strong>Arcanine</strong> → Planta, Metal e Ice</p>
+        <p><strong>Pachirisu / Luxray / Electabuzz</strong> → Água</p>
+      </div>
+      <div class="req-card donater">
+        <h4>🟣 Pokémon coringa</h4>
+        <p><strong>Shiny Ditto</strong> 🃏 → Copia qualquer T1, mas com <strong>-20% ATQ e DEF</strong>.</p>
+      </div>
+    </div>
+
+    <div class="guide-gold">
+      <p>💡 <strong>Dica de ouro:</strong> não precisa começar com Pokémon caro. Monte seu time de acordo com o que você precisa caçar, faça os <strong>150</strong>, comece seu <strong>Wildscape</strong> e vá melhorando aos poucos.</p>
+      <p class="guide-final"><strong>🔥 Comece barato → faça os level 150 → farme Wildscape mantendo o time → evolua seu time!</strong></p>
+    </div>
 
   </div>
 
