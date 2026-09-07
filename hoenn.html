@@ -387,6 +387,7 @@
     <button class="sub-tab" data-tab="tab-npcs">NPCs e Tasks</button>
     <button class="sub-tab" data-tab="tab-elements">Rotações por Elemento</button>
     <button class="sub-tab" data-tab="tab-progress">Guia de Progressão</button>
+    <button class="sub-tab" data-tab="tab-hunts2">Rotações de Hunts 2</button>
   </div>
 </div>
 
@@ -489,6 +490,23 @@
     </div>
 
     <div id="progress-container"></div>
+
+  </div>
+
+  <div id="tab-hunts2" class="tab-panel" style="display:none;">
+
+    <p class="tab-credit">Rotações de hunts por elemento feitas por <strong>Safnaw</strong></p>
+
+    <h2 class="section-title first">Rotações de Hunts 2 — Por Elemento</h2>
+
+    <div class="info-box">
+      <ul>
+        <li>Guia visual de hunt: <strong>Cards por Elemento</strong>. Com algumas exceções, todos os restantes são <strong>Shinys</strong>.</li>
+        <li>Nessa aba não indicaremos pokémons <strong>T2 ou T3</strong> para a rotação.</li>
+      </ul>
+    </div>
+
+    <div id="hunts2-container"></div>
 
   </div>
 
@@ -1086,6 +1104,102 @@ fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
   .then(r => r.json())
   .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
   .catch(() => {});
+</script>
+
+<style>
+  .hunt2-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+  .hunt2-card{background:linear-gradient(160deg,#161E2A 0%,#121B2B 100%);border:1px solid #1E2A3D;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+  .hunt2-head{background:#6E5CE0;color:#fff;padding:12px 18px;display:flex;align-items:center;gap:10px}
+  .hunt2-head .emoji{font-size:1.3rem}
+  .hunt2-head h4{margin:0;font-size:1rem;text-transform:uppercase;letter-spacing:1px;font-weight:800}
+  .hunt2-body{padding:16px 18px}
+  .hunt2-hunt{background:#121B2B;border-left:3px solid #E08CE6;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#E6EAF2;font-size:0.92rem;font-weight:700}
+  .hunt2-hunt .tag{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;font-size:0.7rem;font-weight:800;letter-spacing:0.5px;vertical-align:middle}
+  .hunt2-hunt .tag.legend{background:#E08CE6;color:#fff}
+  .hunt2-hunt .tag.ur{background:#FFB18A;color:#000}
+  .hunt2-hunt .tag.tbd{background:#1E2A3D;color:#7C88A6;border:1px solid #2A3347}
+  .hunt2-sec{margin-bottom:12px}
+  .hunt2-sec:last-child{margin-bottom:0}
+  .hunt2-lbl{font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:#7C88A6;margin-bottom:6px;font-weight:800}
+  .hunt2-lbl.t1{color:#4EC48A}
+  .hunt2-lbl.sr{color:#FFB18A}
+  .hunt2-lbl.smear{color:#9AA7C4;font-style:italic;letter-spacing:1px}
+  .hunt2-badges{display:flex;flex-wrap:wrap;gap:4px}
+  .hunt2-badge{display:inline-block;padding:3px 10px;border-radius:999px;background:#2A63E0;font-size:0.76rem;font-weight:700;color:#fff;white-space:nowrap}
+  .hunt2-badge.empty{background:transparent;color:#556;border:none;padding:3px 0;font-weight:400;font-style:italic;font-size:0.8rem}
+  .hunt2-badge.smear{background:#253050;color:#9AA7C4;border:1px solid #2A3347}
+  @media(max-width:600px){.hunt2-grid{grid-template-columns:1fr}}
+</style>
+
+<script>
+var H2EL = [
+  {name:'BUG',emoji:'\u{1F41E}',hunt:'Em breve',lure:[],dps:[],otherT1:[],otherSR:[],smeargle:[]},
+  {name:'FAIRY',emoji:'\u{2728}',hunt:'Shiny Sylveon (Lend\u00e1rio)',lure:['Muk','Tentacruel','Mawile'],dps:['Aggron','Skarmory','Toxicroak'],otherT1:['Metang','Magneton Estrelado'],otherSR:['Seviper'],smeargle:['Poison','Metal']},
+  {name:'FIRE',emoji:'\u{1F525}',hunt:'Magmar (Lend\u00e1rio) / Torkoal (UR)',lure:['Blastoise','Feraligatr','Omastar'],dps:['Pupitar','Torterra','Kingdra'],otherT1:['Vaporeon','Rhyperior','Magcargo'],otherSR:['Sharpedo'],smeargle:['Rock','Water','Ground']},
+  {name:'FIGHTING',emoji:'\u{1F44A}',hunt:'Em breve',lure:['Mega Clefable','Pidgeot','Espeon'],dps:['Wobbuffet','Mimikyu','Gliscor'],otherT1:[],otherSR:[],smeargle:['Psychic','Flying','Fairy']},
+  {name:'DARK',emoji:'\u{1F576}\u{FE0F}',hunt:'Absol (Lend\u00e1rio) / Mightyena (UR)',lure:['Hitmontop','Hitmonchan','Poliwrath'],dps:['Machamp','Scyther','Mimikyu'],otherT1:['Mega Clefable','Hitmonlee'],otherSR:['Florges','Kangaskhan','Pinsir'],smeargle:['Fighting','Fairy','Bug']},
+  {name:'WATER',emoji:'\u{1F30A}',hunt:'Milotic (UR)',lure:['Tangrowth','Ampharos','Venusaur'],dps:['Tangrowth','Gogoat','Luxray'],otherT1:['Luxray','Gogoat'],otherSR:['Pachirisu'],smeargle:['Grass','Electric']},
+  {name:'GRASS',emoji:'\u{1F33F}',hunt:'Leafeon (Lend\u00e1rio) / Sceptile (UR)',lure:['Typhlosion','Rapidash','Pidgeot'],dps:['Arcanine','Infernape','Scyther'],otherT1:['Charizard','Lapras','Jynx','Gliscor'],otherSR:['Gliscor','Swellow','Walrein','Toxicroak'],smeargle:['Poison','Bug','Fire','Fly','Ice']},
+  {name:'ELECTRIC',emoji:'\u26A1',hunt:'Electabuzz (Lend\u00e1rio) / Manectric (UR)',lure:['Steelix','Nidoqueen','Torterra'],dps:['Torterra','Pupitar','Smeargle'],otherT1:['Marowak','Whiscash','Claydol'],otherSR:['Marowak'],smeargle:['Ground']},
+  {name:'GHOST',emoji:'\u{1F47B}',hunt:'Em breve',lure:['Umbreon','Crawdaunt','Dusknoir'],dps:['Dusknoir','Houndoom','Hydreigon'],otherT1:['Dusclops','Sableye','Cacturne'],otherSR:['Misdreavus'],smeargle:['Dark','Ghost']},
+  {name:'ICE',emoji:'\u2744\u{FE0F}',hunt:'Glaceon (Lend\u00e1rio) / Glalie (UR)',lure:['Typhlosion','Rapidash','Hitmontop'],dps:['Infernape','Machamp','Skarmory'],otherT1:['Charizard','Hitmonlee','Mawile'],otherSR:['Arcanine','Aggron','Armaldo'],smeargle:['Fighting','Fire','Metal']},
+  {name:'POISON',emoji:'\u{2620}\u{FE0F}',hunt:'Garbodor (Lend\u00e1rio) / Swalot (UR)',lure:['Steelix','Espeon','Nidoqueen'],dps:['Wobbuffet','Mr. Mime','Pupitar'],otherT1:['Torterra','Marowak','Whiscash'],otherSR:['Torterra'],smeargle:['Ground','Psychic']},
+  {name:'NORMAL',emoji:'\u{1F43C}',hunt:'Snorlax (Lend\u00e1rio) / Exploud (UR)',lure:['Poliwrath','Hitmontop','Medicham'],dps:['Machamp','Kangaskhan','Smeargle'],otherT1:['Hariyama','Hitmonlee','Hitmonchan'],otherSR:[],smeargle:['Fighting']},
+  {name:'ROCK',emoji:'\u{1FAA8}',hunt:'Rampardos (UR)',lure:['Tangrowth','Steelix','Blastoise'],dps:['Tangrowth','Machamp','Gogoat'],otherT1:['Feraligatr','Vaporeon','Omastar'],otherSR:['Sharpedo','Pupitar','Skarmory'],smeargle:['Fighting','Ground','Water','Grass']},
+  {name:'STEEL',emoji:'\u{2699}\u{FE0F}',hunt:'Em breve',lure:['Hitmontop','Rapidash','Typhlosion'],dps:['Arcanine','Machamp','Infernape'],otherT1:['Hitmonlee','Charizard','Steelix'],otherSR:['Pupitar','Torterra'],smeargle:['Ground','Fighting','Fire']},
+  {name:'GROUND',emoji:'\u{1F30D}',hunt:'Em breve',lure:['Blastoise','Tangrowth','Gogoat'],dps:['Tangrowth','Kingdra','Sharpedo'],otherT1:['Feraligatr','Vaporeon','Lapras'],otherSR:['Gogoat','Walrein'],smeargle:['Water','Ice','Grass']},
+  {name:'DRAGON',emoji:'\u{1F409}',hunt:'Salamence (UR) / Flygon (Lend\u00e1rio)',lure:['Lapras','Mega Clefable','Jynx'],dps:['Mimikyu','Florges','Walrein'],otherT1:['Druddigon'],otherSR:['Altaria'],smeargle:['Dragon','Ice','Fairy']},
+  {name:'PSYCHIC',emoji:'\u{1F52E}',hunt:'Alakazam (Lend\u00e1rio)',lure:['Umbreon','Crawdaunt','Sableye'],dps:['Houndoom','Scyther','Dusknoir'],otherT1:['Dusclops','Shedinja','Ninjask'],otherSR:['Pinsir','Hydreigon','Misdreavus'],smeargle:['Ghost','Dark','Bug']},
+  {name:'FLYING',emoji:'\u{1F54A}\u{FE0F}',hunt:'Em breve',lure:['Ampharos','Magcargo','Lapras'],dps:['Walrein','Luxray','Pachirisu'],otherT1:['Golem','Rhyperior','Raichu'],otherSR:['Armaldo'],smeargle:['Electric','Ice','Rock']}
+];
+
+function h2Tag(hunt){
+  if(!hunt||hunt==='Em breve') return '<span class="tag tbd">Em breve</span>';
+  var h='';
+  if(hunt.indexOf('Lend')!==-1) h+='<span class="tag legend">Lend\u00e1rio</span>';
+  if(hunt.indexOf('(UR)')!==-1) h+='<span class="tag ur">UR</span>';
+  return '<span class="tag tbd">Meta</span>'+h;
+}
+
+function h2Badges(arr,cls){
+  if(!arr||!arr.length) return '<span class="hunt2-badge empty">Nenhum indicado</span>';
+  return arr.map(function(n){return '<span class="hunt2-badge'+(cls?' '+cls:'')+'">'+n+'</span>'}).join('');
+}
+
+function h2Card(el){
+  var d=document.createElement('div');
+  d.className='hunt2-card';
+  var head='<div class="hunt2-head"><span class="emoji">'+el.emoji+'</span><h4>'+el.name+'</h4></div>';
+  var body='<div class="hunt2-body">';
+  body+='<div class="hunt2-hunt">'+el.hunt+h2Tag(el.hunt)+'</div>';
+  body+='<div class="hunt2-sec"><div class="hunt2-lbl t1">Lurar / Tanque (T1)</div><div class="hunt2-badges">'+h2Badges(el.lure)+'</div></div>';
+  body+='<div class="hunt2-sec"><div class="hunt2-lbl sr">DPS / Dano (SR)</div><div class="hunt2-badges">'+h2Badges(el.dps)+'</div></div>';
+  if(el.otherT1&&el.otherT1.length){
+    body+='<div class="hunt2-sec"><div class="hunt2-lbl t1">Outras Op\u00e7\u00f5es T1</div><div class="hunt2-badges">'+h2Badges(el.otherT1)+'</div></div>';
+  }
+  if(el.otherSR&&el.otherSR.length){
+    body+='<div class="hunt2-sec"><div class="hunt2-lbl sr">Outras Op\u00e7\u00f5es SR</div><div class="hunt2-badges">'+h2Badges(el.otherSR)+'</div></div>';
+  }
+  if(el.smeargle&&el.smeargle.length){
+    body+='<div class="hunt2-sec"><div class="hunt2-lbl smear">Smeargle</div><div class="hunt2-badges">'+el.smeargle.map(function(s){return '<span class="hunt2-badge smear">'+s+'</span>'}).join('')+'</div></div>';
+  }
+  body+='</div>';
+  d.innerHTML=head+body;
+  return d;
+}
+
+(function(){
+  var c=document.getElementById('hunts2-container');
+  if(!c) return;
+  for(var i=0;i<H2EL.length;i+=3){
+    var row=document.createElement('div');
+    row.className='hunt2-grid';
+    row.appendChild(h2Card(H2EL[i]));
+    if(i+1<H2EL.length) row.appendChild(h2Card(H2EL[i+1]));
+    if(i+2<H2EL.length) row.appendChild(h2Card(H2EL[i+2]));
+    c.appendChild(row);
+  }
+})();
 </script>
 
 <script src="btop.js"></script>
