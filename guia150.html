@@ -243,6 +243,167 @@
     .guide-table th, .guide-table td { padding: 8px 10px; font-size: 0.82rem; }
     .guide-penalty li { display: block; }
   }
+
+  .sub-nav {
+    background: #0A1018;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 52px;
+    z-index: 90;
+  }
+
+  .sub-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .sub-tab {
+    background: none;
+    border: none;
+    color: #9AA7C4;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .sub-tab:hover { color: #4E82F0; }
+  .sub-tab.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .tip-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .tip-box h3 {
+    color: #6E5CE0;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .tip-box p { color: #E6EAF2; margin-bottom: 10px; }
+  .tip-box p:last-child { margin-bottom: 0; }
+  .tip-box strong { color: #6E5CE0; }
+  .tip-box ul { list-style: none; margin: 8px 0 12px; }
+  .tip-box li { padding: 6px 0 6px 26px; position: relative; color: #C3CEE9; }
+  .tip-box li::before { content: '►'; position: absolute; left: 2px; color: #6E5CE0; font-size: 0.85rem; }
+
+  .tip-quote {
+    background: #121B2B;
+    border-left: 4px solid #E08CE6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    color: #C3CEE9;
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+
+  .tip-quote strong { color: #E08CE6; font-style: normal; }
+
+  .kbd {
+    display: inline-block;
+    background: #1E2A3D;
+    border: 1px solid #2A3347;
+    border-bottom-width: 3px;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-family: Consolas, monospace;
+    font-size: 0.9rem;
+    color: #E6EAF2;
+  }
+
+  .flow-steps {
+    background: linear-gradient(160deg, #161E2A 0%, #121B2B 100%);
+    border: 1px solid #1E2A3D;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    text-align: center;
+  }
+
+  .flow-step {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    background: #2A63E0;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 999px;
+    font-size: 0.9rem;
+  }
+
+  .flow-arrow {
+    display: inline-block;
+    margin: 0 2px;
+    color: #6E5CE0;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .tip-card {
+    background: linear-gradient(160deg, #161E2A 0%, #121B2B 100%);
+    border: 1px solid #1E2A3D;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .tip-card .num {
+    font-size: 1.5rem;
+    color: #6E5CE0;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .tip-card h4 {
+    color: #FFFFFF;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .tip-card p { color: #C3CEE9; font-size: 0.92rem; margin-bottom: 8px; }
+  .tip-card strong { color: #6E5CE0; }
+  .tip-card .tip-note {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #121B2B;
+    border-left: 3px solid #E08CE6;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #9AA7C4;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .tip-grid { grid-template-columns: 1fr; }
+    .flow-step { display: block; width: 100%; }
+    .flow-arrow { display: block; transform: rotate(90deg); margin: 2px 0; }
+  }
 </style>
 </head>
 <body>
@@ -269,9 +430,18 @@
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
+<div class="sub-nav">
+  <div class="sub-nav-inner">
+    <button class="sub-tab active" data-tab="tab-main">Guia de Dicas</button>
+    <button class="sub-tab" data-tab="tab-tips">Dicas Recomendadas</button>
+  </div>
+</div>
+
 <div class="container">
 
-  <h2 class="section-title first">🟢 Dicas Iniciais para Novatos</h2>
+  <div id="tab-main" class="tab-panel">
+
+    <h2 class="section-title first">🟢 Dicas Iniciais para Novatos</h2>
 
   <h3 class="subsection">💰 Pokémon iniciais com potencial — baratos</h3>
   <p class="guide-p">Boas opções para quem está começando, tanto para <strong>pegar os 150</strong> quanto para <strong>caçar Wildscape</strong>.</p>
@@ -383,6 +553,111 @@
     <p class="guide-final"><strong>🔥 Comece barato → faça os level 150 → farme Wildscape mantendo o time → evolua seu time!</strong></p>
   </div>
 
+  </div>
+
+  <div id="tab-tips" class="tab-panel" style="display:none;">
+
+    <h2 class="section-title first">🔥 Talentos, Cooldown e Rotação</h2>
+
+    <p class="guide-p">Durante sua evolução até o 150, <strong>preste bastante atenção nos talentos de Cooldown</strong>.</p>
+
+    <div class="tip-box">
+      <h3>⏱️ Cooldown</h3>
+      <p><strong>Cooldown</strong> é o tempo de recarga das suas skills. Quanto melhor você trabalhar o Cooldown, melhor será a <strong>rotação do seu time</strong>, algo essencial para conseguir caçar com eficiência, principalmente nas rotas de <strong>Hoenn</strong>.</p>
+    </div>
+
+    <h3 class="subsection">🎯 Pense no seu time e nos talentos juntos</h3>
+    <p class="guide-p">Se você pretende usar um time de <strong>Fogo para caçar Pokémon de Planta</strong>, por exemplo:</p>
+
+    <div class="flow-steps">
+      <span class="flow-step">🔥 Monte seu time de Fogo</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">🎯 Escolha uma boa rotação de skills</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">📦 Entregue os itens dos talentos de Fogo</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">💥 Aumente o dano do seu time</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">⚡ Melhore sua eficiência no farm</span>
+    </div>
+
+    <div class="tip-quote">
+      💡 <strong>Não distribua os itens de talentos aleatoriamente.</strong> Pense primeiro no tipo de Pokémon que você vai usar para caçar e invista nos talentos que realmente vão melhorar sua rotação e seu dano.
+    </div>
+
+    <h3 class="subsection">🛠️ Onde encontrar os Talentos?</h3>
+    <p class="guide-p">Dentro do jogo, pressione:</p>
+
+    <p class="guide-p"><span class="kbd">Ctrl + T</span></p>
+
+    <p class="guide-p">Lá você encontrará a aba de <strong>Talentos</strong> e outras opções relacionadas.</p>
+
+    <div class="tip-quote">
+      ⭐ <strong>Dica:</strong> antes de gastar seus itens de talento, pense no seu objetivo de farm. Um time bem montado + talentos corretos + uma boa rotação de Cooldown pode fazer muita diferença na velocidade da sua caça.
+    </div>
+
+    <h2 class="section-title">🧭 Dicas — Rotina recomendada</h2>
+
+    <div class="tip-grid">
+      <div class="tip-card">
+        <span class="num">🏰 1</span>
+        <h4>Procure uma Guilda</h4>
+        <p>Entrar em uma <strong>Guilda</strong> é excelente tanto no início quanto no <strong>late game</strong>.</p>
+        <p>As missões da Guilda podem trazer benefícios para todos:</p>
+        <ul>
+          <li>🎁 <strong>Buffs</strong></li>
+          <li>🪙 <strong>Tokens</strong> para trocar por <strong>Helds</strong></li>
+          <li>⭐ <strong>XP</strong> através das missões</li>
+          <li>🤝 Ajuda e interação com outros jogadores</li>
+        </ul>
+        <div class="tip-note">💡 Faça as missões da Guilda sempre que possível. Todo mundo sai ganhando!</div>
+      </div>
+
+      <div class="tip-card">
+        <span class="num">🚀 2</span>
+        <h4>Faça os 13 Rockets toda segunda-feira</h4>
+        <p>Assim que os <strong>13 Rockets</strong> forem liberados, procure fazê-los o quanto antes.</p>
+        <p>🔄 <strong>A rotina reseta toda segunda-feira</strong>, então aproveite a semana para completar as missões.</p>
+        <div class="tip-note">Não deixe para a última hora. Fazer os Rockets logo após o reset ajuda a manter sua rotina organizada e garantir suas recompensas.</div>
+      </div>
+
+      <div class="tip-card">
+        <span class="num">⚔️ 3</span>
+        <h4>Monte seu time pensando nos elementos</h4>
+        <p>Antes de enfrentar cada adversário, confira os <strong>elementos/tipos</strong> dos Pokémon que você vai enfrentar.</p>
+        <p>Monte seu time buscando sempre ter <strong>vantagem de tipo</strong>.</p>
+        <p>📌 Confira os times dos Leaders na aba <a href="rocket.html" style="color:#E08CE6;">Equipe Rocket</a>.</p>
+        <div class="tip-note">Não use sempre o mesmo time! Adaptar sua equipe ao adversário pode facilitar muito as batalhas.</div>
+      </div>
+
+      <div class="tip-card">
+        <span class="num">👑 4</span>
+        <h4>130 vitórias? Prepare-se para o Giovanni!</h4>
+        <p>Ao chegar nas <strong>130 vitórias contra os Rockets</strong>, <strong>não comece o Giovanni de qualquer jeito</strong>.</p>
+        <p>⚠️ <strong>Giovanni é MUITO difícil!</strong></p>
+        <p>Antes de iniciar, prepare um <strong>time completo</strong>, pensando nos Pokémon e elementos que você vai enfrentar.</p>
+        <div class="tip-note">🛑 Chegou nas 130 vitórias → pare → monte seu time → confira os elementos → só então enfrente o Giovanni.</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">🏆 Rotina Recomendada</h2>
+
+    <div class="flow-steps">
+      <span class="flow-step">🏰 Entre em uma Guilda</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">🚀 Faça os 13 Rockets após o reset de segunda</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">⚔️ Monte o time de acordo com os elementos</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">🔥 Ajuste Talentos + Cooldown + Rotação</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">📈 130 vitórias? Prepare o time completo</span>
+      <span class="flow-arrow">⬇️</span>
+      <span class="flow-step">👑 Enfrente Giovanni preparado!</span>
+    </div>
+
+  </div>
+
 </div>
 
 <div class="footer">
@@ -390,6 +665,20 @@
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
   <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
 </div>
+
+<script>
+const subTabs = document.querySelectorAll('.sub-tab');
+const subPanels = document.querySelectorAll('.tab-panel');
+subTabs.forEach(button => {
+  button.addEventListener('click', () => {
+    subTabs.forEach(b => b.classList.remove('active'));
+    subPanels.forEach(p => p.style.display = 'none');
+    button.classList.add('active');
+    const target = document.getElementById(button.dataset.tab);
+    if (target) target.style.display = 'block';
+  });
+});
+</script>
 
 <script>
 fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
