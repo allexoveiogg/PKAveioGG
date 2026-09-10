@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    align-items: center;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit strong { color: #6E5CE0; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #6E5CE0;
+    margin: 40px 0 20px;
+    border-left: 6px solid #6E5CE0;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title.first { margin-top: 0; }
+
+  .guide-p { color: #C3CEE9; margin-bottom: 14px; font-size: 0.98rem; }
+  .guide-p strong { color: #E08CE6; }
+
+  .timeline {
+    position: relative;
+    margin-left: 8px;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: linear-gradient(180deg, #6E5CE0 0%, #2A63E0 70%, #161E2A 100%);
+    border-radius: 3px;
+  }
+
+  .cl-item {
+    position: relative;
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .cl-item::before {
+    content: '●';
+    position: absolute;
+    left: -27px;
+    top: 16px;
+    font-size: 1.1rem;
+    color: #6E5CE0;
+    text-shadow: 0 0 8px rgba(110, 92, 224, 0.8);
+    line-height: 1;
+  }
+
+  .cl-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .cl-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cl-badge.novo { background: #12263A; border: 1px solid #4E82F0; color: #4E82F0; }
+  .cl-badge.melhorado { background: #1A2B14; border: 1px solid #4EC48A; color: #4EC48A; }
+  .cl-badge.corrigido { background: #2A2412; border: 1px solid #FFD700; color: #FFD700; }
+  .cl-badge.removido { background: #3A1219; border: 1px solid #E05252; color: #FF8A8A; }
+
+  .cl-version {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1.02rem;
+  }
+
+  .cl-version strong { color: #6E5CE0; }
+
+  .cl-date {
+    margin-left: auto;
+    font-size: 0.82rem;
+    color: #8490AC;
+  }
+
+  .cl-desc {
+    color: #C3CEE9;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .cl-desc strong { color: #E6EAF2; }
+
+  .cl-list { list-style: none; margin-top: 10px; }
+  .cl-list li {
+    padding: 5px 0 5px 24px;
+    position: relative;
+    color: #C3CEE9;
+    font-size: 0.92rem;
+  }
+
+  .cl-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: #6E5CE0;
+  }
+
+  .cl-add { color: #4EC48A; }
+  .cl-fix { color: #FFD700; }
+  .cl-rem { color: #FF8A8A; }
+
+  .guide-note {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .guide-note.info {
+    background: #10182B;
+    border-left: 3px solid #4E82F0;
+    color: #E6EAF2;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8490AC;
+    font-size: 0.9rem;
+  }
+
+  .footer .copyright {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .timeline { padding-left: 22px; }
+    .cl-item { padding: 14px 16px; }
+    .cl-date { width: 100%; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="guia150.html">Guia 1 ao 150</a>
+    <a href="localhunts.html">Local Hunts</a>
+    <a href="linkedtask.html">Linked Tasks</a>
+    <a href="faq.html">FAQ</a>
+    <a href="changelog.html" class="active">Changelog</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Changelog</h1>
+  <p>Histórico de atualizações do site</p>
+  <div class="credit">mantido por <strong>VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="guide-note info">
+    📢 Acompanhe aqui todas as novidades, melhorias e correções feitas no site.
+  </div>
+
+  <h2 class="section-title first">📦 Última versão</h2>
+
+  <div class="timeline">
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Sub-aba <strong>Dicas Recomendadas</strong></span>
+      </div>
+      <p class="cl-desc">No Guia 1 ao 150.</p>
+      <ul class="cl-list">
+        <li>➕ <b>Guia de Talentos</b> — Cooldown, rotação e onde encontrar (Ctrl + T)</li>
+        <li>➕ <b>Rotina recomendada</b> — Guilda, 13 Rockets, time por elemento e Giovanni</li>
+        <li>➕ Fluxo visual das etapas para montar seu time</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title">📜 Atualizações recentes</h2>
+
+  <div class="timeline">
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge melhorado">Melhorado</span>
+        <span class="cl-version">Página <strong>Guia 1 ao 150</strong></span>
+      </div>
+      <p class="cl-desc">Virou uma página independente, acessível pelo menu de navegação do site.</p>
+      <ul class="cl-list">
+        <li>➕ Link na navegação principal e card na página inicial</li>
+        <li>➕ Removida do Guia Hoenn para ficar em destaque próprio</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Aba <strong>Rotações de Hunts 2</strong></span>
+      </div>
+      <p class="cl-desc">No Guia Hoenn, com os dados da planilha do Safnaw.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge melhorado">Melhorado</span>
+        <span class="cl-version"><strong>Rotação</strong> de Mightyena e Absol</span>
+      </div>
+      <p class="cl-desc">Atualizada a rotação custo-benefício.</p>
+      <ul class="cl-list">
+        <li>➕ Adicionados Shiny Hitmonchan, Shiny Hariyama e Shiny Medicham</li>
+        <li>➖ Removidos Machamp normal e Shiny Ledian</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Botão <strong>Voltar ao Topo</strong></span>
+      </div>
+      <p class="cl-desc">Adicionado em todas as páginas do site.</p>
+      <ul class="cl-list">
+        <li>➕ Facilita a navegação em páginas longas</li>
+        <li class="cl-fix">🔧 Corrigida a codificação de acentos das páginas principais</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version"><strong>Card Parceiros</strong></span>
+      </div>
+      <p class="cl-desc">Na página inicial.</p>
+      <ul class="cl-list">
+        <li>➕ Adicionado o parceiro FLAMEIKKI com link para a Twitch</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Aba <strong>Guia de Progressão</strong></span>
+      </div>
+      <p class="cl-desc">No Guia Hoenn, com times e evolução por elemento (SR / T1 / upgrades).</p>
+      <ul class="cl-list">
+        <li>➕ Observação atualizada da Mega Clefable para o tipo Fada</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge corrigido">Corrigido</span>
+        <span class="cl-version">Crédito das <strong>rotações de hunts</strong></span>
+      </div>
+      <p class="cl-desc">Atualizado o crédito das rotações para VeioGG.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge removido">Removido</span>
+        <span class="cl-version">Aba <strong>Dicas e Estratégias</strong></span>
+      </div>
+      <p class="cl-desc">Sub-aba removida do Guia Hoenn.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge melhorado">Melhorado</span>
+        <span class="cl-version"><strong>Tier List</strong></span>
+      </div>
+      <ul class="cl-list">
+        <li>➕ Adicionados elementos/tipos e busca por moveset</li>
+        <li>➕ Painel de pesquisa por elemento abaixo da lista completa</li>
+        <li>➖ Removido o campo de pesquisa do topo da página</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Página <strong>Linked Tasks</strong></span>
+      </div>
+      <p class="cl-desc">Com kills por hunt e busca.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Página <strong>Local Hunts</strong></span>
+      </div>
+      <p class="cl-desc">Com tabela de rotas e busca.</p>
+      <ul class="cl-list">
+        <li class="cl-fix">🔧 Corrigidos acentos do template</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Aba <strong>FAQ</strong></span>
+      </div>
+      <p class="cl-desc">Com busca por palavra-chave.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge melhorado">Melhorado</span>
+        <span class="cl-version"><strong>Equipe Rocket</strong></span>
+      </div>
+      <p class="cl-desc">A aba Polícia virou sub-aba de Equipe Rocket.</p>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Aba <strong>Guia Hoenn</strong></span>
+      </div>
+      <ul class="cl-list">
+        <li>➕ Rotações de hunts com links de navegação</li>
+        <li>➕ Sub-abas NPCs e Tasks e Rotações por Elemento</li>
+        <li>➕ Créditos destacados dos autores das rotações</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge melhorado">Melhorado</span>
+        <span class="cl-version">Visual do site</span>
+      </div>
+      <ul class="cl-list">
+        <li>➕ Paleta navy profundo (azul/índigo)</li>
+        <li>➕ Hero/banner com título branco, vinheta e overlay escuro</li>
+        <li>➕ Ícone Discord POKE ALLIANCE no hero e botão da live reduzido</li>
+        <li>➖ Removidos efeitos neon (glows coloridos)</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-head">
+        <span class="cl-badge novo">Novo</span>
+        <span class="cl-version">Página inicial</span>
+      </div>
+      <ul class="cl-list">
+        <li>➕ Descrição do site e live da Twitch</li>
+        <li>➕ Contador de visitas no rodapé de todas as páginas</li>
+        <li>➕ Copyright por Mts Vitor</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Changelog
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+</div>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script src="btop.js"></script>
+</body>
+</html>
