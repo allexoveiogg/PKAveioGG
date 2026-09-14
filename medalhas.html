@@ -108,8 +108,6 @@
     font-size: 0.95rem;
   }
   .note-box strong { color: #6E5CE0; }
-  .note-box a { color: #4E82F0; }
-  .note-box .refs { margin-top: 10px; display: flex; gap: 20px; flex-wrap: wrap; }
 
   .search-row {
     display: flex;
@@ -253,14 +251,11 @@
   <h2 class="section-title">Medalhas — Buffs e Debuffs</h2>
 
   <div class="note-box">
-    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do Pokémon para ver o que a medalha dele concede.
-    <div class="refs">
-      <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/edit?gid=44367580#gid=44367580" target="_blank" rel="noopener">Fonte: planilha Pokedex Pública</a>
-    </div>
+    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do Pokémon ou do <strong>buff</strong> que a medalha concede (ex.: "defense boost").
   </div>
 
   <div class="search-row">
-    <input type="text" id="search" placeholder="Filtrar por nome do Pokémon..." autocomplete="off">
+    <input type="text" id="search" placeholder="Filtrar por Pokémon ou buff..." autocomplete="off">
   </div>
 
   <div class="count-line">Total de medalhas: <strong id="total-count">–</strong></div>
@@ -472,7 +467,7 @@ totalEl.textContent = MEDALS.length;
 
 MEDALS.forEach(([name, buff, debuff]) => {
   const tr = document.createElement('tr');
-  tr.dataset.norm = norm(name);
+  tr.dataset.norm = norm(name) + ' ' + norm(buff);
 
   const tdName = document.createElement('td');
   tdName.className = 'pkm';
