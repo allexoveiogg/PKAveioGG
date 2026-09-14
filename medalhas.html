@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medalhas - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+  .credit strong { color: #6E5CE0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #6E5CE0;
+    margin: 0 0 20px;
+    border-left: 6px solid #6E5CE0;
+    padding-left: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .note-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-left: 4px solid #6E5CE0;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    color: #C3CEE9;
+    font-size: 0.95rem;
+  }
+  .note-box strong { color: #6E5CE0; }
+  .note-box a { color: #4E82F0; }
+  .note-box .refs { margin-top: 10px; display: flex; gap: 20px; flex-wrap: wrap; }
+
+  .search-row {
+    display: flex;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .search-row input {
+    flex: 1;
+    min-width: 260px;
+    padding: 13px 18px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    border: 2px solid #1E2A3D;
+    background: #0D131E;
+    color: #E6EAF2;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-row input:focus { border-color: #6E5CE0; }
+  .search-row input::placeholder { color: #7C88A6; }
+
+  .count-line { text-align: center; color: #9AA7C4; font-size: 0.9rem; margin-bottom: 14px; }
+  .count-line strong { color: #6E5CE0; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+  }
+  .lh-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 420px;
+  }
+  .lh-table thead th {
+    background: #121B2B;
+    color: #9AA7C4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.72rem;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid #6E5CE0;
+    position: sticky;
+    top: 0;
+  }
+  .lh-table tbody tr { border-bottom: 1px solid #1E2A3D; }
+  .lh-table tbody tr:hover { background: #1A2434; }
+  .lh-table td {
+    padding: 10px 14px;
+    color: #E6EAF2;
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+  .lh-table td.pkm { font-weight: 800; color: #FFFFFF; white-space: nowrap; }
+  .lh-table td.no-data { color: #3E4A63; }
+  .lh-table td.buff { color: #4EC48A; font-weight: 700; }
+  .lh-table td.debuff { color: #E05252; font-weight: 700; }
+  .lh-table tr.hide { display: none; }
+
+  .defense-box {
+    margin-top: 34px;
+    background: linear-gradient(160deg, #161E2A 0%, #121B2B 100%);
+    border: 1px solid #1E2A3D;
+    border-left: 4px solid #4E82F0;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .defense-box h3 {
+    color: #4E82F0;
+    font-size: 1.08rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .defense-box p { color: #C3CEE9; margin-bottom: 10px; font-size: 0.93rem; }
+
+  .defense-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .defense-chips span {
+    background: #121B2B;
+    border: 1px solid #4E82F0;
+    color: #E6EAF2;
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8490AC;
+    font-size: 0.9rem;
+  }
+
+  .footer .copyright {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="guia150.html">Guia 1 ao 150</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="medalhas.html" class="active">Medalhas</a>
+    <a href="localhunts.html">Local Hunts</a>
+    <a href="linkedtask.html">Linked Tasks</a>
+    <a href="faq.html">FAQ</a>
+    <a href="changelog.html">Changelog</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Medalhas</h1>
+  <p>Buffs e debuffs de cada medalha Pokémon</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">Medalhas — Buffs e Debuffs</h2>
+
+  <div class="note-box">
+    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do Pokémon para ver o que a medalha dele concede.
+    <div class="refs">
+      <a href="https://docs.google.com/spreadsheets/d/1GCH3PmFKQrBj7AA51hgqfg6Q2SrvNgrNlxgIidVeTMU/edit?gid=44367580#gid=44367580" target="_blank" rel="noopener">Fonte: planilha Pokedex Pública</a>
+    </div>
+  </div>
+
+  <div class="search-row">
+    <input type="text" id="search" placeholder="Filtrar por nome do Pokémon..." autocomplete="off">
+  </div>
+
+  <div class="count-line">Total de medalhas: <strong id="total-count">–</strong></div>
+
+  <div class="table-wrap">
+    <table class="lh-table" id="med-table">
+      <thead>
+        <tr>
+          <th>Pokémon</th>
+          <th>Buff da Medalha</th>
+          <th>Debuff da Medalha</th>
+        </tr>
+      </thead>
+      <tbody id="med-body"></tbody>
+    </table>
+  </div>
+
+  <div class="defense-box">
+    <h3>🛡️ Medalhas que dão o buff "Defense Boost"</h3>
+    <p>Pokémons cuja medalha concede <strong>Defense Boost</strong> como buff:</p>
+    <div class="defense-chips">
+      <span>Bulbasaur</span>
+      <span>Spearow</span>
+      <span>Zubat</span>
+      <span>Poliwhirl</span>
+      <span>Magnemite</span>
+      <span>Electrode</span>
+      <span>Starmie</span>
+      <span>Kabutops</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Medalhas · Guia do servidor
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+</div>
+
+<script>
+const MEDALS = [
+  ["Bulbasaur","Defense Boost","Damage Boost"],
+  ["Ivysaur","HP Boost","Pokemon Speed"],
+  ["Venusaur","Pokemon Speed","HP Boost"],
+  ["Charmander","Character Speed","Pokemon Speed"],
+  ["Charmeleon","Critical Chance","Character Speed"],
+  ["Charizard","Critical Damage","Defense Boost"],
+  ["Squirtle","Life Leech","Critical Damage"],
+  ["Wartortle","Precision Percent","Life Leech"],
+  ["Blastoise","Evasion Percent","Fishing Skill"],
+  ["Caterpie","Shiny Fishing Rate","Evasion Percent"],
+  ["Metapod","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Butterfree","Loot Boost","Shiny Headbutt Rate"],
+  ["Weedle","Catch Rate","Loot Boost"],
+  ["Kakuna","Shiny Catch Rate","Catch Rate"],
+  ["Beedrill","Shiny Charm Rate","Headbutt Skill"],
+  ["Pidgey","Critical Resistance","Shiny Charm Rate"],
+  ["Pidgeotto","Fly Speed","Extra Fishing"],
+  ["Pidgeot","Fly Speed","Surf Speed"],
+  ["Rattata","Ride Speed","Surf Speed"],
+  ["Raticate","Damage Boost","Ride Speed"],
+  ["Spearow","Defense Boost","Damage Boost"],
+  ["Fearow","HP Boost","Defense Boost"],
+  ["Ekans","Pokemon Speed","HP Boost"],
+  ["Arbok","Character Speed","Pokemon Speed"],
+  ["Pikachu","Critical Chance","Character Speed"],
+  ["Raichu","Critical Damage","Critical Chance"],
+  ["Sandshrew","Life Leech","Critical Damage"],
+  ["Sandslash","Precision Percent","Life Leech"],
+  ["Nidoran Female","Evasion Percent","Fishing Skill"],
+  ["Nidorina","Shiny Fishing Rate","Evasion Percent"],
+  ["Nidoqueen","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Nidoran Male","Loot Boost","Shiny Headbutt Rate"],
+  ["Nidorino","Catch Rate","Loot Boost"],
+  ["Nidoking","Shiny Catch Rate","Catch Rate"],
+  ["Clefairy","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Clefable","Critical Resistance","Shiny Charm Rate"],
+  ["Vulpix","Fly Speed","Extra Fishing"],
+  ["Ninetales","Surf Speed","Fly Speed"],
+  ["Jigglypuff","Ride Speed","Surf Speed"],
+  ["Wigglytuff","Damage Boost","Ride Speed"],
+  ["Zubat","Defense Boost","Life Leech"],
+  ["Golbat","HP Boost","Defense Boost"],
+  ["Oddish","Pokemon Speed","HP Boost"],
+  ["Gloom","Character Speed","Pokemon Speed"],
+  ["Vileplume","Critical Chance","Character Speed"],
+  ["Paras","Critical Damage","Critical Chance"],
+  ["Parasect","Life Leech","Critical Damage"],
+  ["Venonat","Precision Percent","Life Leech"],
+  ["Venomoth","Evasion Percent","Fishing Skill"],
+  ["Diglett","Shiny Fishing Rate","Evasion Percent"],
+  ["Dugtrio","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Meowth","Loot Boost","Shiny Headbutt Rate"],
+  ["Persian","Catch Rate","Loot Boost"],
+  ["Psyduck","Shiny Catch Rate","Catch Rate"],
+  ["Golduck","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Mankey","Critical Resistance","Shiny Charm Rate"],
+  ["Primeape","Fly Speed","Extra Fishing"],
+  ["Growlithe","Surf Speed","Fly Speed"],
+  ["Arcanine","Ride Speed","Surf Speed"],
+  ["Poliwag","Damage Boost","Ride Speed"],
+  ["Poliwhirl","Defense Boost","Surf Speed"],
+  ["Poliwrath","HP Boost","Defense Boost"],
+  ["Abra","Pokemon Speed","HP Boost"],
+  ["Kadabra","Character Speed","Pokemon Speed"],
+  ["Alakazam","Critical Chance","Character Speed"],
+  ["Machop","Critical Damage","Critical Chance"],
+  ["Machoke","Life Leech","Critical Damage"],
+  ["Machamp","Precision Percent","Life Leech"],
+  ["Bellsprout","Evasion Percent","Fishing Skill"],
+  ["Weepinbell","Shiny Fishing Rate","Evasion Percent"],
+  ["Victreebel","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Tentacool","Loot Boost","Shiny Headbutt Rate"],
+  ["Tentacruel","Catch Rate","Loot Boost"],
+  ["Geodude","Shiny Catch Rate","Catch Rate"],
+  ["Graveler","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Golem","Critical Resistance","Shiny Charm Rate"],
+  ["Ponyta","Fly Speed","Extra Fishing"],
+  ["Rapidash","Surf Speed","Fly Speed"],
+  ["Slowpoke","Ride Speed","Surf Speed"],
+  ["Slowbro","Damage Boost","Ride Speed"],
+  ["Magnemite","Defense Boost","Damage Boost"],
+  ["Magneton","HP Boost","Defense Boost"],
+  ["Farfetch'd","Pokemon Speed","HP Boost"],
+  ["Doduo","Character Speed","Pokemon Speed"],
+  ["Dodrio","Critical Chance","Character Speed"],
+  ["Seel","Critical Damage","Critical Chance"],
+  ["Dewgong","Life Leech","Critical Damage"],
+  ["Grimer","Precision Percent","Life Leech"],
+  ["Muk","Evasion Percent","Fishing Skill"],
+  ["Shellder","Shiny Fishing Rate","Evasion Percent"],
+  ["Cloyster","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Gastly","Loot Boost","Shiny Headbutt Rate"],
+  ["Haunter","Catch Rate","Loot Boost"],
+  ["Gengar","Shiny Catch Rate","Catch Rate"],
+  ["Onix","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Drowzee","Critical Resistance","Shiny Charm Rate"],
+  ["Hypno","Fly Speed","Extra Fishing"],
+  ["Krabby","Surf Speed","Fly Speed"],
+  ["Kingler","Ride Speed","Surf Speed"],
+  ["Voltorb","Damage Boost","Ride Speed"],
+  ["Electrode","Defense Boost","Damage Boost"],
+  ["Exeggcute","HP Boost","Defense Boost"],
+  ["Exeggutor","Pokemon Speed","HP Boost"],
+  ["Cubone","Character Speed","Pokemon Speed"],
+  ["Marowak","Critical Chance","Character Speed"],
+  ["Hitmonlee","Critical Damage","Critical Chance"],
+  ["Hitmonchan","Life Leech","Critical Damage"],
+  ["Lickitung","Precision Percent","Damage Boost"],
+  ["Koffing","Evasion Percent","Fishing Skill"],
+  ["Weezing","Shiny Fishing Rate","Evasion Percent"],
+  ["Rhyhorn","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Rhydon","Loot Boost","Shiny Headbutt Rate"],
+  ["Chansey","Catch Rate","Loot Boost"],
+  ["Tangela","Shiny Catch Rate","Catch Rate"],
+  ["Kangaskhan","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Horsea","Critical Resistance","Shiny Fishing Rate"],
+  ["Seadra","Fly Speed","Extra Fishing"],
+  ["Goldeen","Surf Speed","Fly Speed"],
+  ["Seaking","Ride Speed","Surf Speed"],
+  ["Staryu","Damage Boost","Ride Speed"],
+  ["Starmie","Defense Boost","Surf Speed"],
+  ["Mr. Mime","HP Boost","Defense Boost"],
+  ["Scyther","Pokemon Speed","HP Boost"],
+  ["Jynx","Character Speed","Pokemon Speed"],
+  ["Electabuzz","Critical Chance","Character Speed"],
+  ["Magmar","Critical Damage","Critical Chance"],
+  ["Pinsir","Life Leech","Critical Damage"],
+  ["Tauros","Precision Percent","Life Leech"],
+  ["Magikarp","Evasion Percent","Fishing Skill"],
+  ["Gyarados","Shiny Fishing Rate","Headbutt Skill"],
+  ["Lapras","Shiny Headbutt Rate","Shiny Fishing Rate"],
+  ["Ditto","Loot Boost","Shiny Headbutt Rate"],
+  ["Eevee","Catch Rate","Loot Boost"],
+  ["Vaporeon","Shiny Catch Rate","Catch Rate"],
+  ["Jolteon","Shiny Charm Rate","Shiny Catch Rate"],
+  ["Flareon","Critical Resistance","Shiny Charm Rate"],
+  ["Porygon","Fly Speed","Extra Fishing"],
+  ["Omanyte","Surf Speed","Fly Speed"],
+  ["Omastar","Ride Speed","Surf Speed"],
+  ["Kabuto","Damage Boost","Ride Speed"],
+  ["Kabutops","Defense Boost","Damage Boost"],
+  ["Aerodactyl","HP Boost","Defense Boost"],
+  ["Snorlax","Pokemon Speed","HP Boost"],
+  ["Articuno","Pokemon Speed","-"],
+  ["Zapdos","Character Speed","-"],
+  ["Moltres","Critical Chance","-"],
+  ["Dratini","Life Leech","Critical Damage"],
+  ["Dragonair","Precision Percent","Life Leech"],
+  ["Dragonite","Evasion Percent","Fishing Skill"],
+  ["Mewtwo","Shiny Catch Rate","-"],
+  ["Mew","Shiny Charm Rate","-"]
+];
+</script>
+
+<script>
+function norm(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+}
+
+const body = document.getElementById('med-body');
+const totalEl = document.getElementById('total-count');
+totalEl.textContent = MEDALS.length;
+
+MEDALS.forEach(([name, buff, debuff]) => {
+  const tr = document.createElement('tr');
+  tr.dataset.norm = norm(name);
+
+  const tdName = document.createElement('td');
+  tdName.className = 'pkm';
+  tdName.textContent = name;
+  tr.appendChild(tdName);
+
+  const tdBuff = document.createElement('td');
+  tdBuff.className = 'buff';
+  tdBuff.textContent = buff;
+  tr.appendChild(tdBuff);
+
+  const tdDebuff = document.createElement('td');
+  if (debuff === '-') {
+    tdDebuff.className = 'no-data';
+    tdDebuff.textContent = '–';
+  } else {
+    tdDebuff.className = 'debuff';
+    tdDebuff.textContent = debuff;
+  }
+  tr.appendChild(tdDebuff);
+
+  body.appendChild(tr);
+});
+
+const searchEl = document.getElementById('search');
+const rows = body.querySelectorAll('tr');
+searchEl.addEventListener('input', () => {
+  const q = norm(searchEl.value);
+  rows.forEach(tr => {
+    tr.classList.toggle('hide', q !== '' && tr.dataset.norm.indexOf(q) === -1);
+  });
+});
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script src="btop.js"></script>
+</body>
+</html>
