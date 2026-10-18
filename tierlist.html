@@ -571,7 +571,7 @@ TIER_DATA.forEach(p => {
   datalist.appendChild(opt);
 });
 
-const ELEMENTS = [...new Set(TIER_DATA.map(p => p.e))].sort();
+const ELEMENTS = [...new Set(TIER_DATA.flatMap(p => p.e === '?' ? ['?'] : p.e.split('/').map(s => s.trim())))].sort();
 ELEMENTS.forEach(el => {
   const opt = document.createElement('option');
   opt.value = el === '?' ? '?' : el;
@@ -703,6 +703,12 @@ function renderFiltered(filtered) {
   });
 }
 
+const hasElem = (p, ef) => {
+  if (!ef) return true;
+  if (p.e === '?') return ef === '?';
+  return p.e.split('/').map(s => s.trim()).includes(ef);
+};
+
 function renderList() {
   const q = normalize(listSearch.value);
   const tf = tierFilter.value;
@@ -710,7 +716,7 @@ function renderList() {
   const filtered = TIER_DATA.filter(p =>
     (!q || normalize(p.n).includes(q) || normalize(p.e).includes(q)) &&
     (!tf || p.t === tf) &&
-    (!ef || p.e === ef)
+    hasElem(p, ef)
   );
   renderFiltered(filtered);
 }
@@ -721,14 +727,14 @@ function doElemBoxSearch() {
   const ef = elemFilter.value;
   let filtered;
   if (!q) {
-    filtered = TIER_DATA.filter(p => (!tf || p.t === tf) && (!ef || p.e === ef));
+    filtered = TIER_DATA.filter(p => (!tf || p.t === tf) && hasElem(p, ef));
   } else {
     filtered = q === '?'
-      ? TIER_DATA.filter(p => p.e === '?' && (!tf || p.t === tf) && (!ef || p.e === ef))
+      ? TIER_DATA.filter(p => p.e === '?' && (!tf || p.t === tf) && hasElem(p, ef))
       : TIER_DATA.filter(p =>
           (normalize(p.e).includes(q) || normalize(p.n).includes(q)) &&
           (!tf || p.t === tf) &&
-          (!ef || p.e === ef)
+          hasElem(p, ef)
         );
   }
   renderFiltered(filtered);
