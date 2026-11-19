@@ -149,7 +149,7 @@
   .cmd-list li:last-child { border-bottom: none; }
 
   .cmd-list li::before {
-    content: '»';
+    content: 'Ã‚Â»';
     position: absolute;
     left: 2px;
     color: #6E5CE0;
@@ -202,8 +202,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">Início</a>
-    <a href="ginasios.html">Ginásios</a>
+    <a href="index.html">InÃƒÂ­cio</a>
+    <a href="ginasios.html">GinÃƒÂ¡sios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html">Equipe Rocket</a>
@@ -233,24 +233,24 @@
 </div>
 
 <div class="footer">
-  Comandos · Guia do servidor
+  Comandos Ã‚Â· Guia do servidor
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">Ã¢â‚¬â€œ</span></div>
 </div>
 
 <script>
 const ITEMS = [
-  { type: 'single', title: 'Abrir Mapa Full 🗺️', key: 'CONTROL + TAB' },
-  { type: 'single', title: 'Classic View 🖥️', key: 'CONTROL + .' },
-  { type: 'single', title: 'Poke Stop 🚏', key: '!pokestop' },
-  { type: 'single', title: 'Abrir Seu Banco 🪙', key: 'CONTROL + T' },
-  { type: 'single', title: 'Subir ou Descer com Fly 🪽', key: '!up e !down' },
-  { type: 'single', title: 'Como Teleportar 🪄', key: 'h city / h house / h house, nome' },
+  { type: 'single', title: 'Abrir Mapa Full Ã°Å¸â€”ÂºÃ¯Â¸Â', key: 'CONTROL + TAB' },
+  { type: 'single', title: 'Classic View Ã°Å¸â€“Â¥Ã¯Â¸Â', key: 'CONTROL + .' },
+  { type: 'single', title: 'Poke Stop Ã°Å¸Å¡Â', key: '!pokestop' },
+  { type: 'single', title: 'Abrir Seu Banco Ã°Å¸Âªâ„¢', key: 'CONTROL + T' },
+  { type: 'single', title: 'Subir ou Descer com Fly Ã°Å¸ÂªÂ½', key: '!up e !down' },
+  { type: 'single', title: 'Como Teleportar Ã°Å¸Âªâ€ž', key: 'h city / h house / h house, nome' },
   { type: 'single', title: 'Reverter Ditto', key: '!revert' },
-  { type: 'single', title: 'Full Attack ⚔️', key: '!offensive' },
-  { type: 'single', title: 'Full Def 🛡️', key: '!defensive' },
+  { type: 'single', title: 'Full Attack Ã¢Å¡â€Ã¯Â¸Â', key: '!offensive' },
+  { type: 'single', title: 'Full Def Ã°Å¸â€ºÂ¡Ã¯Â¸Â', key: '!defensive' },
   {
-    type: 'group', title: 'Comandos House 🏘️',
+    type: 'group', title: 'Comandos House Ã°Å¸ÂËœÃ¯Â¸Â',
     items: [
       ['!invite', 'Invita um novo membro a casa'],
       ['!door', 'Habilita o fechamento e abertura de portas'],
@@ -262,15 +262,15 @@ const ITEMS = [
     ]
   },
   {
-    type: 'group', title: 'Brokes 🗒️',
+    type: 'group', title: 'Brokes Ã°Å¸â€”â€™Ã¯Â¸Â',
     items: [
       ['!pokeball "nick poke', 'Mostra as brokes no chat']
     ]
   },
   {
-    type: 'group', title: 'Servidor 💻',
+    type: 'group', title: 'Servidor Ã°Å¸â€™Â»',
     items: [
-      ['!uptime', 'Mostra por quanto tempo o servidor está online'],
+      ['!uptime', 'Mostra por quanto tempo o servidor estÃƒÂ¡ online'],
       ['!buffs', 'Mostra os buffs ativos para o jogador no momento']
     ]
   }
@@ -325,5 +325,6 @@ fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
 </script>
 
 <script src="btop.js"></script>
+  <script src="natal.js"></script>
 </body>
 </html>

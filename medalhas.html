@@ -229,8 +229,8 @@
 
 <div class="nav">
   <div class="nav-inner">
-    <a href="index.html">Início</a>
-    <a href="ginasios.html">Ginásios</a>
+    <a href="index.html">InÃƒÂ­cio</a>
+    <a href="ginasios.html">GinÃƒÂ¡sios</a>
     <a href="tierlist.html">Tier List</a>
     <a href="brokes.html">Max Brokes</a>
     <a href="rocket.html">Equipe Rocket</a>
@@ -247,29 +247,29 @@
 
 <div class="header">
   <h1>Medalhas</h1>
-  <p>Buffs e debuffs de cada medalha Pokémon</p>
+  <p>Buffs e debuffs de cada medalha PokÃƒÂ©mon</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
 <div class="container">
 
-  <h2 class="section-title">Medalhas — Buffs e Debuffs</h2>
+  <h2 class="section-title">Medalhas Ã¢â‚¬â€ Buffs e Debuffs</h2>
 
   <div class="note-box">
-    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do Pokémon ou do <strong>buff</strong> que a medalha concede (ex.: "defense boost").
+    <strong>Como usar</strong>: use a busca abaixo ou aperte <strong>Ctrl+F</strong> e pesquise o nome do PokÃƒÂ©mon ou do <strong>buff</strong> que a medalha concede (ex.: "defense boost").
   </div>
 
   <div class="search-row">
-    <input type="text" id="search" placeholder="Filtrar por Pokémon ou buff..." autocomplete="off">
+    <input type="text" id="search" placeholder="Filtrar por PokÃƒÂ©mon ou buff..." autocomplete="off">
   </div>
 
-  <div class="count-line">Total de medalhas: <strong id="total-count">–</strong></div>
+  <div class="count-line">Total de medalhas: <strong id="total-count">Ã¢â‚¬â€œ</strong></div>
 
   <div class="table-wrap">
     <table class="lh-table" id="med-table">
       <thead>
         <tr>
-          <th>Pokémon</th>
+          <th>PokÃƒÂ©mon</th>
           <th>Buff da Medalha</th>
           <th>Debuff da Medalha</th>
         </tr>
@@ -278,16 +278,16 @@
     </table>
   </div>
 
-  <h2 class="section-title" style="margin-top:44px;">📚 Medalhas por Buff</h2>
+  <h2 class="section-title" style="margin-top:44px;">Ã°Å¸â€œÅ¡ Medalhas por Buff</h2>
 
   <div id="buff-groups" class="buff-grid"></div>
 
 </div>
 
 <div class="footer">
-  Medalhas · Guia do servidor
+  Medalhas Ã‚Â· Guia do servidor
   <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
-  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">Ã¢â‚¬â€œ</span></div>
 </div>
 
 <script>
@@ -476,7 +476,7 @@ MEDALS.forEach(([name, buff, debuff]) => {
   const tdDebuff = document.createElement('td');
   if (debuff === '-') {
     tdDebuff.className = 'no-data';
-    tdDebuff.textContent = '–';
+    tdDebuff.textContent = 'Ã¢â‚¬â€œ';
   } else {
     tdDebuff.className = 'debuff';
     tdDebuff.textContent = debuff;
@@ -531,5 +531,6 @@ fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
 </script>
 
 <script src="btop.js"></script>
+  <script src="natal.js"></script>
 </body>
 </html>
