@@ -339,6 +339,21 @@
 
     .tab-credit strong { color: #6E5CE0; }
 
+    .hazzard-line {
+      background: #161E2A;
+      border: 1px solid #1E2A3D;
+      border-left: 4px solid #6E5CE0;
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      white-space: pre;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #E6EAF2;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
     .footer {
       text-align: center;
       padding: 30px 20px;
@@ -490,6 +505,7 @@
     <button class="sub-tab" data-tab="tab-elements">Rotações por Elemento</button>
     <button class="sub-tab" data-tab="tab-progress">Guia de Progressão</button>
     <button class="sub-tab" data-tab="tab-hunts2">Rotações de Hunts 2</button>
+    <button class="sub-tab" data-tab="tab-hazzard">Dano Hazzard</button>
   </div>
 </div>
 
@@ -609,6 +625,21 @@
     </div>
 
     <div id="hunts2-container"></div>
+
+  </div>
+
+  <div id="tab-hazzard" class="tab-panel" style="display:none;">
+
+    <h2 class="section-title first">Dano Hazzard</h2>
+
+    <div class="info-box">
+      <ul>
+        <li>Dano por nível de <strong>Hazzard</strong> <strong>com Prey ATK sem runa</strong>.</li>
+        <li>Valores marcados com <strong>+-</strong> são aproximados.</li>
+      </ul>
+    </div>
+
+    <div class="hazzard-line">Com Prey ATK sem runa ───────────────★─────────────── Haz0: 560k ───────────────★─────────────── Haz5: 650k+- ───────────────★─────────────── Haz10: 715k+- ───────────────★─────────────── Haz11: 730k+- ───────────────★─────────────── Haz12: 740k+- ───────────────★─────────────── Haz13: 755k+- ───────────────★─────────────── Haz14: 765k+- ───────────────★─────────────── Haz15: 780k+- ───────────────★─────────────── Haz17: 845k+-</div>
 
   </div>
 
