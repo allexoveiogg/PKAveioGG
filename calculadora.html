@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Diamantes - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit strong { color: #6E5CE0; }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .info-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+  }
+
+  .info-box ul { list-style: none; }
+  .info-box li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px dashed #1E2A3D;
+  }
+  .info-box li:last-child { border-bottom: none; }
+  .info-box li::before {
+    content: '►';
+    position: absolute;
+    left: 2px;
+    color: #6E5CE0;
+    font-size: 0.85rem;
+    top: 8px;
+  }
+  .info-box strong { color: #6E5CE0; }
+
+  .calc-card {
+    background: linear-gradient(160deg, #161E2A 0%, #121826 100%);
+    border: 2px solid #6E5CE0;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .field { margin-bottom: 20px; }
+
+  .field label {
+    display: block;
+    font-weight: 700;
+    color: #C3CEE9;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+  }
+
+  .input-wrap { position: relative; }
+
+  .input-wrap .icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    pointer-events: none;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 14px 18px 14px 48px;
+    font-size: 1.1rem;
+    color: #E6EAF2;
+    background: #0D131E;
+    border: 2px solid #1E2A3D;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field input:focus { border-color: #6E5CE0; }
+  .field input::placeholder { color: #7C88A6; }
+
+  .result-box {
+    background: linear-gradient(135deg, #2A1E5C 0%, #161E2A 100%);
+    border: 2px solid #6E5CE0;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin: 8px 0 22px;
+  }
+
+  .result-box .label {
+    font-size: 0.9rem;
+    color: #C3CEE9;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .result-box .total {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #FFD447;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    word-break: break-all;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1;
+    min-width: 160px;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.15s;
+  }
+
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+  .btn-clear { background: #3A4256; color: #E6EAF2; }
+  .btn-copy { background: #6E5CE0; color: #fff; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2E9E4F;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 10000;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8490AC;
+    font-size: 0.9rem;
+  }
+  .footer .copyright { margin-top: 8px; font-size: 0.8rem; opacity: 0.75; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .calc-card { padding: 20px; }
+    .result-box .total { font-size: 1.8rem; }
+    .btn { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="guia150.html">Guia 1 ao 150</a>
+    <a href="medalhas.html">Medalhas</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="localhunts.html">Local Hunts</a>
+    <a href="linkedtask.html">Linked Tasks</a>
+    <a href="faq.html">FAQ</a>
+    <a href="calculadora.html" class="active">Calculadora</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>💎 Calculadora de Diamantes</h1>
+  <p>Descubra quanto você gastou em diamantes, sem fazer contas</p>
+  <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <ul>
+      <li>Informe a <strong>quantidade de diamantes</strong> utilizados.</li>
+      <li>Informe o <strong>valor de cada diamante</strong> (aceita decimais, ex: 0,10).</li>
+      <li>O <strong>total é calculado automaticamente</strong> em Real (R$).<br><span style="color:#7C88A6;font-size:0.85rem;">Fórmula: Total = Quantidade × Valor por diamante</span></li>
+    </ul>
+  </div>
+
+  <div class="calc-card">
+    <div class="field">
+      <label for="quantidade">Quantidade de Diamantes</label>
+      <div class="input-wrap">
+        <span class="icon">💎</span>
+        <input type="number" id="quantidade" placeholder="Ex: 500" min="0" step="1" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="valor">Valor por Diamante (R$)</label>
+      <div class="input-wrap">
+        <span class="icon">💰</span>
+        <input type="text" id="valor" placeholder="Ex: 0,10" inputmode="decimal" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="result-box">
+      <div class="label">Total de Gastos</div>
+      <div class="total" id="total">R$ 0,00</div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-clear" id="btn-clear">🧹 Limpar</button>
+      <button class="btn btn-copy" id="btn-copy">📋 Copiar Total</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Calculadora de Diamantes · Guia Pokémon
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+</div>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+  var qtdEl = document.getElementById('quantidade');
+  var valorEl = document.getElementById('valor');
+  var totalEl = document.getElementById('total');
+  var toastEl = document.getElementById('toast');
+
+  function parseValor(str) {
+    if (!str) return 0;
+    var s = String(str).trim().replace(/\s/g, '');
+    // Remove "R$" e troca vírgula por ponto
+    s = s.replace(/R\$/gi, '').replace(',', '.');
+    var n = parseFloat(s);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function formatBRL(n) {
+    return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function calcular() {
+    var qtd = parseFloat(qtdEl.value) || 0;
+    var unit = parseValor(valorEl.value);
+    var total = qtd * unit;
+    if (!isFinite(total)) total = 0;
+    totalEl.textContent = formatBRL(total);
+  }
+
+  qtdEl.addEventListener('input', calcular);
+  valorEl.addEventListener('input', calcular);
+
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    qtdEl.value = '';
+    valorEl.value = '';
+    calcular();
+    qtdEl.focus();
+  });
+
+  document.getElementById('btn-copy').addEventListener('click', function () {
+    var text = totalEl.textContent;
+    function done() {
+      toastEl.textContent = 'Copiado: ' + text;
+      toastEl.classList.add('show');
+      setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  });
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  calcular();
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script src="btop.js"></script>
+<script src="natal.js"></script>
+</body>
+</html>
