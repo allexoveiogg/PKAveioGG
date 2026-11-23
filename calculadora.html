@@ -122,6 +122,17 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   }
 
+  .section-label {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #C3CEE9;
+    text-transform: uppercase;
+    margin: 10px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid #6E5CE0;
+  }
+
   .field { margin-bottom: 20px; }
 
   .field label {
@@ -264,7 +275,7 @@
 
 <div class="header">
   <h1>💎 Calculadora de Diamantes</h1>
-  <p>Descubra quanto você gastou em diamantes, sem fazer contas</p>
+  <p>Calcule seus gastos em R$ e em KK, sem fazer contas</p>
   <div class="credit">feita por <strong>By Hati - VeioGG</strong></div>
 </div>
 
@@ -306,6 +317,44 @@
     </div>
   </div>
 
+  <div class="section-label">💎 Calculadora em KK</div>
+
+  <div class="info-box">
+    <ul>
+      <li>Informe a <strong>quantidade de diamantes</strong>.</li>
+      <li>Informe o <strong>valor em KK</strong> de cada diamante (aceita decimais, ex: 1,5).</li>
+      <li>O <strong>total em KK</strong> é calculado automaticamente.<br><span style="color:#7C88A6;font-size:0.85rem;">Fórmula: Total (KK) = Quantidade × Valor em KK</span></li>
+    </ul>
+  </div>
+
+  <div class="calc-card">
+    <div class="field">
+      <label for="qtd-kk">Quantidade de Diamantes</label>
+      <div class="input-wrap">
+        <span class="icon">💎</span>
+        <input type="number" id="qtd-kk" placeholder="Ex: 500" min="0" step="1" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="valor-kk">Valor em KK</label>
+      <div class="input-wrap">
+        <span class="icon">💰</span>
+        <input type="text" id="valor-kk" placeholder="Ex: 1,5" inputmode="decimal" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="result-box">
+      <div class="label">Total em KK</div>
+      <div class="total" id="total-kk">0,00 KK</div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-clear" id="btn-clear-kk">🧹 Limpar</button>
+      <button class="btn btn-copy" id="btn-copy-kk">📋 Copiar Total</button>
+    </div>
+  </div>
+
 </div>
 
 <div class="footer">
@@ -317,16 +366,13 @@
 <div class="toast" id="toast">Copiado!</div>
 
 <script>
-  var qtdEl = document.getElementById('quantidade');
-  var valorEl = document.getElementById('valor');
-  var totalEl = document.getElementById('total');
   var toastEl = document.getElementById('toast');
 
   function parseValor(str) {
     if (!str) return 0;
     var s = String(str).trim().replace(/\s/g, '');
-    // Remove "R$" e troca vírgula por ponto
-    s = s.replace(/R\$/gi, '').replace(',', '.');
+    // Aceita "R$ 1,50" e "1,5 KK" — remove prefixos/sufixos e troca vírgula por ponto
+    s = s.replace(/R\$/gi, '').replace(/KK/gi, '').replace(',', '.');
     var n = parseFloat(s);
     return isNaN(n) ? 0 : n;
   }
@@ -335,26 +381,11 @@
     return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  function calcular() {
-    var qtd = parseFloat(qtdEl.value) || 0;
-    var unit = parseValor(valorEl.value);
-    var total = qtd * unit;
-    if (!isFinite(total)) total = 0;
-    totalEl.textContent = formatBRL(total);
+  function formatKK(n) {
+    return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' KK';
   }
 
-  qtdEl.addEventListener('input', calcular);
-  valorEl.addEventListener('input', calcular);
-
-  document.getElementById('btn-clear').addEventListener('click', function () {
-    qtdEl.value = '';
-    valorEl.value = '';
-    calcular();
-    qtdEl.focus();
-  });
-
-  document.getElementById('btn-copy').addEventListener('click', function () {
-    var text = totalEl.textContent;
+  function copiar(text) {
     function done() {
       toastEl.textContent = 'Copiado: ' + text;
       toastEl.classList.add('show');
@@ -365,7 +396,7 @@
     } else {
       fallbackCopy(text, done);
     }
-  });
+  }
 
   function fallbackCopy(text, done) {
     var ta = document.createElement('textarea');
@@ -379,7 +410,41 @@
     done();
   }
 
-  calcular();
+  function setupCalc(cfg) {
+    var qtdEl = document.getElementById(cfg.qtd);
+    var valorEl = document.getElementById(cfg.valor);
+    var totalEl = document.getElementById(cfg.total);
+
+    function calcular() {
+      var qtd = parseFloat(qtdEl.value) || 0;
+      var unit = parseValor(valorEl.value);
+      var total = qtd * unit;
+      if (!isFinite(total)) total = 0;
+      totalEl.textContent = cfg.format(total);
+    }
+
+    qtdEl.addEventListener('input', calcular);
+    valorEl.addEventListener('input', calcular);
+
+    document.getElementById(cfg.clear).addEventListener('click', function () {
+      qtdEl.value = '';
+      valorEl.value = '';
+      calcular();
+      qtdEl.focus();
+    });
+
+    document.getElementById(cfg.copy).addEventListener('click', function () {
+      copiar(totalEl.textContent);
+    });
+
+    calcular();
+  }
+
+  // Calculadora em Reais
+  setupCalc({ qtd: 'quantidade', valor: 'valor', total: 'total', clear: 'btn-clear', copy: 'btn-copy', format: formatBRL });
+
+  // Calculadora em KK — apenas quantidade × valor em KK, sem conversão de moeda
+  setupCalc({ qtd: 'qtd-kk', valor: 'valor-kk', total: 'total-kk', clear: 'btn-clear-kk', copy: 'btn-copy-kk', format: formatKK });
 </script>
 
 <script>
