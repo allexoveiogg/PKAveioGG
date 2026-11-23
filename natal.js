@@ -687,7 +687,7 @@
   btn.title = 'Ativar/desativar decoração natalina';
   btn.textContent = '🎄';
   Object.assign(btn.style, {
-    position: 'fixed', right: '14px', bottom: '14px', zIndex: '9999',
+    position: 'fixed', left: '14px', bottom: '14px', zIndex: '9999',
     width: '42px', height: '42px', border: '2px solid #FFD447',
     borderRadius: '10px', background: '#161E2A', color: '#fff',
     fontSize: '20px', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,.5)',
