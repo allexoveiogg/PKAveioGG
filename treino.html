@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Treino - Guia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0D131E;
+    color: #E6EAF2;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .nav {
+    background: #161E2A;
+    border-bottom: 1px solid #1E2A3D;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #9AA7C4;
+    text-decoration: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav a:hover { color: #4E82F0; }
+  .nav a.active { color: #6E5CE0; border-bottom-color: #6E5CE0; }
+
+  .header {
+    background-color: #161E2A;
+    background-image: url('designs/banner_fundo.png'), radial-gradient(ellipse at center, rgba(10, 14, 24, 0.7) 0%, rgba(13, 19, 30, 0.35) 55%, rgba(13, 19, 30, 0.1) 100%), linear-gradient(135deg, #2A63E0 0%, #161E2A 60%, #0D131E 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 4px solid #6E5CE0;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.85);
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+  }
+
+  .header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #C3CEE9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
+  .credit strong { color: #6E5CE0; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 30px 20px; }
+
+  .info-box {
+    background: #161E2A;
+    border: 1px solid #1E2A3D;
+    border-radius: 12px;
+    padding: 20px 26px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+  }
+
+  .info-box ul { list-style: none; }
+  .info-box li { padding: 8px 0 8px 28px; position: relative; border-bottom: 1px dashed #1E2A3D; }
+  .info-box li:last-child { border-bottom: none; }
+  .info-box li::before {
+    content: '►'; position: absolute; left: 2px; color: #6E5CE0; font-size: 0.85rem; top: 8px;
+  }
+  .info-box strong { color: #6E5CE0; }
+
+  .section-label {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #C3CEE9;
+    text-transform: uppercase;
+    margin: 26px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid #6E5CE0;
+  }
+
+  .calc-card {
+    background: linear-gradient(160deg, #161E2A 0%, #121826 100%);
+    border: 2px solid #6E5CE0;
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .field label {
+    display: block;
+    font-weight: 700;
+    color: #C3CEE9;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1.05rem;
+    color: #E6EAF2;
+    background: #0D131E;
+    border: 2px solid #1E2A3D;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field input:focus { border-color: #6E5CE0; }
+  .field input::placeholder { color: #7C88A6; }
+
+  .results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  .res-card {
+    background: linear-gradient(135deg, #2A1E5C 0%, #161E2A 100%);
+    border: 1px solid #6E5CE0;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .res-card .lbl {
+    font-size: 0.78rem;
+    color: #C3CEE9;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .res-card .val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #FFD447;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    word-break: break-word;
+  }
+
+  .res-card.destaque { border-width: 2px; }
+  .res-card.destaque .val { color: #6EE7A8; }
+
+  .buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+  .btn {
+    flex: 1;
+    min-width: 160px;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.15s;
+  }
+
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+  .btn-clear { background: #3A4256; color: #E6EAF2; }
+  .btn-copy { background: #6E5CE0; color: #fff; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2E9E4F;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 10000;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .footer { text-align: center; padding: 30px 20px; color: #8490AC; font-size: 0.9rem; }
+  .footer .copyright { margin-top: 8px; font-size: 0.8rem; opacity: 0.75; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.7rem; }
+    .calc-card { padding: 18px; }
+    .res-card .val { font-size: 1.3rem; }
+    .btn { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Início</a>
+    <a href="ginasios.html">Ginásios</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="brokes.html">Max Brokes</a>
+    <a href="rocket.html">Equipe Rocket</a>
+    <a href="comandos.html">Comandos</a>
+    <a href="guia150.html">Guia 1 ao 150</a>
+    <a href="medalhas.html">Medalhas</a>
+    <a href="hoenn.html">Guia Hoenn</a>
+    <a href="localhunts.html">Local Hunts</a>
+    <a href="linkedtask.html">Linked Tasks</a>
+    <a href="faq.html">FAQ</a>
+    <a href="calculadora.html">Calculadora</a>
+    <a href="treino.html" class="active">Treino</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>🧬 Calculadora de Treino</h1>
+  <p>Pedras, shards, diamonds e tempo de treino — sem fazer contas</p>
+  <div class="credit">planilha original por <strong>xandin</strong></div>
+</div>
+
+<div class="container">
+
+  <div class="info-box">
+    <ul>
+      <li>Informe o <strong>nível atual</strong>, o <strong>percentual da barra</strong> e o <strong>nível desejado</strong>.</li>
+      <li>Modelo: cada nível <strong>L → L+1</strong> exige <strong>(L+1)² XP</strong>. O XP excedente é carregado para o próximo nível.</li>
+      <li>Uma pedra fornece <strong>1.079 XP</strong>, custa <strong>3 diamonds</strong> e rende <strong>50 shards</strong>.</li>
+      <li>Também é possível calcular o treino na <strong>Premmy House</strong> com base em XP por carga, cargas por diamond e segundos por carga.</li>
+    </ul>
+  </div>
+
+  <div class="section-label">📥 Dados de Entrada</div>
+  <div class="calc-card">
+    <div class="grid">
+      <div class="field">
+        <label for="nivel">Nível atual</label>
+        <input type="number" id="nivel" value="46" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="progresso">Progresso atual (%)</label>
+        <input type="number" id="progresso" value="0" min="0" max="100" step="0.01">
+      </div>
+      <div class="field">
+        <label for="alvo">Nível desejado</label>
+        <input type="number" id="alvo" value="50" min="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">⚙️ Parâmetros do Modelo (Pedra)</div>
+  <div class="calc-card">
+    <div class="grid">
+      <div class="field">
+        <label for="xp-pedra">XP por pedra</label>
+        <input type="number" id="xp-pedra" value="1079" min="1" step="1">
+      </div>
+      <div class="field">
+        <label for="diam-pedra">Diamonds por pedra</label>
+        <input type="number" id="diam-pedra" value="3" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="shard-pedra">Shards por pedra</label>
+        <input type="number" id="shard-pedra" value="50" min="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">📤 Resultados — Craft Shard</div>
+  <div class="calc-card">
+    <div class="results">
+      <div class="res-card">
+        <div class="lbl">XP acumulado no nível atual</div>
+        <div class="val" id="r-xp-atual">0</div>
+      </div>
+      <div class="res-card">
+        <div class="lbl">XP necessário para o nível desejado</div>
+        <div class="val" id="r-xp-necessario">0</div>
+      </div>
+      <div class="res-card">
+        <div class="lbl">XP que falta</div>
+        <div class="val" id="r-xp-falta">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Pedras necessárias</div>
+        <div class="val" id="r-pedras">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Diamonds necessários</div>
+        <div class="val" id="r-diamonds-shard">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Shards necessários</div>
+        <div class="val" id="r-shards">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">🏠 Dados da House (Premmy)</div>
+  <div class="calc-card">
+    <div class="grid">
+      <div class="field">
+        <label for="xp-carga">XP por carga</label>
+        <input type="number" id="xp-carga" value="0.04" min="0" step="0.001">
+      </div>
+      <div class="field">
+        <label for="cargas-diam">Cargas por Diamond</label>
+        <input type="number" id="cargas-diam" value="20000" min="1" step="1">
+      </div>
+      <div class="field">
+        <label for="seg-carga">Segundos por carga</label>
+        <input type="number" id="seg-carga" value="1.5" min="0" step="0.1">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">📤 Resultados — Premmy House</div>
+  <div class="calc-card">
+    <div class="results">
+      <div class="res-card">
+        <div class="lbl">XP por Diamond Premium</div>
+        <div class="val" id="r-xp-diam">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Diamonds necessários</div>
+        <div class="val" id="r-diamonds-premmy">0</div>
+      </div>
+      <div class="res-card">
+        <div class="lbl">Treino (Premmy) — Quantidade</div>
+        <div class="val" id="r-quantidade">0</div>
+      </div>
+      <div class="res-card">
+        <div class="lbl">Treino (Premmy) — Tick</div>
+        <div class="val" id="r-tick">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Treino (Premmy) em horas</div>
+        <div class="val" id="r-horas">0</div>
+      </div>
+      <div class="res-card destaque">
+        <div class="lbl">Treino (Premmy) em dias</div>
+        <div class="val" id="r-dias">0</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-clear" id="btn-clear">🧹 Restaurar padrões</button>
+      <button class="btn btn-copy" id="btn-copy">📋 Copiar Resumo</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Calculadora de Treino · Guia Pokémon
+  <p class="copyright">&copy; Direitos autorais por Mts Vitor</p>
+  <div class="visits" style="margin-top:8px;font-size:0.8rem;opacity:0.75;">Visitas: <span id="visit-count">–</span></div>
+</div>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+  function el(id) { return document.getElementById(id); }
+  function num(id) { var n = parseFloat(el(id).value); return isNaN(n) ? 0 : n; }
+  function fmt(n) { return Number(n).toLocaleString('pt-BR', { maximumFractionDigits: 2 }); }
+
+  var campos = ['nivel','progresso','alvo','xp-pedra','diam-pedra','shard-pedra','xp-carga','cargas-diam','seg-carga'];
+  var toastEl = el('toast');
+  var ultimo = {};
+
+  function calcular() {
+    var nivel = num('nivel');
+    var prog = num('progresso');
+    var alvo = num('alvo');
+    var xpPedra = num('xp-pedra') || 1079;
+    var diamPedra = num('diam-pedra');
+    var shardPedra = num('shard-pedra');
+
+    // Soma de k^2 de 1..n = n(n+1)(2n+1)/6 ; barra parcial = prog% * (n+1)^2
+    var xpAtual = nivel * (nivel + 1) * (2 * nivel + 1) / 6 + (prog / 100) * Math.pow(nivel + 1, 2);
+    var xpNecessario = alvo * (alvo + 1) * (2 * alvo + 1) / 6;
+    var falta = Math.max(0, xpNecessario - xpAtual);
+
+    var alvoMenor = alvo < nivel;
+    var pedras = alvoMenor ? 'Alvo menor que o nível atual' : Math.ceil(falta / xpPedra);
+    var diamShard = alvoMenor ? '—' : pedras * diamPedra;
+    var shards = alvoMenor ? '—' : pedras * shardPedra;
+
+    // House (Premmy)
+    var xpCarga = num('xp-carga');
+    var cargasDiam = num('cargas-diam') || 1;
+    var segCarga = num('seg-carga');
+    var xpDiam = xpCarga * cargasDiam;
+    var tick = Math.ceil(falta / xpCarga);
+    var horas = xpDiam > 0 ? tick * segCarga / 3600 : 0;
+    var dias = horas / 24;
+    var diamPremmy = xpDiam > 0 ? Math.ceil(falta / xpDiam) : 0;
+    var quantidade = xpCarga > 0 ? Math.ceil(falta / xpCarga / cargasDiam) : 0;
+
+    function set(id, v) { el(id).textContent = (typeof v === 'number' && isFinite(v)) ? fmt(v) : v; }
+    set('r-xp-atual', xpAtual);
+    set('r-xp-necessario', xpNecessario);
+    set('r-xp-falta', falta);
+    set('r-pedras', pedras);
+    set('r-diamonds-shard', diamShard);
+    set('r-shards', shards);
+    set('r-xp-diam', xpDiam);
+    set('r-horas', Math.round(horas));
+    set('r-dias', Math.round(dias));
+    set('r-diamonds-premmy', diamPremmy);
+    set('r-quantidade', quantidade);
+    set('r-tick', tick);
+
+    ultimo = {
+      xpFalta: fmt(falta), pedras: pedras, diamShard: diamShard, shards: shards,
+      horas: Math.round(horas), dias: Math.round(dias), diamPremmy: diamPremmy, tick: tick
+    };
+  }
+
+  campos.forEach(function (id) { el(id).addEventListener('input', calcular); });
+
+  var padroes = { nivel:46, progresso:0, alvo:50, 'xp-pedra':1079, 'diam-pedra':3, 'shard-pedra':50, 'xp-carga':0.04, 'cargas-diam':20000, 'seg-carga':1.5 };
+  el('btn-clear').addEventListener('click', function () {
+    Object.keys(padroes).forEach(function (id) { el(id).value = padroes[id]; });
+    calcular();
+  });
+
+  function copiar(texto) {
+    function done() {
+      toastEl.textContent = 'Copiado!';
+      toastEl.classList.add('show');
+      setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(done).catch(function () { fallback(texto, done); });
+    } else { fallback(texto, done); }
+  }
+  function fallback(texto, done) {
+    var ta = document.createElement('textarea');
+    ta.value = texto; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); done();
+  }
+
+  el('btn-copy').addEventListener('click', function () {
+    var texto = 'Treino — nível ' + el('nivel').value + ' → ' + el('alvo').value +
+      '\nXP que falta: ' + ultimo.xpFalta +
+      '\nPedras: ' + ultimo.pedras +
+      '\nDiamonds (Shard): ' + ultimo.diamShard +
+      '\nShards: ' + ultimo.shards +
+      '\nDiamonds (Premmy): ' + ultimo.diamPremmy +
+      '\nHoras: ' + ultimo.horas + ' | Dias: ' + ultimo.dias +
+      '\nTick: ' + ultimo.tick;
+    copiar(texto);
+  });
+
+  calcular();
+</script>
+
+<script>
+fetch('https://countapi.mileshilliard.com/api/v1/hit/pkaveioggvisitas')
+  .then(r => r.json())
+  .then(d => { const e = document.getElementById('visit-count'); if (e) e.textContent = d.value; })
+  .catch(() => {});
+</script>
+
+<script src="btop.js"></script>
+<script src="natal.js"></script>
+</body>
+</html>
