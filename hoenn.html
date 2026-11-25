@@ -412,7 +412,14 @@
   .guide-table tr:hover td { background: #1A2233; }
 
   .table-wrap { overflow-x: auto; margin-bottom: 20px; }
-  .table-wrap .guide-table { min-width: 760px; margin-bottom: 0; }
+  .table-wrap .guide-table { min-width: 820px; margin-bottom: 0; }
+
+  .rune-r0 { color: #C0C0C0 !important; font-weight: 800; }
+  .rune-r1 { color: #4ADE80 !important; font-weight: 800; }
+  .rune-r2 { color: #60A5FA !important; font-weight: 800; }
+  .rune-r3 { color: #C084FC !important; font-weight: 800; }
+  .rune-r4 { color: #FB923C !important; font-weight: 800; }
+  .rune-r5 { color: #F87171 !important; font-weight: 800; }
 
   .warn-box {
     background: #2A1E12;
@@ -676,15 +683,15 @@
     <div class="table-wrap">
       <table class="guide-table">
         <thead>
-          <tr><th>Runa</th><th>Bônus</th></tr>
+          <tr><th>Runa</th><th>Bônus</th><th>Cor</th></tr>
         </thead>
         <tbody>
-          <tr><td>Runa de Ataque (sem bônus)</td><td>0%</td></tr>
-          <tr><td>Runa 1</td><td>+2%</td></tr>
-          <tr><td>Runa 2</td><td>+4%</td></tr>
-          <tr><td>Runa 3</td><td>+6%</td></tr>
-          <tr><td>Runa 4</td><td>+8%</td></tr>
-          <tr><td>Runa 5</td><td>+10%</td></tr>
+          <tr><td class="rune-r0">⚪ Runa de Ataque (sem bônus)</td><td>0%</td><td class="rune-r0">Prata</td></tr>
+          <tr><td class="rune-r1">🟢 Runa 1</td><td>+2%</td><td class="rune-r1">Verde</td></tr>
+          <tr><td class="rune-r2">🔵 Runa 2</td><td>+4%</td><td class="rune-r2">Azul</td></tr>
+          <tr><td class="rune-r3">🟣 Runa 3</td><td>+6%</td><td class="rune-r3">Roxo</td></tr>
+          <tr><td class="rune-r4">🟠 Runa 4</td><td>+8%</td><td class="rune-r4">Laranja</td></tr>
+          <tr><td class="rune-r5">🔴 Runa 5</td><td>+10%</td><td class="rune-r5">Vermelho</td></tr>
         </tbody>
       </table>
     </div>
@@ -696,34 +703,34 @@
         <thead>
           <tr>
             <th>Hazard</th>
-            <th>Runa 0 (0%)</th>
-            <th>Runa 1 (+2%)</th>
-            <th>Runa 2 (+4%)</th>
-            <th>Runa 3 (+6%)</th>
-            <th>Runa 4 (+8%)</th>
-            <th>Runa 5 (+10%)</th>
+            <th>⚪ Runa 0 (0%)</th>
+            <th>🟢 Runa 1 (+2%)</th>
+            <th>🔵 Runa 2 (+4%)</th>
+            <th>🟣 Runa 3 (+6%)</th>
+            <th>🟠 Runa 4 (+8%)</th>
+            <th>🔴 Runa 5 (+10%)</th>
             <th>Precisão</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>0</td><td>560k</td><td>548k</td><td>537k</td><td>526k</td><td>515k</td><td>505k</td><td>0</td></tr>
-          <tr><td>1</td><td>578k</td><td>566k</td><td>555k</td><td>545k</td><td>535k</td><td>522k</td><td>0</td></tr>
-          <tr><td>2</td><td>596k</td><td>584k</td><td>573k</td><td>562k</td><td>552k</td><td>539k</td><td>0</td></tr>
-          <tr><td>3</td><td>614k</td><td>600k</td><td>590k</td><td>579k</td><td>568k</td><td>556k</td><td>0</td></tr>
-          <tr><td>4</td><td>632k</td><td>619k</td><td>608k</td><td>596k</td><td>585k</td><td>573k</td><td>0</td></tr>
-          <tr><td>5</td><td>650k</td><td>636k</td><td>623k</td><td>610k</td><td>598k</td><td>586k</td><td>5</td></tr>
-          <tr><td>6</td><td>663k</td><td>649k</td><td>638k</td><td>625k</td><td>614k</td><td>603k</td><td>10</td></tr>
-          <tr><td>7</td><td>676k</td><td>662k</td><td>650k</td><td>638k</td><td>624k</td><td>615k</td><td>15</td></tr>
-          <tr><td>8</td><td>689k</td><td>675k</td><td>662k</td><td>650k</td><td>636k</td><td>625k</td><td>20</td></tr>
-          <tr><td>9</td><td>702k</td><td>688k</td><td>675k</td><td>662k</td><td>650k</td><td>638k</td><td>25</td></tr>
-          <tr><td>10</td><td>715k</td><td>700k</td><td>685k</td><td>671k</td><td>650k</td><td>645k</td><td>30</td></tr>
-          <tr><td>11</td><td>730k</td><td>716k</td><td>702k</td><td>689k</td><td>676k</td><td>664k</td><td>35</td></tr>
-          <tr><td>12</td><td>740k</td><td>725k</td><td>712k</td><td>699k</td><td>685k</td><td>673k</td><td>40</td></tr>
-          <tr><td>13</td><td>755k</td><td>740k</td><td>726k</td><td>712k</td><td>699k</td><td>686k</td><td>45</td></tr>
-          <tr><td>14</td><td>765k</td><td>750k</td><td>726k</td><td>722k</td><td>708k</td><td>695k</td><td>50</td></tr>
-          <tr><td>15</td><td>780k</td><td>765k</td><td>750k</td><td>736k</td><td>722k</td><td>704k</td><td>55</td></tr>
-          <tr><td>16</td><td>815k</td><td>795k</td><td>779k</td><td>763k</td><td>748k</td><td>733k</td><td>60</td></tr>
-          <tr><td>17</td><td>845k</td><td>825k</td><td>807k</td><td>791k</td><td>775k</td><td>760k</td><td>65</td></tr>
+          <td>0</td><td class="rune-r0">560k</td><td class="rune-r1">548k</td><td class="rune-r2">537k</td><td class="rune-r3">526k</td><td class="rune-r4">515k</td><td class="rune-r5">505k</td><td>0</td></tr>
+          <td>1</td><td class="rune-r0">578k</td><td class="rune-r1">566k</td><td class="rune-r2">555k</td><td class="rune-r3">545k</td><td class="rune-r4">535k</td><td class="rune-r5">522k</td><td>0</td></tr>
+          <td>2</td><td class="rune-r0">596k</td><td class="rune-r1">584k</td><td class="rune-r2">573k</td><td class="rune-r3">562k</td><td class="rune-r4">552k</td><td class="rune-r5">539k</td><td>0</td></tr>
+          <td>3</td><td class="rune-r0">614k</td><td class="rune-r1">600k</td><td class="rune-r2">590k</td><td class="rune-r3">579k</td><td class="rune-r4">568k</td><td class="rune-r5">556k</td><td>0</td></tr>
+          <td>4</td><td class="rune-r0">632k</td><td class="rune-r1">619k</td><td class="rune-r2">608k</td><td class="rune-r3">596k</td><td class="rune-r4">585k</td><td class="rune-r5">573k</td><td>0</td></tr>
+          <td>5</td><td class="rune-r0">650k</td><td class="rune-r1">636k</td><td class="rune-r2">623k</td><td class="rune-r3">610k</td><td class="rune-r4">598k</td><td class="rune-r5">586k</td><td>5</td></tr>
+          <td>6</td><td class="rune-r0">663k</td><td class="rune-r1">649k</td><td class="rune-r2">638k</td><td class="rune-r3">625k</td><td class="rune-r4">614k</td><td class="rune-r5">603k</td><td>10</td></tr>
+          <td>7</td><td class="rune-r0">676k</td><td class="rune-r1">662k</td><td class="rune-r2">650k</td><td class="rune-r3">638k</td><td class="rune-r4">624k</td><td class="rune-r5">615k</td><td>15</td></tr>
+          <td>8</td><td class="rune-r0">689k</td><td class="rune-r1">675k</td><td class="rune-r2">662k</td><td class="rune-r3">650k</td><td class="rune-r4">636k</td><td class="rune-r5">625k</td><td>20</td></tr>
+          <td>9</td><td class="rune-r0">702k</td><td class="rune-r1">688k</td><td class="rune-r2">675k</td><td class="rune-r3">662k</td><td class="rune-r4">650k</td><td class="rune-r5">638k</td><td>25</td></tr>
+          <td>10</td><td class="rune-r0">715k</td><td class="rune-r1">700k</td><td class="rune-r2">685k</td><td class="rune-r3">671k</td><td class="rune-r4">650k</td><td class="rune-r5">645k</td><td>30</td></tr>
+          <td>11</td><td class="rune-r0">730k</td><td class="rune-r1">716k</td><td class="rune-r2">702k</td><td class="rune-r3">689k</td><td class="rune-r4">676k</td><td class="rune-r5">664k</td><td>35</td></tr>
+          <td>12</td><td class="rune-r0">740k</td><td class="rune-r1">725k</td><td class="rune-r2">712k</td><td class="rune-r3">699k</td><td class="rune-r4">685k</td><td class="rune-r5">673k</td><td>40</td></tr>
+          <td>13</td><td class="rune-r0">755k</td><td class="rune-r1">740k</td><td class="rune-r2">726k</td><td class="rune-r3">712k</td><td class="rune-r4">699k</td><td class="rune-r5">686k</td><td>45</td></tr>
+          <td>14</td><td class="rune-r0">765k</td><td class="rune-r1">750k</td><td class="rune-r2">726k</td><td class="rune-r3">722k</td><td class="rune-r4">708k</td><td class="rune-r5">695k</td><td>50</td></tr>
+          <td>15</td><td class="rune-r0">780k</td><td class="rune-r1">765k</td><td class="rune-r2">750k</td><td class="rune-r3">736k</td><td class="rune-r4">722k</td><td class="rune-r5">704k</td><td>55</td></tr>
+          <td>16</td><td class="rune-r0">815k</td><td class="rune-r1">795k</td><td class="rune-r2">779k</td><td class="rune-r3">763k</td><td class="rune-r4">748k</td><td class="rune-r5">733k</td><td>60</td></tr>
+          <td>17</td><td class="rune-r0">845k</td><td class="rune-r1">825k</td><td class="rune-r2">807k</td><td class="rune-r3">791k</td><td class="rune-r4">775k</td><td class="rune-r5">760k</td><td>65</td></tr>
         </tbody>
       </table>
     </div>
