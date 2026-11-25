@@ -411,6 +411,21 @@
   .guide-table td strong { color: #6E5CE0; }
   .guide-table tr:hover td { background: #1A2233; }
 
+  .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+  .table-wrap .guide-table { min-width: 760px; margin-bottom: 0; }
+
+  .warn-box {
+    background: #2A1E12;
+    border: 1px solid #6B4A1E;
+    border-left: 4px solid #FFD447;
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: #FFE9B0;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+  .warn-box strong { color: #FFD447; }
+
   .guide-box {
     background: #161E2A;
     border: 1px solid #1E2A3D;
@@ -492,6 +507,7 @@
     <button class="sub-tab" data-tab="tab-progress">Guia de Progressão</button>
     <button class="sub-tab" data-tab="tab-hunts2">Rotações de Hunts 2</button>
     <button class="sub-tab" data-tab="tab-hazzard">Dano Hazzard</button>
+    <button class="sub-tab" data-tab="tab-dmg">Tabela de DMG</button>
   </div>
 </div>
 
@@ -644,6 +660,73 @@
         <tr><td>Haz 17</td><td><strong>845k+</strong></td></tr>
       </tbody>
     </table>
+
+  </div>
+
+  <div id="tab-dmg" class="tab-panel" style="display:none;">
+
+    <h2 class="section-title first">DANO NECESSÁRIO POR HAZARD</h2>
+
+    <p style="text-align:center;color:#C3CEE9;font-weight:700;margin-bottom:16px;">Com e sem Runa de Ataque + Precisão</p>
+
+    <div class="warn-box"><strong>AVISO:</strong> Todos os testes foram realizados com Prey de ataque e podem conter erro.</div>
+
+    <h2 class="section-title">Legenda das runas</h2>
+
+    <div class="table-wrap">
+      <table class="guide-table">
+        <thead>
+          <tr><th>Runa</th><th>Bônus</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Runa de Ataque (sem bônus)</td><td>0%</td></tr>
+          <tr><td>Runa 1</td><td>+2%</td></tr>
+          <tr><td>Runa 2</td><td>+4%</td></tr>
+          <tr><td>Runa 3</td><td>+6%</td></tr>
+          <tr><td>Runa 4</td><td>+8%</td></tr>
+          <tr><td>Runa 5</td><td>+10%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title">Tabela de dano necessário</h2>
+
+    <div class="table-wrap">
+      <table class="guide-table">
+        <thead>
+          <tr>
+            <th>Hazard</th>
+            <th>Runa 0 (0%)</th>
+            <th>Runa 1 (+2%)</th>
+            <th>Runa 2 (+4%)</th>
+            <th>Runa 3 (+6%)</th>
+            <th>Runa 4 (+8%)</th>
+            <th>Runa 5 (+10%)</th>
+            <th>Precisão</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>560k</td><td>548k</td><td>537k</td><td>526k</td><td>515k</td><td>505k</td><td>0</td></tr>
+          <tr><td>1</td><td>578k</td><td>566k</td><td>555k</td><td>545k</td><td>535k</td><td>522k</td><td>0</td></tr>
+          <tr><td>2</td><td>596k</td><td>584k</td><td>573k</td><td>562k</td><td>552k</td><td>539k</td><td>0</td></tr>
+          <tr><td>3</td><td>614k</td><td>600k</td><td>590k</td><td>579k</td><td>568k</td><td>556k</td><td>0</td></tr>
+          <tr><td>4</td><td>632k</td><td>619k</td><td>608k</td><td>596k</td><td>585k</td><td>573k</td><td>0</td></tr>
+          <tr><td>5</td><td>650k</td><td>636k</td><td>623k</td><td>610k</td><td>598k</td><td>586k</td><td>5</td></tr>
+          <tr><td>6</td><td>663k</td><td>649k</td><td>638k</td><td>625k</td><td>614k</td><td>603k</td><td>10</td></tr>
+          <tr><td>7</td><td>676k</td><td>662k</td><td>650k</td><td>638k</td><td>624k</td><td>615k</td><td>15</td></tr>
+          <tr><td>8</td><td>689k</td><td>675k</td><td>662k</td><td>650k</td><td>636k</td><td>625k</td><td>20</td></tr>
+          <tr><td>9</td><td>702k</td><td>688k</td><td>675k</td><td>662k</td><td>650k</td><td>638k</td><td>25</td></tr>
+          <tr><td>10</td><td>715k</td><td>700k</td><td>685k</td><td>671k</td><td>650k</td><td>645k</td><td>30</td></tr>
+          <tr><td>11</td><td>730k</td><td>716k</td><td>702k</td><td>689k</td><td>676k</td><td>664k</td><td>35</td></tr>
+          <tr><td>12</td><td>740k</td><td>725k</td><td>712k</td><td>699k</td><td>685k</td><td>673k</td><td>40</td></tr>
+          <tr><td>13</td><td>755k</td><td>740k</td><td>726k</td><td>712k</td><td>699k</td><td>686k</td><td>45</td></tr>
+          <tr><td>14</td><td>765k</td><td>750k</td><td>726k</td><td>722k</td><td>708k</td><td>695k</td><td>50</td></tr>
+          <tr><td>15</td><td>780k</td><td>765k</td><td>750k</td><td>736k</td><td>722k</td><td>704k</td><td>55</td></tr>
+          <tr><td>16</td><td>815k</td><td>795k</td><td>779k</td><td>763k</td><td>748k</td><td>733k</td><td>60</td></tr>
+          <tr><td>17</td><td>845k</td><td>825k</td><td>807k</td><td>791k</td><td>775k</td><td>760k</td><td>65</td></tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
 
